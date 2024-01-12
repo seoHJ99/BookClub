@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>커뮤니티 사이트</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+
+    <style>
+      /* 추가적인 CSS 스타일링을 여기에 추가할 수 있어요. */
+    </style>
+  </head>
+  <body>
+    <header>
+      <div
+        class="container-lg d-flex justify-content-between align-items-center py-3"
+      >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon">햄버거</span>
+        </button>
+        <h2 class="m-0">사이트 이름</h2>
+        <div>
+          <!-- 오른쪽에는 내 정보와 로그인 버튼 -->
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <a href="#">내 정보</a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">로그인</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <!-- 햄버거 버튼을 클릭하면 나타날 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-lg">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#">1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">3</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">4</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 메인창 -->
+    <main>
+      <!-- 슬라이드 쇼 -->
+      <!-- 사진 4개가 들어가는 슬라이드 쇼 화면 -->
+
+      <!-- 공간 사분할 -->
+      <div class="container mt-4">
+        <div class="row">
+          <!-- 상단 왼쪽 공간 - 최신 글 제목만 보이는 게시판 목록 -->
+          <div class="col-md-6">
+            <!-- 최신 글 제목만 보이는 게시판 목록을 추가해주세요 -->
+          </div>
+          <!-- 상단 오른쪽 공간 - 최신 글과 그 내부 이미지가 같이 보이는 게시판 목록 -->
+          <div class="col-md-6">
+            <!-- 최신 글과 내부 이미지가 같이 보이는 게시판 목록을 추가해주세요 -->
+          </div>
+        </div>
+        <div class="row">
+          <!-- 나머지 하단의 두 개의 게시판 - 상단 왼쪽과 동일한 구조 -->
+          <div class="col-md-6">
+            <!-- 추가적인 게시판 목록을 추가해주세요 -->
+          </div>
+          <div class="col-md-6">
+            <!-- 추가적인 게시판 목록을 추가해주세요 -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer mt-5">
+      <div class="container">
+        <p class="text-muted text-center">테스트 사이트입니다.</p>
+      </div>
+    </footer>
+  </body>
+</html>
