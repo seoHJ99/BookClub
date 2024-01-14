@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>커뮤니티 사이트</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+
+    <style>
+      /* 추가적인 CSS 스타일링을 여기에 추가할 수 있어요. */
+      .carousel-control-next,
+      .carousel-control-prev /*, .carousel-indicators */ {
+        filter: invert(100%);
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div
+        class="container-lg d-flex justify-content-between align-items-center py-3"
+      >
+        <!-- 햄버거 버튼 -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#navbarModal"
+        >
+          <span class="navbar-toggler-icon">햄버거</span>
+        </button>
+        <!-- 사이트 이름 -->
+        <h2 class="m-0">사이트 이름</h2>
+        <!-- 로그인 버튼 -->
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <a href="#">내 정보</a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
+              >로그인</a
+            >
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- 햄버거 모달 -->
+    <div
+      class="modal fade"
+      id="navbarModal"
+      tabindex="-1"
+      aria-labelledby="navbarModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="navbarModalLabel">네비게이션 바</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- 네비게이션 바 내용 -->
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#">1</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">2</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">3</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">4</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 로그인 모달 -->
+    <div
+      class="modal fade"
+      id="loginModal"
+      tabindex="-1"
+      aria-labelledby="loginModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">로그인</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- 로그인 폼 -->
+            <form>
+              <div class="mb-3">
+                <label for="username" class="form-label">아이디</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">비밀번호</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  required
+                />
+              </div>
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="rememberMe"
+                />
+                <label class="form-check-label" for="rememberMe"
+                  >아이디 저장</label
+                >
+              </div>
+              <button type="submit" class="btn btn-primary">로그인</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-link">아이디 찾기</a>
+            <a href="#" class="btn btn-link">비밀번호 찾기</a>
+            <a href="#" class="btn btn-link">회원가입</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-lg">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#">1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">3</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">4</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 메인창 -->
+    <main>
+      <!-- 사진 4개가 들어가는 슬라이드 쇼 화면 -->
+      <!-- 슬라이드 쇼 -->
+      <div
+        id="carouselExample"
+        class="carousel slide mx-auto"
+        data-bs-ride="carousel"
+        style="max-width: 700px; overflow: hidden"
+      >
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img
+              src="https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg"
+              class="d-block mx-auto img-fluid"
+              alt="사진1"
+              style="width: 700px; height: 500px; object-fit: contain"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg"
+              class="d-block mx-auto img-fluid"
+              alt="사진2"
+              style="width: 700px; height: 500px; object-fit: contain"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg"
+              class="d-block mx-auto img-fluid"
+              alt="사진3"
+              style="width: 700px; height: 500px; object-fit: contain"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://png.pngtree.com/thumb_back/fh260/background/20230609/pngtree-three-puppies-with-their-mouths-open-are-posing-for-a-photo-image_2902292.jpg"
+              class="d-block mx-auto img-fluid"
+              alt="사진4"
+              style="width: 700px; height: 500px; object-fit: contain"
+            />
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">이전</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">다음</span>
+        </button>
+      </div>
+
+      <!-- 공간 사분할 -->
+      <div class="container mt-4">
+        <div class="row">
+          <!-- 상단 왼쪽 공간 - 최신 글 제목만 보이는 게시판 목록 -->
+          <!-- 최신 글 제목만 보이는 게시판 목록 -->
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">최신 글 제목</h5>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <!-- 최신 글 제목만 보이는 게시판 목록을 추가해주세요 -->
+          </div>
+          <!-- 상단 오른쪽 공간 - 최신 글과 그 내부 이미지가 같이 보이는 게시판 목록 -->
+          <div class="col-md-6">
+            <!-- 최신 글과 내부 이미지가 같이 보이는 게시판 목록을 추가해주세요 -->
+          </div>
+        </div>
+        <div class="row">
+          <!-- 나머지 하단의 두 개의 게시판 - 상단 왼쪽과 동일한 구조 -->
+          <div class="col-md-6">
+            <!-- 추가적인 게시판 목록을 추가해주세요 -->
+          </div>
+          <div class="col-md-6">
+            <!-- 추가적인 게시판 목록을 추가해주세요 -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer mt-5">
+      <div class="container">
+        <p class="text-muted text-center">테스트 사이트입니다.</p>
+      </div>
+    </footer>
+  </body>
+</html>
