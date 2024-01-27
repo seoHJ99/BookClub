@@ -1,4 +1,4 @@
-package face.chat.test;
+package book.chat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package face.chat.test;
+package book.chat.face.test;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
