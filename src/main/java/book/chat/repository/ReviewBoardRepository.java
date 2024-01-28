@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class ReviewBoardRepository {
+public class ReviewBoardRepository implements ReviewBoardInter{
     private static final Map<Long, ReviewDTO> reviews  = new HashMap<>(); //static
 
     public List<ReviewDTO> findAll(){

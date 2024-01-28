@@ -1,11 +1,11 @@
 package book.chat.controller;
 
+import book.chat.repository.ReviewBoardInter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import book.chat.repository.ReviewBoardRepository;
 
 
 @Controller
@@ -13,7 +13,7 @@ import book.chat.repository.ReviewBoardRepository;
 @Slf4j
 public class ReviewBoardController {
 
-    private final ReviewBoardRepository reviewBoardRepository;
+    private final ReviewBoardInter reviewBoardRepository;
 
     @RequestMapping("/reviews")
     public String seeBoard(Model model){
@@ -21,4 +21,6 @@ public class ReviewBoardController {
         model.addAttribute("boards", reviewBoardRepository.findAll());
         return "/board";
     }
+
+
 }
