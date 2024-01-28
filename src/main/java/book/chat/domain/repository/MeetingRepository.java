@@ -1,6 +1,6 @@
-package book.chat.repository;
+package book.chat.domain.repository;
 
-import book.chat.DTO.MeetingDto;
+import book.chat.domain.DTO.MeetingDto;
 
 import java.time.LocalDate;
 import java.util.List;

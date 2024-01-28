@@ -1,4 +1,4 @@
-package book.chat.repository;
+package book.chat.domain.repository;
 
 import org.springframework.stereotype.Repository;
 

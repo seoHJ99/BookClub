@@ -1,6 +1,6 @@
-package book.chat.controller;
+package book.chat.web;
 
-import book.chat.repository.ReviewBoardRepository;
+import book.chat.domain.repository.ReviewBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

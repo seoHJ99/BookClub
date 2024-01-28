@@ -1,4 +1,4 @@
-package book.chat.face.test;
+package book.chat.faceChat.test;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;

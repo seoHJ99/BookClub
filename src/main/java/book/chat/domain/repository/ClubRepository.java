@@ -1,6 +1,6 @@
-package book.chat.repository;
+package book.chat.domain.repository;
 
-import book.chat.DTO.ClubDTO;
+import book.chat.domain.DTO.ClubDTO;
 
 import java.util.List;
 
