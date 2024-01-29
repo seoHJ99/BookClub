@@ -21,6 +21,4 @@ public class ReviewBoardController {
         model.addAttribute("boards", reviewBoardRepository.findAll());
         return "/board";
     }
-
-
 }
