@@ -17,13 +17,13 @@ public class BookSearchAPI {
 
     private final String BOOK_URL = "https://openapi.naver.com/v1/search/book.json?query=";
 
-    public void bookSearch(String keyword, Integer displayAmount) throws IOException {
-        URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) + "&display=" + displayAmount);
+    public void bookSearch(String keyword, Integer displayAmount, int start) throws IOException {
+        URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) + "&display=" + displayAmount + "&start=" +start);
         String response = getResponse(sendRequest(apiURL));
         log.info("response={}", response);
     }
 
-    public void bookSearch(String keyword ) throws IOException {
+    public void bookSearch(String keyword) throws IOException {
         URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) );
         String response = getResponse(sendRequest(apiURL));
         log.info("response={}", response);
