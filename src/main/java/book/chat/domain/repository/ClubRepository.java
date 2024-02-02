@@ -1,17 +1,21 @@
 package book.chat.domain.repository;
 
-import book.chat.domain.DTO.ClubDTO;
+
+import book.chat.domain.entity.Club;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ClubRepository {
-    List<ClubDTO> findAll();
-    List<ClubDTO> findAllByLocation(String location);
-    List<ClubDTO> findAllByInterval(String interval);
-    List<ClubDTO> findAllByMeetingDay(String day);
+    Club save(Club entity);
+    Optional<Club> findById(Long no);
+    List<Club> findAll();
+    List<Club> findAllByLocation(String location);
+    List<Club> findAllByInterval(String interval);
+    List<Club> findAllByMeetingDay(String day);
 
-    ClubDTO findByClubId(Long id);
-    ClubDTO findByClubName(String name);
+    Club findByClubId(Long id);
+    Club findByClubName(String name);
 
-    List<ClubDTO> findByMemberJoin(Long memberId);
+    List<Club> findByMemberJoin(Long memberId);
 }
