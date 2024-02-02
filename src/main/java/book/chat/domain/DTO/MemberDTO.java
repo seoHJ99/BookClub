@@ -9,7 +9,7 @@ public class MemberDTO {
     private Long no;
     private String id;
     private String interest;
-    private String interval;
+    private String meetingInterval;
     private String reviewBoard;
     private List<Long> joinClub;
 }
