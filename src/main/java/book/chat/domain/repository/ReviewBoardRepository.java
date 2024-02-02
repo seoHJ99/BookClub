@@ -1,15 +1,19 @@
 package book.chat.domain.repository;
 
 import book.chat.domain.DTO.ReviewDTO;
+import book.chat.domain.entity.Review;
 
 import java.util.List;
 
 public interface ReviewBoardRepository {
 
-    List<ReviewDTO> findAll();
-    List<ReviewDTO> findAllByBookName(String name);
-    List<ReviewDTO> findAllByClubNo(Long no);
-    List<ReviewDTO> findAllByMember(Long no);
-    List<ReviewDTO> findAllByMember(String memberName);
-    List<ReviewDTO> findAllByReviewName(String name);
+    Review save(Review review);
+    Review findByNo(Long no);
+
+    List<Review> findAll();
+    List<Review> findAllByBookName(String name);
+    List<Review> findAllByClubNo(Long no);
+    List<Review> findAllByMember(Long no);
+    List<Review> findAllByMember(String memberName);
+    List<Review> findAllByReviewName(String name);
 }

@@ -1,6 +1,7 @@
 package book.chat.domain.repository;
 
 import book.chat.domain.DTO.ReviewDTO;
+import book.chat.domain.entity.Review;
 import book.chat.entity.RedisTestEntity;
 import org.springframework.stereotype.Repository;
 
@@ -11,43 +12,52 @@ public class ReviewBoardRepositoryImpl implements ReviewBoardRepository {
 
     private long sequence =0L;
 
-    private static final Map<Long, ReviewDTO> store = new HashMap<>(); //static
+    private static final Map<Long, Review> store = new HashMap<>(); //static
 
-    public ReviewDTO save(ReviewDTO entity){
-        store.put(++sequence, entity);
-        return entity;
-    }
 
-    public Optional<ReviewDTO> findById(Long id){
+    public Optional<Review> findById(Long id){
         return Optional.ofNullable(store.get(id));
     }
 
-    public List<ReviewDTO> findAll(){
-        return new ArrayList<>(store.values());
+
+    @Override
+    public Review save(Review review) {
+        store.put(++sequence, review);
+        return review;
     }
 
     @Override
-    public List<ReviewDTO> findAllByBookName(String name) {
+    public Review findByNo(Long no) {
+        return store.get(no);
+    }
+
+    @Override
+    public List<Review> findAll() {
         return null;
     }
 
     @Override
-    public List<ReviewDTO> findAllByClubNo(Long no) {
+    public List<Review> findAllByBookName(String name) {
         return null;
     }
 
     @Override
-    public List<ReviewDTO> findAllByMember(Long no) {
+    public List<Review> findAllByClubNo(Long no) {
         return null;
     }
 
     @Override
-    public List<ReviewDTO> findAllByMember(String memberName) {
+    public List<Review> findAllByMember(Long no) {
         return null;
     }
 
     @Override
-    public List<ReviewDTO> findAllByReviewName(String name) {
+    public List<Review> findAllByMember(String memberName) {
+        return null;
+    }
+
+    @Override
+    public List<Review> findAllByReviewName(String name) {
         return null;
     }
 }

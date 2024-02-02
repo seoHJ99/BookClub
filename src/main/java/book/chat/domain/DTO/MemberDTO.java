@@ -2,10 +2,12 @@ package book.chat.domain.DTO;
 
 import book.chat.domain.entity.Member;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class MemberDTO {
     private Long no;
     private String id;
