@@ -1,17 +1,26 @@
 package book.chat.domain.repository;
 
 import book.chat.domain.DTO.ClubDTO;
+import book.chat.domain.DTO.MeetingDto;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class ClubRepositoryImpl implements ClubRepository{
 
-    private static final Map<Long, ClubDTO> store  = new HashMap<>(); //static
+    private long sequence =0L;
+
+    private static final Map<Long, ClubDTO> store = new HashMap<>(); //static
+
+    public ClubDTO save(ClubDTO entity){
+        store.put(++sequence, entity);
+        return entity;
+    }
+
+    public Optional<ClubDTO> findById(Long id){
+        return Optional.ofNullable(store.get(id));
+    }
 
     @Override
     public List<ClubDTO> findAll() {

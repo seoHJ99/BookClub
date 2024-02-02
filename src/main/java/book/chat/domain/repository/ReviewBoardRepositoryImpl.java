@@ -1,16 +1,26 @@
 package book.chat.domain.repository;
 
 import book.chat.domain.DTO.ReviewDTO;
+import book.chat.entity.RedisTestEntity;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class ReviewBoardRepositoryImpl implements ReviewBoardRepository {
+
+    private long sequence =0L;
+
     private static final Map<Long, ReviewDTO> store = new HashMap<>(); //static
+
+    public ReviewDTO save(ReviewDTO entity){
+        store.put(++sequence, entity);
+        return entity;
+    }
+
+    public Optional<ReviewDTO> findById(Long id){
+        return Optional.ofNullable(store.get(id));
+    }
 
     public List<ReviewDTO> findAll(){
         return new ArrayList<>(store.values());

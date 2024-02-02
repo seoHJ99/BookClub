@@ -14,5 +14,4 @@ public class RedisTestEntity {
     @Id
     private Long id;
     private String name;
-
 }
