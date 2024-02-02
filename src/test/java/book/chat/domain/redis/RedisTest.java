@@ -30,6 +30,6 @@ public class RedisTest {
         Optional<RedisTestEntity> findEntity = repository.findById(savedEntity.getId());
 
         assertThat(findEntity.isPresent()).isEqualTo(Boolean.TRUE);
-        assertThat(findEntity.get().getName()).isEqualTo("aaa");
+        assertThat(findEntity.get()).isEqualTo(new RedisTestEntity(1L, "aaa"));
     }
 }
