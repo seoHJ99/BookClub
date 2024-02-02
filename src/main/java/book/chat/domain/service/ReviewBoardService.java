@@ -6,6 +6,10 @@ import book.chat.domain.repository.ReviewBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewBoardService {
@@ -21,5 +25,11 @@ public class ReviewBoardService {
          return new ReviewDTO(savedReview);
     }
 
-    
+    public List<ReviewDTO> findByClubNo(Long clubNo){
+        // todo 클럽 번호로 리뷰 찾기 기능. 맵으로 구현은 안해둠.
+        List<Review> reviewEntities = new ArrayList<>();
+        return reviewEntities.stream()
+                .map(entity -> new ReviewDTO(entity))
+                .collect(Collectors.toList());
+    }
 }
