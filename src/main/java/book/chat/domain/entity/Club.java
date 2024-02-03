@@ -17,6 +17,8 @@ public class Club {
     private List<LocalDate> meetingDate;
     private List<String> readBooks;
     private List<Long> reportBoard;
+    // 추가.
+    private LocalDate startDate;
 
     public Club(ClubDTO clubDTO) {
         this.no = clubDTO.getNo();
