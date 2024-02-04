@@ -1,23 +1,46 @@
 package book.chat.domain.redis;
 
+import book.chat.domain.DTO.ReviewDTO;
+import book.chat.domain.service.RedisService;
 import book.chat.entity.RedisTestEntity;
 import book.chat.entity.RedisTestRepository;
+import book.chat.web.ReviewBoardController;
+import groovy.util.logging.Slf4j;
+import io.micrometer.common.util.StringUtils;
+import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.connection.RedisServer;
+import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.test.context.event.annotation.BeforeTestMethod;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+@Slf4j
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RedisTest {
 
     private RedisTestRepository repository;
+    private RedisServer redisServer;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private RedisTemplate redisTemplate;
 
     @BeforeEach
-    void init(){
+    void init() {
         repository = new RedisTestRepository();
     }
 
