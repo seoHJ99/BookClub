@@ -28,6 +28,11 @@ public class ClubRepositoryImpl implements ClubRepository{
     }
 
     @Override
+    public List<ClubDTO> findAsMuchAsLimit(int limit) {
+        return null;
+    }
+
+    @Override
     public List<ClubDTO> findAllByLocation(String location) {
         // todo 지역명으로 검색
         return null;
@@ -44,7 +49,7 @@ public class ClubRepositoryImpl implements ClubRepository{
     }
 
     @Override
-    public ClubDTO findByClubId(Long id) {
+    public ClubDTO findByClubId(Long No) {
         return null;
     }
 
