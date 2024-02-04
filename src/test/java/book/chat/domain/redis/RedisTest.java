@@ -36,13 +36,6 @@ public class RedisTest {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
-
-    private RedisServer redisServer;
-
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     @BeforeEach
     void init() {
@@ -79,7 +72,6 @@ public class RedisTest {
 
         assertThat(redisTemplate.opsForZSet().reverseRange("test",0,-1).toString())
                 .isEqualTo("[처음, 세번째, 두번째]");
-
     }
 
     private void saveRedisData(TestRedis dto) {
