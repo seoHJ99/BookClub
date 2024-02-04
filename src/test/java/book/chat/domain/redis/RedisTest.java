@@ -39,6 +39,11 @@ public class RedisTest {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    private RedisServer redisServer;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @BeforeEach
     void init() {
         repository = new RedisTestRepository();
