@@ -15,9 +15,8 @@ public class RedisService {
 
     private final RedisTemplate redisTemplate;
 
-    public void plusPoint(ReviewDTO reviewDTO) {
+    public void bookPopularPlus(ReviewDTO reviewDTO) {
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
-        RedisOperations operations = zSetOperations.getOperations();
         Set popularBooks = zSetOperations.range("popularBooks", 0, -1);
         if (!popularBooks.contains(reviewDTO.getBook())) {
             redisTemplate.opsForZSet().add("popularBooks", reviewDTO.getBook(), 1);

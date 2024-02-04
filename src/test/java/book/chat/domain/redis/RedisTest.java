@@ -1,26 +1,16 @@
 package book.chat.domain.redis;
 
-import book.chat.domain.DTO.ReviewDTO;
-import book.chat.domain.service.RedisService;
 import book.chat.entity.RedisTestEntity;
 import book.chat.entity.RedisTestRepository;
-import book.chat.web.ReviewBoardController;
 import groovy.util.logging.Slf4j;
-import io.micrometer.common.util.StringUtils;
-import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.RedisServer;
-import org.springframework.data.redis.core.*;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.Set;
 
@@ -45,7 +35,7 @@ public class RedisTest {
     @Test
     public void saveTest() {
         //given
-        RedisTestEntity entity = new RedisTestEntity(1L,"aaa");
+        RedisTestEntity entity = new RedisTestEntity(1L, "aaa");
 
         //when
         RedisTestEntity savedEntity = repository.save(entity);
@@ -58,8 +48,8 @@ public class RedisTest {
     }
 
     @Test
-    public void plusPoint(){
-        redisTemplate.opsForZSet().removeRange("test",0,-1);
+    public void plusPoint() {
+        redisTemplate.opsForZSet().removeRange("test", 0, -1);
 
         TestRedis dto = new TestRedis("처음");
         TestRedis dto2 = new TestRedis("처음");
@@ -70,7 +60,7 @@ public class RedisTest {
         saveRedisData(dto3);
         saveRedisData(dto4);
 
-        assertThat(redisTemplate.opsForZSet().reverseRange("test",0,-1).toString())
+        assertThat(redisTemplate.opsForZSet().reverseRange("test", 0, -1).toString())
                 .isEqualTo("[처음, 세번째, 두번째]");
     }
 
@@ -87,7 +77,7 @@ public class RedisTest {
         System.out.println("popularBooks = " + popularBooks);
     }
 
-    static class TestRedis{
+    static class TestRedis {
         private String name;
 
         public String getName() {

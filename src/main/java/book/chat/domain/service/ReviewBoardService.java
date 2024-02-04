@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class ReviewBoardService {
 
     private final ReviewBoardRepository reviewBoardRepository;
+    private final RedisService redisService;
     private final RedisTemplate redisTemplate;
 
     public ReviewDTO findReviewByNo(Long no){
@@ -20,9 +21,8 @@ public class ReviewBoardService {
 
     public ReviewDTO saveReview(ReviewDTO reviewDTO){
          Review savedReview = reviewBoardRepository.save(new Review(reviewDTO));
-
-         return new ReviewDTO(savedReview);
+         ReviewDTO savedDto = new ReviewDTO(savedReview);
+         redisService.bookPopularPlus(savedDto);
+         return savedDto;
     }
-
-    
 }
