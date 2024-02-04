@@ -10,6 +10,9 @@ import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +34,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class RedisTest {
 
     private RedisTestRepository repository;
+
     private RedisServer redisServer;
 
     @Autowired
@@ -69,21 +73,22 @@ public class RedisTest {
         saveRedisData(dto3);
         saveRedisData(dto4);
 
-        System.out.println(redisTemplate.opsForZSet().rangeWithScores("test", 0, -1));
+        assertThat(redisTemplate.opsForZSet().reverseRange("test",0,-1).toString())
+                .isEqualTo("[처음, 세번째, 두번째]");
+
     }
 
     private void saveRedisData(TestRedis dto) {
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
         Set popularBooks = zSetOperations.reverseRange("test", 0, -1);
-        System.out.println("popularBooks = " + popularBooks);
-        System.out.println("dto = " + dto.getName());
-        System.out.println(popularBooks.contains(dto.getName()));
         if (!popularBooks.contains(dto.getName())) {
             redisTemplate.opsForZSet().add("test", dto.getName().toString(), 1);
         } else {
             System.out.println("여기");
             redisTemplate.opsForZSet().incrementScore("test", dto.getName().toString(), +1);
         }
+        popularBooks = zSetOperations.reverseRange("test", 0, -1);
+        System.out.println("popularBooks = " + popularBooks);
     }
 
     static class TestRedis{
