@@ -1,7 +1,6 @@
 package book.chat.domain.repository;
 
-import book.chat.domain.DTO.ClubDTO;
-import book.chat.domain.DTO.MeetingDto;
+import book.chat.domain.entity.Club;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -11,55 +10,52 @@ public class ClubRepositoryImpl implements ClubRepository{
 
     private long sequence =0L;
 
-    private static final Map<Long, ClubDTO> store = new HashMap<>(); //static
+    private static final Map<Long, Club> store = new HashMap<>(); //static
 
-    public ClubDTO save(ClubDTO entity){
+    @Override
+    public Club save(Club entity){
         store.put(++sequence, entity);
         return entity;
     }
 
-    public Optional<ClubDTO> findById(Long id){
-        return Optional.ofNullable(store.get(id));
+    @Override
+    public Optional<Club> findById(Long no){
+        return Optional.ofNullable(store.get(no));
     }
 
     @Override
-    public List<ClubDTO> findAll() {
+    public List<Club> findAll() {
         return new ArrayList<>(store.values());
     }
 
     @Override
-    public List<ClubDTO> findAsMuchAsLimit(int limit) {
-        return null;
-    }
-
-    @Override
-    public List<ClubDTO> findAllByLocation(String location) {
+    public List<Club> findAllByLocation(String location) {
         // todo 지역명으로 검색
         return null;
     }
 
     @Override
-    public List<ClubDTO> findAllByInterval(String interval) {
+    public List<Club> findAllByInterval(String interval) {
         return null;
     }
 
     @Override
-    public List<ClubDTO> findAllByMeetingDay(String day) {
+    public List<Club> findAllByMeetingDay(String day) {
         return null;
     }
 
     @Override
-    public ClubDTO findByClubId(Long No) {
+    public Club findByClubId(Long id) {
         return null;
     }
 
     @Override
-    public ClubDTO findByClubName(String name) {
+    public Club findByClubName(String name) {
         return null;
     }
 
     @Override
-    public List<ClubDTO> findByMemberJoin(Long memberId) {
+    public List<Club> findByMemberJoin(Long memberId) {
         return null;
     }
 }

@@ -1,6 +1,7 @@
 package book.chat.domain.service;
 
 import book.chat.domain.DTO.ClubDTO;
+import book.chat.domain.entity.Club;
 import book.chat.domain.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,10 @@ public class ClubService {
 
     public List<ClubDTO> findAsMuchAsLimit(int limit){
         return clubRepository.findAsMuchAsLimit(limit);
+    }
+
+    public ClubDTO save(ClubDTO newClub){
+        Club savedEntity = clubRepository.save(new Club(newClub));
+        return new ClubDTO(savedEntity);
     }
 }
