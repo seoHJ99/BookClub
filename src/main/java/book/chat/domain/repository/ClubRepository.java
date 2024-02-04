@@ -8,7 +8,8 @@ import java.util.Optional;
 
 public interface ClubRepository {
     Club save(Club entity);
-    Optional<Club> findById(Long no);
+    Optional<Club> findByNo(Long no);
+    List<Club> findAsMuchAsLimit(int limit);
     List<Club> findAll();
     List<Club> findAllByLocation(String location);
     List<Club> findAllByInterval(String interval);

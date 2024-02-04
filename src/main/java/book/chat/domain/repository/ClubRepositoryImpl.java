@@ -1,5 +1,6 @@
 package book.chat.domain.repository;
 
+import book.chat.domain.DTO.ClubDTO;
 import book.chat.domain.entity.Club;
 import org.springframework.stereotype.Repository;
 
@@ -19,8 +20,13 @@ public class ClubRepositoryImpl implements ClubRepository{
     }
 
     @Override
-    public Optional<Club> findById(Long no){
+    public Optional<Club> findByNo(Long no){
         return Optional.ofNullable(store.get(no));
+    }
+
+    @Override
+    public List<Club> findAsMuchAsLimit(int limit) {
+        return null;
     }
 
     @Override
