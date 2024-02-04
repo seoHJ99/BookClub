@@ -13,6 +13,7 @@ public class ReviewDTO {
     private Long no;
     private String title;
     private String content;
+    private String book;
     private LocalDate writeDate;
     private String writer;
 
@@ -22,5 +23,6 @@ public class ReviewDTO {
         this.content = entity.getContent();
         this.writeDate = entity.getWriteDate();
         this.writer = entity.getWriter();
+        this.book = entity.getBook();
     }
 }

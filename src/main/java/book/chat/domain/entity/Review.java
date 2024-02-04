@@ -14,11 +14,13 @@ public class Review {
     private String content;
     private LocalDate writeDate;
     private String writer;
+    private String book;
 
     public Review(ReviewDTO reviewDTO) {
         this.title = reviewDTO.getTitle();
         this.content = reviewDTO.getContent();
         this.writeDate = reviewDTO.getWriteDate();
         this.writer = reviewDTO.getWriter();
+        this.book = reviewDTO.getBook();
     }
 }
