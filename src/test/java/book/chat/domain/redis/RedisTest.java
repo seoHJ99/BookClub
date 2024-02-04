@@ -10,7 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.RedisServer;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 
+import java.time.Duration;
 import java.util.Optional;
 import java.util.Set;
 
@@ -73,9 +75,9 @@ public class RedisTest {
             System.out.println("여기");
             redisTemplate.opsForZSet().incrementScore("test", dto.getName().toString(), +1);
         }
-        popularBooks = zSetOperations.reverseRange("test", 0, -1);
-        System.out.println("popularBooks = " + popularBooks);
     }
+
+
 
     static class TestRedis {
         private String name;
