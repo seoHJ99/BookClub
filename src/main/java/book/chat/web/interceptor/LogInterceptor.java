@@ -11,15 +11,16 @@ import java.util.UUID;
 @Slf4j
 public class LogInterceptor implements HandlerInterceptor {
 
-    public static final String FACE_CHAT_LOG = "faceChat";
+    public static final String LOGIN_ID = "login_uuid";
 
+    // todo 로그인시 uuid 생성은 여기서 하지 않고 로그인 처리 컨트롤러에서 해야됨.
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(request.getRequestURI().equals("/club/face-chat")){
-            String uuid = UUID.randomUUID().toString();
-            request.setAttribute(FACE_CHAT_LOG, uuid);
-            log.info("REQUEST [{}][{}][{}]", uuid, request.getSession().getAttribute("id"), handler);
-        }
+//        if(request.getRequestURI().equals("/login") && request.getMethod().equals("POST")){
+//            String uuid = UUID.randomUUID().toString();
+//            request.setAttribute(LOGIN_ID, uuid);
+//            log.info("REQUEST [{}][{}][{}]", uuid, request.getSession().getAttribute("id"), handler);
+//        }
         return true;  // true여야 실제 handler가 호출됨.
     }
 
