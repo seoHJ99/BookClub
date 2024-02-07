@@ -1,4 +1,4 @@
-package book.chat.web;
+package book.chat.web.controller;
 
 import book.chat.domain.repository.ReviewBoardRepository;
 import lombok.RequiredArgsConstructor;

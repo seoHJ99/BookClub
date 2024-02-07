@@ -1,0 +1,21 @@
+package book.chat.domain.service;
+
+import book.chat.domain.DTO.MemberDTO;
+import book.chat.domain.entity.Member;
+import book.chat.domain.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class LoginService {
+
+    private final MemberRepository memberRepository;
+
+    public MemberDTO doLogin(String loginId, String password){
+        Member entity = memberRepository.findById(loginId)
+                .filter(member -> member.getPw().equals(password))
+                .orElse(null);
+        return new MemberDTO(entity);
+    }
+}
