@@ -35,7 +35,7 @@ public class ClubRepositoryImpl implements ClubRepository{
     }
 
     @Override
-    public List<Club> findAllByInterval(String interval) {
+    public List<Club> findAllByInterval(int interval) {
         return null;
     }
 
@@ -50,7 +50,7 @@ public class ClubRepositoryImpl implements ClubRepository{
     }
 
     @Override
-    public Club findByClubName(String name) {
+    public List<Club> findByClubName(String name) {
         return null;
     }
 
