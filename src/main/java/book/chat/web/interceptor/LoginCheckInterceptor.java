@@ -32,10 +32,11 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             String clientIp = getClientIp(request);
             int tryCount = countIpLoginTry(clientIp);
             if(tryCount >=5){
-                // todo 문제 터짐
+                response.sendRedirect("/login?redirectURL=" + "login-count-error");
+                return false;
             }
             // todo 로그인으로 redirect
-//            response.sendRedirect("/login?redirectURL=" + requestURI);
+            response.sendRedirect("/login?redirectURL=" + requestURI);
             return false;
         }
 
