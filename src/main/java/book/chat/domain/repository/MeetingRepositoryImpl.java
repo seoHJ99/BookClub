@@ -1,6 +1,6 @@
 package book.chat.domain.repository;
 
-import book.chat.web.DTO.MeetingDto;
+import book.chat.domain.entity.Meeting;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -14,34 +14,39 @@ public class MeetingRepositoryImpl implements MeetingRepository{
 
     private long sequence =0L;
 
-    private static final Map<Long, MeetingDto> store = new HashMap<>(); //static
+    private static final Map<Long, Meeting> store = new HashMap<>(); //static
 
-    public MeetingDto save(MeetingDto entity){
+    public Meeting save(Meeting entity){
         store.put(++sequence, entity);
         return entity;
     }
 
-    public Optional<MeetingDto> findById(Long id){
+    public Optional<Meeting> findById(Long id){
         return Optional.ofNullable(store.get(id));
     }
 
     @Override
-    public List<MeetingDto> findAll() {
+    public List<Meeting> findAll() {
         return null;
     }
 
     @Override
-    public List<MeetingDto> findAllByDate(LocalDate meetingDate) {
+    public List<Meeting> findAllByDate(LocalDate meetingDate) {
         return null;
     }
 
     @Override
-    public List<MeetingDto> findAllByClub(long clubNo) {
+    public List<Meeting> findAllByClub(long clubNo) {
         return null;
     }
 
     @Override
-    public MeetingDto findByNo(long meetingNo) {
+    public List<Meeting> findByType(String type) {
+        return null;
+    }
+
+    @Override
+    public Meeting findByNo(long meetingNo) {
         return null;
     }
 }

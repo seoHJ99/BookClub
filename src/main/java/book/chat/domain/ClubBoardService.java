@@ -3,6 +3,7 @@ package book.chat.domain;
 import book.chat.domain.DTO.ClubDTO;
 import book.chat.domain.entity.Club;
 import book.chat.domain.repository.ClubRepository;
+import book.chat.web.DTO.ClubDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +39,8 @@ public class ClubBoardService {
         return transferToDtoList(clubRepository.findByMemberJoin(memberNo));
     }
 
-    public ClubDTO findById(Long id){
-        return new ClubDTO( clubRepository.findById(id).orElse(null) );
+    public ClubDTO findByNo(Long no){
+        return new ClubDTO( clubRepository.findByNo(no).orElse(null) );
     }
 
 }

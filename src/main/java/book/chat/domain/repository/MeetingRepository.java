@@ -1,14 +1,16 @@
 package book.chat.domain.repository;
 
-import book.chat.web.DTO.MeetingDto;
+
+import book.chat.domain.entity.Meeting;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface MeetingRepository {
-    List<MeetingDto> findAll();
-    List<MeetingDto> findAllByDate(LocalDate meetingDate);
-    List<MeetingDto> findAllByClub(long clubNo);
+    List<Meeting> findAll();
+    List<Meeting> findAllByDate(LocalDate meetingDate);
+    List<Meeting> findAllByClub(long clubNo);
+    List<Meeting> findByType(String type);
 
-    MeetingDto findByNo(long meetingNo);
+    Meeting findByNo(long meetingNo);
 }
