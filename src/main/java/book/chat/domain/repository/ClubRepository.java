@@ -12,11 +12,11 @@ public interface ClubRepository {
     List<Club> findAsMuchAsLimit(int limit);
     List<Club> findAll();
     List<Club> findAllByLocation(String location);
-    List<Club> findAllByInterval(String interval);
+    List<Club> findAllByInterval(int interval);
     List<Club> findAllByMeetingDay(String day);
+    List<Club> findByClubName(String name);
 
     Club findByClubId(Long id);
-    Club findByClubName(String name);
 
     List<Club> findByMemberJoin(Long memberId);
 }
