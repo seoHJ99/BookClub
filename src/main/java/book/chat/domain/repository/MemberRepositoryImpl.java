@@ -1,8 +1,8 @@
 package book.chat.domain.repository;
 
-import book.chat.domain.DTO.MemberDTO;
+import book.chat.web.DTO.MemberDTO;
 import book.chat.domain.entity.Member;
-import book.chat.domain.DTO.MemberJoinForm;
+import book.chat.web.DTO.MemberJoinForm;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

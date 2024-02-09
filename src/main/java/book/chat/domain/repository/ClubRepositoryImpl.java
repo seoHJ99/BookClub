@@ -1,7 +1,6 @@
 package book.chat.domain.repository;
 
-import book.chat.domain.DTO.ClubDTO;
-import book.chat.domain.DTO.MeetingDto;
+import book.chat.web.DTO.ClubDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

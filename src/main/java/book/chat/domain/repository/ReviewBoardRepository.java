@@ -1,6 +1,5 @@
 package book.chat.domain.repository;
 
-import book.chat.domain.DTO.ReviewDTO;
 import book.chat.domain.entity.Review;
 
 import java.util.List;

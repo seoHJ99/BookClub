@@ -1,8 +1,7 @@
 package book.chat.domain.entity;
 
-import book.chat.domain.DTO.MemberDTO;
-import book.chat.domain.DTO.MemberJoinForm;
-import lombok.Data;
+import book.chat.web.DTO.MemberDTO;
+import book.chat.web.DTO.MemberJoinForm;
 import lombok.Getter;
 
 import java.util.List;

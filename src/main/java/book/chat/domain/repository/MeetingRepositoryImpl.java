@@ -1,7 +1,6 @@
 package book.chat.domain.repository;
 
-import book.chat.domain.DTO.MeetingDto;
-import book.chat.domain.DTO.ReviewDTO;
+import book.chat.web.DTO.MeetingDto;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;

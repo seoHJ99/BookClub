@@ -1,7 +1,6 @@
 package book.chat.domain.entity;
 
-import book.chat.domain.DTO.ReviewDTO;
-import lombok.Data;
+import book.chat.web.DTO.ReviewDTO;
 import lombok.Getter;
 
 import java.time.LocalDate;
