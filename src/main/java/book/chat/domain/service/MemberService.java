@@ -1,12 +1,14 @@
 package book.chat.domain.service;
 
-import book.chat.domain.DTO.MemberDTO;
+import book.chat.web.DTO.MemberDTO;
 import book.chat.domain.entity.Member;
 import book.chat.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +27,11 @@ public class MemberService {
     public Optional<Member> findBySession(String sessionKey){
         // todo 세션에서 id찾기
         return memberRepository.findById(TEMP_ID);
+    }
+
+    public List<MemberDTO> findByClubNo(Long clubNo){
+        return memberRepository.findByClubNo(clubNo).stream()
+                .map(member -> new MemberDTO(member))
+                .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,6 @@
 package book.chat.domain.service;
 
-import book.chat.domain.DTO.ReviewDTO;
+import book.chat.web.DTO.ReviewDTO;
 import book.chat.domain.entity.Review;
 import book.chat.domain.repository.ReviewBoardRepository;
 import lombok.RequiredArgsConstructor;

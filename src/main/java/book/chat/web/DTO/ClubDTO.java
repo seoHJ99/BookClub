@@ -1,4 +1,4 @@
-package book.chat.domain.DTO;
+package book.chat.web.DTO;
 
 import book.chat.domain.entity.Club;
 import lombok.Data;
