@@ -14,8 +14,8 @@ public class BucketConfiguration {
     @Bean
     public Bucket bucket(){
 
-        // 1분에 10개 토큰
-        final Refill refill = Refill.intervally(10, Duration.ofMinutes(1));
+        // 10초에 10개 토큰
+        final Refill refill = Refill.intervally(10, Duration.ofSeconds(10));
 
         // 버킷의 토큰 최대 허용치는 10
         final Bandwidth limit = Bandwidth.classic(3, refill);

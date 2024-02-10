@@ -22,13 +22,13 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class LoginCheckInterceptor implements HandlerInterceptor {
 
-    private final RedisTemplate redisTemplate;
+//    private final RedisTemplate redisTemplate;
     private final Bucket loginCountBucket;
+    private final Bucket bucket;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
-
         HttpSession session = request.getSession();
 
         if(session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null){
@@ -42,11 +42,11 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             if(requestURI.equals("/login") && request.getMethod().equals("POST") && loginCountBucket.tryConsume(1)){
                 return true;
             }
+            // todo 컨트롤러에서 로그인 성공시 loginCountBucket 토큰 다시 채워넣는 로직 작성 필요
             response.sendRedirect("/login?redirectURL=" + requestURI);
             return false;
         }
         return true;
-
     }
 
 //    private int countIpLoginTry(String clientIp) {

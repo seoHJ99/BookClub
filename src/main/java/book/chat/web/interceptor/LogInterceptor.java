@@ -1,15 +1,23 @@
 package book.chat.web.interceptor;
 
+import io.github.bucket4j.Bucket;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
 
 @Slf4j
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 public class LogInterceptor implements HandlerInterceptor {
+
+    private final Bucket bucket;
 
     public static final String LOGIN_ID = "login_uuid";
 
@@ -21,7 +29,11 @@ public class LogInterceptor implements HandlerInterceptor {
 //            request.setAttribute(LOGIN_ID, uuid);
 //            log.info("REQUEST [{}][{}][{}]", uuid, request.getSession().getAttribute("id"), handler);
 //        }
-        return true;  // true여야 실제 handler가 호출됨.
+        if(bucket.tryConsume(1)){
+            return true;
+        }
+        response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+        return false;
     }
 
     @Override
