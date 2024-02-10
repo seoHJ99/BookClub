@@ -34,14 +34,8 @@ public class Bucket4jTokenTest {
 
     @Test
     void bucketReturnTest(){
-        for(int i=0; i<2; i++){
-            System.out.println(bucket.tryConsume(10));
-            if(bucket.tryConsume(5)){
-                System.out.println("aaa");
-                return;
-            }
-        }
-        System.out.println("bbbb");
+        assertThat(bucket.tryConsume(4)).isEqualTo(true);
+        assertThat(bucket.tryConsume(5)).isEqualTo(false);
     }
 
     private void usingTokenValidate() {
