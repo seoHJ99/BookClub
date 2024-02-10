@@ -1,8 +1,8 @@
 package book.chat.domain.service;
 
-import book.chat.domain.DTO.MemberDTO;
 import book.chat.domain.entity.Member;
 import book.chat.domain.repository.MemberRepository;
+import book.chat.web.DTO.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,5 @@
 package book.chat.domain;
 
-import book.chat.domain.DTO.ClubDTO;
 import book.chat.domain.entity.Club;
 import book.chat.domain.repository.ClubRepository;
 import book.chat.web.DTO.ClubDTO;

@@ -1,6 +1,6 @@
 package book.chat.domain.service;
 
-import book.chat.domain.DTO.ReviewDTO;
+import book.chat.web.DTO.ReviewDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -6,6 +6,7 @@ import book.chat.web.DTO.MemberJoinForm;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -39,5 +40,10 @@ public class MemberRepositoryImpl implements MemberRepository{
     @Override
     public Optional<Member> findBySessionKey(String id) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<Member> findByClubNo(Long clubNo) {
+        return null;
     }
 }

@@ -1,6 +1,6 @@
 package book.chat.domain.entity;
 
-import book.chat.domain.DTO.ClubDTO;
+import book.chat.web.DTO.ClubDTO;
 import lombok.Data;
 import lombok.Getter;
 

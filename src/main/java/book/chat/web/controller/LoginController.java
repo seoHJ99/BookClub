@@ -1,8 +1,8 @@
 package book.chat.web.controller;
 
-import book.chat.domain.DTO.LoginDto;
-import book.chat.domain.DTO.MemberDTO;
 import book.chat.domain.service.LoginService;
+import book.chat.web.DTO.LoginDto;
+import book.chat.web.DTO.MemberDTO;
 import book.chat.web.SessionConst;
 import groovy.util.logging.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
