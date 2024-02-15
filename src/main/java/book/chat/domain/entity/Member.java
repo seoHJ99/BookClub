@@ -13,7 +13,6 @@ public class Member {
     private String pw;
     private String nickName;
     private String interest;
-    private String meetingInterval;
     private String location;
     private String mail;
     private String reviewBoard;
@@ -34,8 +33,9 @@ public class Member {
         this.mail = newMemberDTO.getMail();
         this.location = newMemberDTO.getLocation();
         this.interest = newMemberDTO.getInterest();
-//        this.nickName = newMemberDTO.getNickName();
-        this.meetingInterval = newMemberDTO.getMeetingInterval();
+        this.nickName = newMemberDTO.getNickName();
+        this.joinClub = newMemberDTO.getJoinClub();
+        this.reviewBoard = newMemberDTO.getReviewBoard();
         return this;
     }
 }
