@@ -1,5 +1,5 @@
 CREATE TABLE member(
-    "no" long not null,
+    "no" number PRIMARY KEY,
     "id" varchar(13) not null,
     pw varchar(20) not null,
     nickname varchar(8) not null,
@@ -12,7 +12,7 @@ CREATE TABLE member(
 );
 
 CREATE TABLE club(
-    "no" long not null,
+    "no" number PRIMARY KEY ,
     "name" varchar(15) not null,
     introduce varchar2(1500) not null,
     members varchar2(1500) not null,
@@ -23,8 +23,8 @@ CREATE TABLE club(
 );
 
 CREATE TABLE meeting(
-    "no" long not null,
-    club_no clob not null,
+    "no" number PRIMARY KEY ,
+    club_no number not null,
     book_title varchar(50) not null,
     join_member varchar(1500) not null,
     "online" char(1) not null,
@@ -32,10 +32,14 @@ CREATE TABLE meeting(
 );
 
 CREATE TABLE review(
-    "no" long not null,
+    "no" number PRIMARY KEY ,
     title varchar(50) not null,
     "content" blob not null,
     write_date date not null,
     writer varchar(13) not null,
     book varchar(13)
 );
+
+
+
+
