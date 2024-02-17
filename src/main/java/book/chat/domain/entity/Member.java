@@ -17,7 +17,7 @@ public class Member {
     private String location;
     private String mail;
     private String reviewBoard;
-    private List<Long> joinClub;
+    private String joinClub;
 
 
     public Member(MemberJoinForm joinForm) {
@@ -36,6 +36,8 @@ public class Member {
         this.interest = newMemberDTO.getInterest();
 //        this.nickName = newMemberDTO.getNickName();
         this.meetingInterval = newMemberDTO.getMeetingInterval();
+        this.joinClub = newMemberDTO.getJoinClub().toString();
+        this.reviewBoard = newMemberDTO.getReviewBoard();
         return this;
     }
 }

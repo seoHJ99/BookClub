@@ -4,7 +4,9 @@ import book.chat.domain.entity.Member;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -30,7 +32,9 @@ public class MemberDTO {
         this.location = entity.getLocation();
         this.mail = entity.getMail();
         this.reviewBoard = entity.getReviewBoard();
-        this.joinClub = entity.getJoinClub();
+        this.joinClub = Arrays.stream(entity.getJoinClub().split(","))
+                        .map(string -> Long.parseLong(string))
+                        .collect(Collectors.toList());
     }
 
     public MemberDTO(MemberJoinForm joinForm) {
@@ -40,15 +44,5 @@ public class MemberDTO {
         this.nickName = joinForm.getNickName();
         this.location = joinForm.getLocation();
         this.mail = joinForm.getMail();
-    }
-
-    public MemberDTO updateField(MemberDTO newMemberDTO){
-        this.pw = newMemberDTO.getPw();
-        this.mail = newMemberDTO.getMail();
-        this.location = newMemberDTO.getLocation();
-        this.interest = newMemberDTO.getInterest();
-//        this.nickName = newMemberDTO.getNickName();
-        this.meetingInterval = newMemberDTO.getMeetingInterval();
-        return this;
     }
 }
