@@ -13,9 +13,10 @@ public class ClubDTO {
     private String introduce;
     private String location;
     private List<Integer> members;
-    private List<LocalDate> meetingDate;
+    private List<LocalDate> meetings;
     private List<String> readBooks;
     private List<Long> reportBoard;
+    private LocalDate startDate;
 
     public ClubDTO(Club entity) {
         this.no = entity.getNo();
@@ -23,8 +24,9 @@ public class ClubDTO {
         this.introduce = entity.getIntroduce();
         this.location = entity.getLocation();
         this.members = entity.getMembers();
-        this.meetingDate = entity.getMeetingDate();
+        this.meetings = entity.getMeetings();
         this.readBooks = entity.getReadBooks();
         this.reportBoard = entity.getReportBoard();
+        this.startDate = entity.getStartDate();
     }
 }

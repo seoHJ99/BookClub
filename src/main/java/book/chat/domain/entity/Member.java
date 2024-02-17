@@ -13,7 +13,6 @@ public class Member {
     private String pw;
     private String nickName;
     private String interest;
-    private String meetingInterval;
     private String location;
     private String mail;
     private String reviewBoard;

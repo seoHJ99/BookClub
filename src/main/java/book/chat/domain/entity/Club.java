@@ -14,7 +14,7 @@ public class Club {
     private String introduce;
     private String location;
     private List<Integer> members;
-    private List<LocalDate> meetingDate;
+    private List<LocalDate> meetings;
     private List<String> readBooks;
     private List<Long> reportBoard;
     // 추가.
@@ -26,7 +26,7 @@ public class Club {
         this.introduce = clubDTO.getIntroduce();
         this.location = clubDTO.getLocation();
         this.members = clubDTO.getMembers();
-        this.meetingDate = clubDTO.getMeetingDate();
+        this.meetings = clubDTO.getMeetings();
         this.readBooks = clubDTO.getReadBooks();
         this.reportBoard = clubDTO.getReportBoard();
     }

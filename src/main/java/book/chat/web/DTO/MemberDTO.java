@@ -16,7 +16,6 @@ public class MemberDTO {
     private String pw;
     private String nickName;
     private String interest;
-    private String meetingInterval;
     private String location;
     private String mail;
     private String reviewBoard;
@@ -28,7 +27,6 @@ public class MemberDTO {
         this.pw = entity.getPw();
         this.nickName = entity.getNickName();
         this.interest = entity.getInterest();
-        this.meetingInterval = entity.getMeetingInterval();
         this.location = entity.getLocation();
         this.mail = entity.getMail();
         this.reviewBoard = entity.getReviewBoard();
