@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html
-  lang="ko"
-  th:replace="~{layout-main/layout :: layout(~{::title}, ~{::main})}"
-  xmlns:th="http://www.thymeleaf.org"
+        lang="ko"
+        th:replace="~{layout-main/layout :: layout(~{::title}, ~{::main}, ~{::style})}"
+        xmlns:th="http://www.thymeleaf.org"
 >
   <head>
     <meta charset="UTF-8" />
@@ -18,6 +18,7 @@
     <style></style>
   </head>
   <body>
+  <main>
     <!-- 이미지 테이블 -->
     <div class="container mt-4">
       <div class="row">
@@ -95,5 +96,6 @@
         </div>
       </div>
     </div>
+  </main>
   </body>
 </html>
