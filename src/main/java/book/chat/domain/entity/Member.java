@@ -34,7 +34,6 @@ public class Member {
         this.location = newMemberDTO.getLocation();
         this.interest = newMemberDTO.getInterest();
 //        this.nickName = newMemberDTO.getNickName();
-        this.meetingInterval = newMemberDTO.getMeetingInterval();
         this.joinClub = newMemberDTO.getJoinClub().toString();
         this.reviewBoard = newMemberDTO.getReviewBoard();
         return this;
