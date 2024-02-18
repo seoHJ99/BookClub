@@ -7,9 +7,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootTest
 @EnableCaching
 class BookClubApplicationTests {
-
 	@Test
 	void contextLoads() {
 	}
-
 }

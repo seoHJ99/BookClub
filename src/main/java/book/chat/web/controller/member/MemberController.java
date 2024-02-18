@@ -4,15 +4,17 @@ import book.chat.domain.service.MemberService;
 import book.chat.web.DTO.MemberDTO;
 import book.chat.web.DTO.MemberJoinForm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
+@RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -23,8 +25,11 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@ModelAttribute MemberJoinForm memberJoinForm){
-        // bingResult 에 오류가 있으면 /join으로 리턴
+    public String join(@Validated @ModelAttribute MemberJoinForm memberJoinForm, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            return "layout/member-join";
+        }
         memberService.save(memberJoinForm);
         return "layout/home";
     }
