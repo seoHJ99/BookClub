@@ -13,7 +13,6 @@ public class BucketConfiguration {
 
     @Bean
     public Bucket bucket(){
-
         // 10초에 10개 토큰
         final Refill refill = Refill.intervally(10, Duration.ofSeconds(10));
 
