@@ -12,6 +12,7 @@ public class ClubDTO {
     private String name;
     private String introduce;
     private String location;
+    private String leader;
     private List<Integer> members;
     private List<LocalDate> meetings;
     private List<String> readBooks;

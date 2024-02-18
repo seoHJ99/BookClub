@@ -3,6 +3,8 @@ package book.chat.domain.service;
 import book.chat.domain.entity.Club;
 import book.chat.domain.repository.ClubRepository;
 import book.chat.web.DTO.ClubDTO;
+import book.chat.web.DTO.ClubMakingForm;
+import book.chat.web.DTO.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +27,8 @@ public class ClubService {
                 .collect(Collectors.toList());
     }
 
-    public ClubDTO makeNew(ClubDTO newClub){
-        Club savedEntity = clubRepository.save(new Club(newClub));
+    public ClubDTO save(ClubMakingForm newClub, MemberDTO leader){
+        Club savedEntity = clubRepository.save(new Club(newClub, leader));
         return new ClubDTO(savedEntity);
     }
 }
