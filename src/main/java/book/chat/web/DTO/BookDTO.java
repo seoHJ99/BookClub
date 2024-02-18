@@ -1,6 +1,6 @@
 package book.chat.web.DTO;
 
-public class Book {
+public class BookDTO {
     private String name;
     private String shoppingLink;
     private String image;
