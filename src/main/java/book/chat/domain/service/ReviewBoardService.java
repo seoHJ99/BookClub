@@ -37,4 +37,10 @@ public class ReviewBoardService {
                 .map(entity -> new ReviewDTO(entity))
                 .collect(Collectors.toList());
     }
+
+    public List<ReviewDTO> findAllRecent(){
+        return reviewBoardRepository.findAll().stream()
+                .map(entity -> new ReviewDTO(entity))
+                .collect(Collectors.toList());
+    }
 }
