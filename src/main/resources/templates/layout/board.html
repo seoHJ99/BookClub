@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html
-        lang="ko"
-        th:replace="~{layout-main/layout :: layout(~{::title}, ~{::main}, ~{::style})}"
-        xmlns:th="http://www.thymeleaf.org"
+  lang="ko"
+  th:replace="~{layout-main/layout :: layout(~{::title}, ~{::main}, ~{::style})}"
+  xmlns:th="http://www.thymeleaf.org"
 >
   <head>
     <meta charset="UTF-8" />
@@ -18,84 +18,84 @@
     <style></style>
   </head>
   <body>
-  <main>
-    <!-- 이미지 테이블 -->
-    <div class="container mt-4">
-      <div class="row">
-        <div class="col-md-12">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">글 번호</th>
-                <th scope="col">읽은 책</th>
-                <th scope="col">글 제목</th>
-                <th scope="col">작성자</th>
-                <th scope="col">작성 시간</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- 더미 데이터 -->
-              <tr>
-                <th scope="row">1</th>
-                <td>
-                  <!-- 사진에 모달 연결 -->
-                  <a
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#imageModal"
-                  >
-                    <img
-                      style="width: 50px"
-                      src="https://png.pngtree.com/element_pic/16/10/29/8a6fa9d903aa625bd76b914b91301423.jpg"
-                      alt=""
-                    />
-                  </a>
-                  <!-- 이미지 모달 -->
-                  <div
-                    class="modal fade"
-                    id="imageModal"
-                    tabindex="-1"
-                    aria-labelledby="imageModalLabel"
-                    aria-hidden="true"
-                  >
-                    <div class="modal-dialog modal-xl">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="imageModalLabel">
-                            책 제목
-                          </h5>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body text-center">
-                          <img
-                            src="https://png.pngtree.com/element_pic/16/10/29/8a6fa9d903aa625bd76b914b91301423.jpg"
-                            class="img-fluid"
-                            alt=""
-                          />
-                          <div>
-                            <span>책 제목</span>
+    <main>
+      <!-- 이미지 테이블 -->
+      <div class="container mt-4">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">글 번호</th>
+                  <th scope="col">읽은 책</th>
+                  <th scope="col">글 제목</th>
+                  <th scope="col">작성자</th>
+                  <th scope="col">작성 시간</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 더미 데이터 -->
+                <tr th:each="board:${boards}">
+                  <th scope="row">1</th>
+                  <td>
+                    <!-- 사진에 모달 연결 -->
+                    <a
+                      href="#"
+                      data-bs-toggle="modal"
+                      data-bs-target="#imageModal"
+                    >
+                      <img
+                        style="width: 50px"
+                        src="https://png.pngtree.com/element_pic/16/10/29/8a6fa9d903aa625bd76b914b91301423.jpg"
+                        alt=""
+                      />
+                    </a>
+                    <!-- 이미지 모달 -->
+                    <div
+                      class="modal fade"
+                      id="imageModal"
+                      tabindex="-1"
+                      aria-labelledby="imageModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="imageModalLabel">
+                              책 제목
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
                           </div>
-                          <div>저자</div>
+                          <div class="modal-body text-center">
+                            <img
+                              src="https://png.pngtree.com/element_pic/16/10/29/8a6fa9d903aa625bd76b914b91301423.jpg"
+                              class="img-fluid"
+                              alt=""
+                            />
+                            <div>
+                              <span>책 제목</span>
+                            </div>
+                            <div>저자</div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td>첫 번째 게시물 제목</td>
-                <td>작성자1</td>
-                <td>2024-01-07 10:00</td>
-              </tr>
-              <!-- 다른 더미 데이터 추가 가능 -->
-            </tbody>
-          </table>
+                  </td>
+                  <td>첫 번째 게시물 제목</td>
+                  <td>작성자1</td>
+                  <td>2024-01-07 10:00</td>
+                </tr>
+                <!-- 다른 더미 데이터 추가 가능 -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
   </body>
 </html>

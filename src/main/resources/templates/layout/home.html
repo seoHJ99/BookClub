@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html
-        lang="ko"
-        th:replace="~{layout-main/layout :: layout(~{::title}, ~{::main}, ~{::style})}"
-        xmlns:th="http://www.thymeleaf.org"
+  lang="ko"
+  th:replace="~{layout-main/layout :: layout(~{::title}, ~{::main}, ~{::style})}"
+  xmlns:th="http://www.thymeleaf.org"
 >
   <head>
     <meta charset="UTF-8" />
     <title>BookCLUB</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
   </head>
   <style></style>
   <body>
@@ -78,15 +86,121 @@
         <div class="row">
           <!-- 상단 왼쪽 공간 - 최신 글 제목만 보이는 게시판 목록 -->
           <!-- 최신 글 제목만 보이는 게시판 목록 -->
-          <div class="card">
+          <div class="card mb-5">
             <div class="card-body">
-              <h5 class="card-title">최신 글 제목</h5>
+              <h5 class="card-title">최신 글</h5>
+              <div class="row">
+                <div class="col-md-12">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">글 번호</th>
+                        <th scope="col">읽은 책</th>
+                        <th scope="col">글 제목</th>
+                        <th scope="col">작성자</th>
+                        <th scope="col">작성 시간</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- 더미 데이터 -->
+                      <tr th:each="review : ${reviews}">
+                        <th scope="row">1</th>
+                        <td>
+                          <!-- 사진에 모달 연결 -->
+                          <a
+                            href="#"
+                            data-bs-toggle="modal"
+                            data-bs-target="#imageModal"
+                          >
+                            <img
+                              style="width: 50px"
+                              src="https://png.pngtree.com/element_pic/16/10/29/8a6fa9d903aa625bd76b914b91301423.jpg"
+                              alt=""
+                            />
+                          </a>
+                          <!-- 이미지 모달 -->
+                          <div
+                            class="modal fade"
+                            id="imageModal"
+                            tabindex="-1"
+                            aria-labelledby="imageModalLabel"
+                            aria-hidden="true"
+                          >
+                            <div class="modal-dialog modal-xl">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="imageModalLabel">
+                                    책 제목
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                  <img
+                                    src="https://png.pngtree.com/element_pic/16/10/29/8a6fa9d903aa625bd76b914b91301423.jpg"
+                                    class="img-fluid"
+                                    alt=""
+                                  />
+                                  <div>
+                                    <span>책 제목</span>
+                                  </div>
+                                  <div>저자</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>첫 번째 게시물 제목</td>
+                        <td>작성자1</td>
+                        <td>2024-01-07 10:00</td>
+                      </tr>
+                      <!-- 다른 더미 데이터 추가 가능 -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row flex-nowrap justify-content-center">
+            <div class="col-md-6 me-3">
+              <div class="row">
+                <!-- 최신 글 제목만 보이는 게시판 목록을 추가해주세요 -->
+                <div
+                  class="col-md-6 rounded p-4 border border-3 border-dark text-center d-flex flex-column justify-content-between"
+                  style="max-width: 600px"
+                  th:each="club:${clubs}"
+                >
+                  <!-- 클럽 사진 -->
+                  <img
+                    src="club_image1.jpg"
+                    alt="클럽 사진"
+                    class="img-fluid mb-3 mx-auto d-block rounded border border-1 border-dark"
+                    style="width: 50%; min-width: 50%"
+                  />
+                  <!-- 클럽 명 -->
+                  <h4 class="fw-bold mb-3">클럽 명</h4>
+                  <!-- 클럽 소개글 -->
+                  <p class="text-muted">L</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 justify-content-center">
+              <div class="d-flex justify-content-center">
+                <strong>이번주 화제의 책</strong>
+              </div>
+              <div
+                class="d-flex justify-content-center"
+                th:each="book:${ranking}"
+              >
+                순위
+              </div>
             </div>
           </div>
 
-          <div class="col-md-6">
-            <!-- 최신 글 제목만 보이는 게시판 목록을 추가해주세요 -->
-          </div>
           <!-- 상단 오른쪽 공간 - 최신 글과 그 내부 이미지가 같이 보이는 게시판 목록 -->
           <div class="col-md-6">
             <!-- 최신 글과 내부 이미지가 같이 보이는 게시판 목록을 추가해주세요 -->
