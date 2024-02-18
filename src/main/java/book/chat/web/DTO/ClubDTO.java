@@ -1,6 +1,7 @@
 package book.chat.web.DTO;
 
 import book.chat.domain.entity.Club;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ public class ClubDTO {
     private List<LocalDate> meetings;
     private List<String> readBooks;
     private List<Long> reportBoard;
+    @PastOrPresent
     private LocalDate startDate;
 
     public ClubDTO(Club entity) {

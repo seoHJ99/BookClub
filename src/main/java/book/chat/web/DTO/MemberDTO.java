@@ -1,6 +1,7 @@
 package book.chat.web.DTO;
 
 import book.chat.domain.entity.Member;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +13,11 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class MemberDTO {
     private Long no;
+    @NotBlank
     private String id;
+    @NotBlank
     private String pw;
+    @NotBlank
     private String nickName;
     private String interest;
     private String location;

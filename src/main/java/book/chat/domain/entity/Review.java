@@ -1,5 +1,6 @@
 package book.chat.domain.entity;
 
+import book.chat.web.DTO.BookDTO;
 import book.chat.web.DTO.ReviewDTO;
 import lombok.Getter;
 
@@ -13,7 +14,7 @@ public class Review {
     private String content;
     private LocalDate writeDate;
     private String writer;
-    private String book;
+    private BookDTO book;
 
     public Review(ReviewDTO reviewDTO) {
         this.title = reviewDTO.getTitle();

@@ -1,6 +1,8 @@
 package book.chat.web.DTO;
 
 import book.chat.domain.entity.Review;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,10 +13,16 @@ import java.time.LocalDate;
 public class ReviewDTO {
 
     private Long no;
+    @NotBlank
     private String title;
+    @NotBlank
     private String content;
-    private String book;
+    @NotBlank
+    private BookDTO book;
+    @NotBlank
+    @PastOrPresent
     private LocalDate writeDate;
+    @NotBlank
     private String writer;
 
     public ReviewDTO(Review entity) {
