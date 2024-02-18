@@ -1,4 +1,4 @@
-package book.chat.web.controller;
+package book.chat.web.controller.member;
 
 import book.chat.domain.service.LoginService;
 import book.chat.web.DTO.LoginDto;
