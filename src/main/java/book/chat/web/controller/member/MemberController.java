@@ -39,7 +39,7 @@ public class MemberController {
             return "layout/member-join";
         }
         MemberDTO memberDTO = memberService.findById(memberJoinForm.getId());
-        if(memberDTO != null){  // redis에서도 검증 코드 추가. 그래야 같은 id생성을 더 확실하게 막음
+        if(memberDTO != null){  // todo redis에서도 검증 코드 추가. 그래야 같은 id생성을 더 확실하게 막음
             response.getWriter().write("<script>alert('이미 존재하는 id입니다.'); </script>");
             return "layout/member-join";
         }
