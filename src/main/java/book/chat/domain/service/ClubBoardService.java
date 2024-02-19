@@ -1,4 +1,4 @@
-package book.chat.domain;
+package book.chat.domain.service;
 
 import book.chat.domain.entity.Club;
 import book.chat.domain.repository.ClubRepository;

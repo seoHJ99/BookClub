@@ -18,7 +18,6 @@ public class CamSession implements HttpSessionListener {
     * 만약 다른 곳에서 접근하면 다중 로그인으로 판단. 막음.
     * 그냥 나가면 이 세션 자동 삭제.
     * 이 세션이 삭제될때, 나갔다는 로그 찍히도록 커스텀
-    *
     * */
 
     @Override
