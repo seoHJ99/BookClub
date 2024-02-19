@@ -25,13 +25,24 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@Validated @ModelAttribute MemberJoinForm memberJoinForm, BindingResult bindingResult){
+    public String join(@Validated @ModelAttribute MemberJoinForm memberJoinForm,
+                       BindingResult bindingResult,
+                       @CookieValue(value = "idCheck", required = false) String idCheck,
+                       @CookieValue(value = "emailCheck", required = false) String mailCheck){
+        // todo id중복검사 메서드 만든 다음, 중복 검사 통과시 session에 uuid저장하는 방식.
+        // todo 메일도 똑같이.
+        if(!pwIsSame(memberJoinForm)){
+            bindingResult.reject("pwDoubleCheck", null, null);
+        }
         if(bindingResult.hasErrors()){
-            log.info("errors={}", bindingResult);
             return "layout/member-join";
         }
         memberService.save(memberJoinForm);
         return "layout/home";
+    }
+
+    public boolean pwIsSame(MemberJoinForm memberJoinForm) {
+        return memberJoinForm.getPw().equals(memberJoinForm.getPw2());
     }
 
     @GetMapping("/{memberId}/info")

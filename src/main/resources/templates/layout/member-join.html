@@ -71,11 +71,13 @@
             <input
               type="password"
               class="form-control"
+              th:errorclass="field-error"
               id="password"
               name="pw"
               style="width: 500px"
             />
           </div>
+          <div class="field-error" th:errors="*{pw}">비밀번호 오류</div>
           <div class="mb-3 d-flex justify-content-center">
             <label for="confirmPassword" class="form-label" style="width: 150px"
               >비밀번호 확인:</label
@@ -83,12 +85,22 @@
             <input
               type="password"
               class="form-control"
-              id="confirmPassword"
-              name="confirmPassword"
+              th:errorclass="field-error"
+              id="pw2"
+              name="pw2"
               style="width: 500px"
             />
           </div>
-          <div>todo 비밀번호 확인과 일치하는지 확인. 오브젝트 에러</div>
+          <div
+            class="field-error"
+            th:if=" ${#fields.hasGlobalErrors()}"
+            th:each="err : ${#fields.globalErrors()}"
+            th:text="${err}"
+          >
+            비밀번호 중복 오류
+          </div>
+          <div class="field-error" th:errors="*{pw2}">비밀번호 오류</div>
+
           <!-- <div class="mb-3 d-flex justify-content-center">
             <label for="phone" class="form-label" style="width: 150px"
               >전화번호:</label
