@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,17 +27,18 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginProcess(@ModelAttribute LoginDto loginDto,
+    public String loginProcess(@Validated @ModelAttribute LoginDto loginDto,
                                BindingResult bindingResult,
                                @RequestParam (defaultValue = "/") String redirectURL,
                                HttpServletRequest request){
         if(bindingResult.hasErrors()){
-            return "login";
+            return "layout/home";
         }
         MemberDTO loginMember = loginService.doLogin(loginDto.getId(), loginDto.getPw());
         if(loginMember == null){
-            // todo 로그인 실패 처리
+            // todo reject 내용을 스크립트 alert로 보여줌
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "layout/home";
         }
         request.getSession().setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
         return "redirect:"+ redirectURL;

@@ -12,6 +12,8 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -40,9 +42,9 @@ public class ReviewBoardController {
     }
 
     @PostMapping("/save")
-    public String saveReview(@ModelAttribute ReviewDTO reviewDTO){
-        // todo 문제 생기면
-        if(false){
+    public String saveReview(@Validated @ModelAttribute ReviewDTO reviewDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info("error={}", bindingResult);
             return "layout/board";
         }
         reviewBoardService.saveReview(reviewDTO);

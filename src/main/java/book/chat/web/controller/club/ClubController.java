@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -25,9 +27,9 @@ public class ClubController {
     }
 
     @PostMapping("/making")
-    public String clubMaking(@ModelAttribute ClubMakingForm makingForm, HttpServletRequest request, Model model){
+    public String clubMaking(@Validated @ModelAttribute ClubMakingForm makingForm, BindingResult bindingResult, HttpServletRequest request, Model model){
         // 만약 클럽을 못만든다면
-        if(false){ // todo 조건문 나중에 바꾸기
+        if(bindingResult.hasErrors()){
             return "layout/club-make";
         }
         ClubDTO clubDTO = clubService.save(makingForm, (MemberDTO) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER));
