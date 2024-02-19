@@ -21,6 +21,8 @@ public class MemberJoinForm {
     @Size(min = 4, max = 15)
     private String nickName;
     @NotBlank
+    private String profile;
+    @NotBlank
     private String location;
     @Email
     private String mail;
