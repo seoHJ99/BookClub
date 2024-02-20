@@ -35,8 +35,8 @@ public class MemberDTO {
         this.mail = entity.getMail();
         this.reviewBoard = entity.getReviewBoard();
         this.joinClub = Arrays.stream(entity.getJoinClub().split(","))
-                        .map(string -> Long.parseLong(string))
-                        .collect(Collectors.toList());
+                .map(string -> Long.parseLong(string))
+                .collect(Collectors.toList());
     }
 
     public MemberDTO(MemberJoinForm joinForm) {

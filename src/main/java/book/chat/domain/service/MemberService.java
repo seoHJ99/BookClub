@@ -31,7 +31,10 @@ public class MemberService {
 
     public MemberDTO findById(String id) {
         Optional<Member> entity = memberRepository.findById(id);
-        return new MemberDTO(entity.get());
+        if(entity.isPresent()){
+            return new MemberDTO(entity.get());
+        }
+        return null;
     }
 
     public Optional<Member> findBySession(String sessionKey){

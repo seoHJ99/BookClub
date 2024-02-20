@@ -3,10 +3,12 @@ package book.chat.domain.entity;
 import book.chat.web.DTO.MemberDTO;
 import book.chat.web.DTO.MemberJoinForm;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class Member {
     private Long no;
     private String id;

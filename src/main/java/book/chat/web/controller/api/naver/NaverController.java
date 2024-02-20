@@ -2,6 +2,7 @@ package book.chat.web.controller.api.naver;
 
 import book.chat.domain.api.naver.BookSearchAPI;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,8 @@ public class NaverController {
     public String searchingBook(@RequestParam("keyword") String keyword,
                                 @RequestParam int amount,
                                 @RequestParam int start,
-                                Model model) throws IOException {
+                                Model model) throws IOException, ParseException {
         model.addAttribute("bookList", bookSearchAPI.bookSearch(keyword, amount, start));
-        return "board-book";
+        return "ajax/fragment/board-book";
     }
 }
