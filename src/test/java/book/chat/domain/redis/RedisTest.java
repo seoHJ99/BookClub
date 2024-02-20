@@ -77,6 +77,19 @@ public class RedisTest {
         }
     }
 
+    @Test
+    public void rightPopTest() throws InterruptedException {
+        for(int i =0; i<10; i++){
+            redisTemplate.opsForList().rightPush("list", i+"" );
+        }
+        System.out.println("list="+ redisTemplate.opsForList());
+        Object rightPop = redisTemplate.opsForList().rightPop("list", Duration.ofSeconds(1));
+        System.out.println("rightPop = " + rightPop);
+        Thread.sleep(1);
+        System.out.println(redisTemplate.opsForList().rightPop("list", Duration.ofSeconds(1)));
+
+    }
+
 
 
     static class TestRedis {

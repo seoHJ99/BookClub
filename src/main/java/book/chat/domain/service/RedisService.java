@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.Set;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -18,6 +19,17 @@ import java.util.Set;
 public class RedisService {
 
     private final RedisTemplate redisTemplate;
+
+    @Transactional
+    public void idDuplicationSave(String id){
+        if(!existId(id)){
+            redisTemplate.opsForValue().set(id.hashCode(), id, Duration.ofMinutes(5));
+        }
+    }
+
+    public boolean existId(String id){
+        return Boolean.TRUE.equals(redisTemplate.opsForValue().get(id.hashCode()));
+    }
 
     @Transactional
     public void bookPopularPlus(ReviewDTO reviewDTO) {

@@ -1,6 +1,7 @@
 package book.chat.web.controller.member;
 
 import book.chat.domain.service.MemberService;
+import book.chat.domain.service.RedisService;
 import book.chat.web.DTO.MemberDTO;
 import book.chat.web.DTO.MemberJoinForm;
 import jakarta.servlet.http.Cookie;
@@ -24,12 +25,20 @@ import java.util.UUID;
 public class MemberController {
 
     private final MemberService memberService;
+    private final RedisService redisService;
 
     @GetMapping("/join")
     public String joinPage(@ModelAttribute MemberJoinForm memberJoinForm){
         return "layout/member-join";
     }
 
+    /*
+    * id 중복 체크.
+    * 중복 체크 요청이 들어오면 db에서 해당 id가 존재하는지 확인.
+    * 이후 redis에서 다시 체크. 동시에 회원가입 진행중, 같은 id로 중복 체크 통과한 사람이 존재하는지 확인.
+    * 만약 redis 에도 없으면 해당 id를 redis에 5분간 저장하고 5분간 유지되는 쿠키를 내려줌.
+    * 이후 회원가입 진행시, 쿠키가 존재하면 id중복 체크 통과한걸로 판단하고 계속 진행
+    * */
     @PostMapping  // todo ajax 통신으로?? 어떻게 해야하냐?
     public String checkIdDuplicate(@Validated @ModelAttribute MemberJoinForm memberJoinForm,
                                    BindingResult bindingResult,
@@ -38,15 +47,18 @@ public class MemberController {
         if(bindingResult.hasErrors()){
             return "layout/member-join";
         }
-        MemberDTO memberDTO = memberService.findById(memberJoinForm.getId());
-        if(memberDTO != null){  // todo redis에서도 검증 코드 추가. 그래야 같은 id생성을 더 확실하게 막음
+        String id = memberJoinForm.getId();
+        MemberDTO memberDTO = memberService.findById(id);
+
+        if(memberDTO != null || redisService.existId(id)){
             response.getWriter().write("<script>alert('이미 존재하는 id입니다.'); </script>");
             return "layout/member-join";
         }
-        Cookie cookie = new Cookie(memberJoinForm.getId(), UUID.randomUUID().toString());
+        Cookie cookie = new Cookie(id, UUID.randomUUID().toString());
         cookie.setMaxAge(300); // 5분간 유지되는 쿠키
         response.addCookie(cookie);
-        request.getSession().setAttribute("idCheck", cookie.getAttribute(memberJoinForm.getId()));
+        redisService.idDuplicationSave(id);
+        request.getSession().setAttribute("idCheck", cookie.getAttribute(id));
         request.getSession().setMaxInactiveInterval(300);
         return "layout/member-join";
     }
