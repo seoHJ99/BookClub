@@ -41,7 +41,7 @@ public class MemberService {
 
     public List<MemberDTO> findByClubNo(Long clubNo){
         return memberRepository.findByClubNo(clubNo).stream()
-                .map(member -> new MemberDTO(member))
+                .map(MemberDTO::new)
                 .collect(Collectors.toList());
     }
 }
