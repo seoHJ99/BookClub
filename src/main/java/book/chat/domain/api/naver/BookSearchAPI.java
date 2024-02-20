@@ -26,7 +26,7 @@ public class BookSearchAPI {
 
     private final String BOOK_URL = "https://openapi.naver.com/v1/search/book.json?query=";
 
-    public List<BookDTO> bookSearch(String keyword, Integer displayAmount, int start) throws IOException {
+    public List<BookDTO> bookSearch(String keyword, Integer displayAmount, int start) throws IOException, ParseException {
         URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) + "&display=" + displayAmount + "&start=" +start);
         String response = getResponse(sendRequest(apiURL));
         JSONParser jsonParser = new JSONParser();
