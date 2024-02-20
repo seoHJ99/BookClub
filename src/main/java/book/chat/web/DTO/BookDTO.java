@@ -1,5 +1,10 @@
 package book.chat.web.DTO;
 
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
 public class BookDTO {
     private String name;
     private String shoppingLink;
