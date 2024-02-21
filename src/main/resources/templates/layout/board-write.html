@@ -18,6 +18,13 @@
       .ck-editor__editable {
         min-height: 30rem;
       }
+      #description {
+        height: 150px;
+        overflow: hidden;
+      }
+      #search-result {
+        margin-top: 20px;
+      }
     </style>
   </head>
   <body>
@@ -80,7 +87,7 @@
                       <button
                         type="button"
                         class="btn btn-primary"
-                        onclick="test()"
+                        onclick="searchBook()"
                       >
                         검색
                       </button>
@@ -118,18 +125,46 @@
         });
       </script>
       <script>
-        let url = "/book";
+        // 무한 스크롤 검색을 위한 변수
+        let i = 1;
+
+        // 검색창 검색어가 바뀌면 i 초기화
+        $("#search-keyword").on("change", function () {
+          i = 1;
+        });
+        // 스크롤 마지막이면 책 검색
+        $("#bookSearchModal").on("scroll", function () {
+          detectBottom();
+        });
+        function detectBottom() {
+          var scrollTop = $("#bookSearchModal").scrollTop();
+          var innerHeight = $(window).innerHeight();
+          var scrollHeight = $("#bookSearchModal").prop("scrollHeight");
+          if (scrollTop + innerHeight >= scrollHeight - 1) {
+            console.log(scrollTop + innerHeight);
+            console.log(scrollHeight - 1);
+            success = function (res) {
+              console.log(i);
+              $("#search-result").append(res);
+            };
+            i = i + 1;
+            searchBook(i * 10 + 1);
+          }
+        }
+
+        // 책 검색
         let success = function (res) {
           $("#search-result").html(res);
         };
         let fail = function () {
           alert("통신 에러 발생!");
         };
-        function test() {
+        function searchBook(start = 1) {
+          let url = "/book";
           let data = {
             keyword: $("#search-keyword").val(),
-            amount: "10",
-            start: "1",
+            amount: 10,
+            start: start,
           };
           api.search(url, data, success, fail);
         }

@@ -1,22 +1,25 @@
-<th:block th:each="book:${bookList}" th:object="${book}">
-  <!-- 책 정보 표시 -->
-  <div class="mb-3 d-flex align-items-start">
-    <img
-      src="#"
-      th:src="*{image}"
-      alt="책 사진"
-      class="img-thumbnail me-2 flex-shrink-0"
-      style="height: 125px"
-    />
-    <div>
-      <h5 class="mb-1" th:text="*{name}">책 제목</h5>
-      <p class="mb-1" th:text="*{author}">저자: 저자 이름</p>
-      <p class="mb-1" th:text="*{publisher}">출판사: 출판사 이름</p>
-      <p th:text="*{description}">
-        책 소개글이 들어갑니다. 책 소개글이 들어갑니다. 책 소개글이 들어갑니다.
-      </p>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <th:block th:each="book:${bookList}" th:object="${book}">
+    <!-- 책 정보 표시 -->
+    <div class="mb-3 d-flex align-items-start">
+      <img
+        src="#"
+        th:src="*{image}"
+        alt="책 사진"
+        class="img-thumbnail me-2 flex-shrink-0"
+        style="height: 125px"
+      />
+      <div>
+        <h5 class="mb-1" th:text="*{name}">책 제목</h5>
+        <p class="mb-1" th:text="*{author}">저자: 저자 이름</p>
+        <p class="mb-1" th:text="*{publisher}">출판사: 출판사 이름</p>
+        <p th:text="*{description}" id="description">
+          책 소개글이 들어갑니다. 책 소개글이 들어갑니다. 책 소개글이
+          들어갑니다.
+        </p>
+      </div>
     </div>
-  </div>
-  <!-- 구분선 -->
-  <hr class="my-4" />
-</th:block>
+    <!-- 구분선 -->
+    <hr class="my-4" />
+  </th:block>
+</html>
