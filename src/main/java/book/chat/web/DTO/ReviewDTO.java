@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -16,13 +17,14 @@ public class ReviewDTO {
     @NotBlank
     private String title;
     @NotBlank
-    private String content;
+    private String category;
     @NotBlank
+    private String content;
+//    @NotBlank
     private BookDTO book;
     @NotBlank
-    @PastOrPresent
-    private LocalDate writeDate;
-    @NotBlank
+    private String isbn;
+    private LocalDateTime writeDate;
     private String writer;
 
     public ReviewDTO(Review entity) {

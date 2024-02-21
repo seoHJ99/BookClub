@@ -15,7 +15,14 @@ class BookSearchAPITest {
     @Test
     void bookSearch() throws IOException, ParseException {
         BookSearchAPI api = new BookSearchAPI();
-        List<BookDTO> list = api.bookSearch("움베르토 에코", 10, 750);
-//        Assertions.assertThat(list.get(0).getAuthor()).isEqualTo("움베르토 에코");
+        List<BookDTO> list = api.bookSearch("움베르토 에코", 10, 1);
+        Assertions.assertThat(list.get(0).getAuthor()).isEqualTo("움베르토 에코");
+    }
+
+    @Test
+    void isbnBookSearch() throws IOException, ParseException {
+        BookSearchAPI api = new BookSearchAPI();
+        List<BookDTO> list = api.bookSearch("9791192300818");
+        Assertions.assertThat(list.get(0).getName()).contains("마흔에 읽는 쇼펜하우어");
     }
 }

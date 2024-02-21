@@ -1,7 +1,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <th:block th:each="book:${bookList}" th:object="${book}">
     <!-- 책 정보 표시 -->
-    <div class="mb-3 d-flex align-items-start">
+    <div class="mb-3 d-flex align-items-start books" onclick="bookClick(this)">
       <img
         src="#"
         th:src="*{image}"
@@ -17,6 +17,7 @@
           책 소개글이 들어갑니다. 책 소개글이 들어갑니다. 책 소개글이
           들어갑니다.
         </p>
+        <input type="hidden" th:value="*{isbn}" name="isbn" />
       </div>
     </div>
     <!-- 구분선 -->

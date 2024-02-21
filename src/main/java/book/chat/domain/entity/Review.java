@@ -5,6 +5,7 @@ import book.chat.web.DTO.ReviewDTO;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 public class Review {
@@ -12,7 +13,7 @@ public class Review {
     private Long no;
     private String title;
     private String content;
-    private LocalDate writeDate;
+    private LocalDateTime writeDate;
     private String writer;
     private BookDTO book;
 

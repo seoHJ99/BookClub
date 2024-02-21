@@ -29,7 +29,6 @@ public class BookSearchAPI {
     public List<BookDTO> bookSearch(String keyword, Integer displayAmount, int start) throws IOException, ParseException {
         URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) + "&display=" + displayAmount + "&start=" +start);
         String response = getResponse(sendRequest(apiURL));
-        log.info(response);
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
         JSONArray jsonArray = (JSONArray) jsonObject.get("items");
@@ -53,7 +52,6 @@ public class BookSearchAPI {
     public List<BookDTO> bookSearch(String keyword) throws IOException, ParseException {
         URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) );
         String response = getResponse(sendRequest(apiURL));
-        log.info("response={}", response);
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
         JSONArray jsonArray = (JSONArray) jsonObject.get("items");
