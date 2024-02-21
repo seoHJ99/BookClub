@@ -16,6 +16,9 @@ public class LoginService {
         Member entity = memberRepository.findById(loginId)
                 .filter(member -> member.getPw().equals(password))
                 .orElse(null);
+        if(entity== null){
+            return null;
+        }
         return new MemberDTO(entity);
     }
 }

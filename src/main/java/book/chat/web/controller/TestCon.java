@@ -9,6 +9,6 @@ public class TestCon {
 
     @GetMapping("/tamplate/test")
     public String test(){
-        return "layout/home";
+        return "layout/board-write";
     }
 }
