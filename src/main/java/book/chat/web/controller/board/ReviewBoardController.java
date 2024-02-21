@@ -38,6 +38,12 @@ public class ReviewBoardController {
     private final ReviewBoardService reviewBoardService;
     private final BookSearchAPI bookSearchAPI;
 
+    @GetMapping("/")
+    public String reviewBoard(Model model, @RequestParam("no") Long no){
+        model.addAttribute("review", reviewBoardService.findReviewByNo(no));
+        return "layout/board-main";
+    }
+
 
     @GetMapping("/list")
     public String allReview(Model model){

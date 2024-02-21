@@ -46,8 +46,8 @@
           <div class="col-md-6">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title" th:text="*{content}">게시글 내용</h5>
-                <p>게시글 내용이 여기에 표시됩니다.</p>
+                <h5 class="card-title" th:text="*{title}">게시글 내용</h5>
+                <p th:html="*{content}">게시글 내용이 여기에 표시됩니다.</p>
               </div>
             </div>
           </div>
