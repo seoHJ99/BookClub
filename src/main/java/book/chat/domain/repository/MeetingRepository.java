@@ -12,5 +12,6 @@ public interface MeetingRepository {
     List<Meeting> findAllByClub(long clubNo);
     List<Meeting> findByType(String type);
 
+    Meeting save(Meeting meeting);
     Meeting findByNo(long meetingNo);
 }

@@ -16,6 +16,7 @@ public class MeetingRepositoryImpl implements MeetingRepository{
 
     private static final Map<Long, Meeting> store = new HashMap<>(); //static
 
+    @Override
     public Meeting save(Meeting entity){
         store.put(++sequence, entity);
         return entity;

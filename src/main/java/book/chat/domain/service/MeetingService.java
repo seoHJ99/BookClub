@@ -1,5 +1,6 @@
 package book.chat.domain.service;
 
+import book.chat.domain.entity.Meeting;
 import book.chat.domain.repository.MeetingRepository;
 import book.chat.web.DTO.MeetingDto;
 import lombok.RequiredArgsConstructor;
@@ -18,5 +19,10 @@ public class MeetingService {
         return meetingRepository.findAllByClub(clubNo).stream()
                 .map(meeting -> new MeetingDto(meeting))
                 .collect(Collectors.toList());
+    }
+
+    public MeetingDto save(MeetingDto meetingDto){
+         Meeting savedMeeting = meetingRepository.save(new Meeting(meetingDto));
+         return new MeetingDto(savedMeeting);
     }
 }
