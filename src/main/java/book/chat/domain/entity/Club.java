@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -16,8 +17,10 @@ public class Club {
     private String leader;
     private String introduce;
     private String location;
+    private String profile;
+    private int range;
     private List<Integer> members;
-    private List<LocalDate> meetings;
+    private List<LocalDateTime> meetings;
     private List<String> readBooks;
     private List<Long> reportBoard;
     // 추가.
@@ -26,7 +29,9 @@ public class Club {
     public Club(ClubDTO clubDTO) {
         this.no = clubDTO.getNo();
         this.name = clubDTO.getName();
+        this.profile = clubDTO.getProfile();
         this.leader = clubDTO.getLeader();
+        this.range = clubDTO.getRange();
         this.introduce = clubDTO.getIntroduce();
         this.location = clubDTO.getLocation();
         this.members = clubDTO.getMembers();
@@ -38,7 +43,10 @@ public class Club {
     public Club(ClubMakingForm clubDTO, MemberDTO memberDTO){
         this.name = clubDTO.getName();
         this.introduce = clubDTO.getIntroduce();
+        this.range = clubDTO.getRange();
+        this.profile = clubDTO.getProfile();
         this.location = clubDTO.getLocation();
         this.leader = memberDTO.getId(); // todo leader 에 member 객체를 넣어도 될듯
+        this.startDate = LocalDate.now();
     }
 }

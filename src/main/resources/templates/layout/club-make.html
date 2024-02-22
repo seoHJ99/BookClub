@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html
+  lang="ko"
+  th:replace="~{layout-main/layout :: layout(~{::title}, ~{::main}, ~{::style})}"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>클럽 생성</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .container {
+        max-width: 800px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .field-error {
+        border-color: #dc3545;
+        color: #dc3545;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="container mt-5">
+        <h2 class="mb-4">클럽 생성</h2>
+        <form action="/club/save" method="post" th:object="${clubMakingForm}">
+          <div class="form-group">
+            <label for="clubName">클럽 이름</label>
+            <input
+              type="text"
+              class="form-control"
+              id="clubName"
+              placeholder="클럽 이름을 입력하세요"
+              th:field="*{name}"
+              th:errorclass="field-error"
+            />
+          </div>
+          <div class="field-error" th:errors="*{name}">제목 오류</div>
+          <div class="form-group">
+            <label for="clubImage">대표 사진</label>
+            <input
+              type="file"
+              class="form-control"
+              id="clubImage"
+              th:field="*{profile}"
+              th:errorclass="field-error"
+            />
+          </div>
+          <div class="field-error" th:errors="*{profile}">프로필 오류</div>
+
+          <div class="form-group">
+            <label for="clubIntro">소개글</label>
+            <textarea
+              class="form-control"
+              id="clubIntro"
+              rows="3"
+              placeholder="클럽을 소개하는 글을 작성하세요"
+              th:field="*{introduce}"
+              th:errorclass="field-error"
+            ></textarea>
+            <div class="field-error" th:errors="*{introduce}">소개 오류</div>
+          </div>
+          <div class="form-group">
+            <label for="maxMembers">최대 인원수</label>
+            <input
+              type="number"
+              class="form-control"
+              id="maxMembers"
+              placeholder="최대 인원수를 입력하세요"
+              th:field="*{range}"
+            />
+            <div class="field-error" th:errors="*{range}">인원 제한 오류</div>
+          </div>
+          <div class="form-group">
+            <label for="location">동네</label>
+            <input
+              type="text"
+              class="form-control"
+              id="location"
+              placeholder="동네를 입력하세요"
+              th:field="*{location}"
+              th:errorclass="field-error"
+            />
+            <div class="field-error" th:errors="*{location}">동네 오류</div>
+          </div>
+          <button type="submit" class="btn btn-primary">클럽 생성</button>
+        </form>
+      </div>
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

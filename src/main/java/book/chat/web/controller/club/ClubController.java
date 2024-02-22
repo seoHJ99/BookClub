@@ -21,18 +21,22 @@ public class ClubController {
 
     private final ClubService clubService;
 
-    @GetMapping("/making")
+    @GetMapping("/save")
     public String makingForm(@ModelAttribute ClubMakingForm makingForm){
         return "layout/club-make";
     }
 
-    @PostMapping("/making")
-    public String clubMaking(@Validated @ModelAttribute ClubMakingForm makingForm, BindingResult bindingResult, HttpServletRequest request, Model model){
+    @PostMapping("/save")
+    public String clubMaking(@Validated @ModelAttribute ClubMakingForm makingForm, BindingResult bindingResult,
+                             HttpServletRequest request, Model model){
         // 만약 클럽을 못만든다면
         if(bindingResult.hasErrors()){
             return "layout/club-make";
         }
-        ClubDTO clubDTO = clubService.save(makingForm, (MemberDTO) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER));
+
+        ClubDTO clubDTO = clubService.save(makingForm, (MemberDTO) request.getSession(false)
+                .getAttribute(SessionConst.LOGIN_MEMBER));
+
         model.addAttribute("club", clubDTO);
         return "layout/club-info";
     }

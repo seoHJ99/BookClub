@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html
-        lang="ko"
-        th:replace="~{layout-main/layout :: layout(~{::title}, ~{::main}, ~{::style})}"
-        xmlns:th="http://www.thymeleaf.org"
+  lang="ko"
+  th:replace="~{layout-main/layout :: layout(~{::title}, ~{::main}, ~{::style})}"
+  xmlns:th="http://www.thymeleaf.org"
 >
   <head>
     <meta charset="UTF-8" />
@@ -74,20 +74,38 @@
       <div class="container-fluid mt-4 text-center">
         <!-- 클럽 명 -->
         <div class="border border-dark">
-          <h2 class="p-2">클럽 명</h2>
+          <h2 class="p-2" th:text="${club.name}">클럽 명</h2>
         </div>
         <!-- 대표 사진 -->
         <div class="border border-dark">
-          <img src="club_image.jpg" alt="대표 사진" class="img-fluid rounded" />
+          <img
+            th:src="${club.profile}"
+            src="club_image.jpg"
+            alt="대표 사진"
+            class="img-fluid rounded"
+          />
         </div>
         <!-- 맴버, 게시글, 일정 -->
         <div class="text-muted mt-3">
           <p>
-            맴버: <span id="memberCount">10</span> | 게시글:
-            <span id="postCount">20</span> | 일정:
+            맴버:
+            <span id="memberCount" th:text="${#lists.size(club.members)}"
+              >10</span
+            >
+            | 게시글:
+            <span id="postCount" th:text="${#lists.size(club.reportBoard)}"
+              >20</span
+            >
+            | 일정:
             <span id="eventCount">5</span>
           </p>
-          <p>일정: <span id="scheduleCount">30</span> 글자</p>
+          <p>
+            일정:
+            <span id="scheduleCount" th:text="${#lists.size(club.meetings)}"
+              >30</span
+            >
+            글자
+          </p>
         </div>
         <!-- 메뉴 -->
         <div class="container">
@@ -148,7 +166,7 @@
             >
               <!-- 소개글 -->
               <div class="mt-4">
-                <p>
+                <p th:text="${club.introduce}">
                   이곳에 클럽 소개글이 들어갑니다. 클럽 활동 내용이나 목표,
                   회원들에 대한 소개 등을 작성하세요.
                 </p>
@@ -196,6 +214,7 @@
         <div class="row mt-4 justify-content-center">
           <div class="col-md-12">
             <h4>읽은 책</h4>
+            총 개수:<span th:text="${#lists.size(club.readBooks)}">123</span>
           </div>
           <div class="col-md-3 mb-3">
             <img src="book1.jpg" alt="읽은 책 1" class="img-fluid rounded" />
