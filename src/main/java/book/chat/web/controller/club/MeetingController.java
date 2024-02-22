@@ -4,6 +4,7 @@ import book.chat.domain.service.ClubService;
 import book.chat.domain.service.MeetingService;
 import book.chat.web.DTO.ClubDTO;
 import book.chat.web.DTO.MeetingDto;
+import book.chat.web.DTO.MemberDTO;
 import book.chat.web.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -35,11 +36,12 @@ public class MeetingController {
 
         // 클럼 맴버만 미팅 생성 가능.
         ClubDTO clubDTO = clubService.findClubByNo(meeting.getClubNo());
-        if(! clubDTO.getMembers().contains(request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER))){
+        MemberDTO makingMenber = (MemberDTO) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        if(! clubDTO.getMembers().contains(makingMenber.getNo())){
             bindingResult.reject("Meeting.NoMember");
             return "layout/meeting-make";
         }
-        meetingService.save(meeting);
+        meetingService.save(meeting, makingMenber);
         return "layout/club-info";
     }
 }

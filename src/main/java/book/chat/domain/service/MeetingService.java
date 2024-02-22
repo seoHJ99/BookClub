@@ -3,9 +3,13 @@ package book.chat.domain.service;
 import book.chat.domain.entity.Meeting;
 import book.chat.domain.repository.MeetingRepository;
 import book.chat.web.DTO.MeetingDto;
+import book.chat.web.DTO.MemberDTO;
+import book.chat.web.SessionConst;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,14 +19,21 @@ public class MeetingService {
 
     private final MeetingRepository meetingRepository;
 
-    public List<MeetingDto> findByClub(Long clubNo){
+    public List<MeetingDto> findByClub(Long clubNo) {
         return meetingRepository.findAllByClub(clubNo).stream()
                 .map(meeting -> new MeetingDto(meeting))
                 .collect(Collectors.toList());
     }
 
-    public MeetingDto save(MeetingDto meetingDto){
-         Meeting savedMeeting = meetingRepository.save(new Meeting(meetingDto));
-         return new MeetingDto(savedMeeting);
+    public MeetingDto save(MeetingDto meetingDto, MemberDTO meetingMaker) {
+        String joinMemberStr = meetingDto.getJoinMember();
+        List<Long> joinMember = Arrays.stream(joinMemberStr.split(","))
+                .map(Long::parseLong)
+                .toList();
+        // 본인 추가
+        joinMember.add(meetingMaker.getNo());
+        meetingDto.setJoinMember(joinMember.toString());
+        Meeting savedMeeting = meetingRepository.save(new Meeting(meetingDto));
+        return new MeetingDto(savedMeeting);
     }
 }
