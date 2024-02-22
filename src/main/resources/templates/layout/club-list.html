@@ -34,7 +34,11 @@
       >
         <div class="row justify-content-center">
           <!-- 첫 번째 클럽 소개 섹션 -->
-          <div class="col-md-6 club" th:each="club:${clubs}">
+          <div
+            class="col-md-6 club"
+            th:each="club:${clubs}"
+            th:object="${club}"
+          >
             <div
               class="rounded p-4 border border-3 border-dark text-center d-flex flex-column justify-content-between"
               style="min-height: 500px; max-width: 600px"
@@ -42,14 +46,15 @@
               <!-- 클럽 사진 -->
               <img
                 src="club_image1.jpg"
+                th:src="*{profile}"
                 alt="클럽 사진"
                 class="img-fluid mb-3 mx-auto d-block rounded border border-1 border-dark"
                 style="width: 50%; min-width: 50%; border-radius: 20px"
               />
               <!-- 클럽 명 -->
-              <h4 class="fw-bold mb-3">클럽 명</h4>
+              <h4 class="fw-bold mb-3" th:text="*{name}">클럽 명</h4>
               <!-- 클럽 소개글 -->
-              <p class="text-muted">L</p>
+              <p class="text-muted" th:text="*{introduce}">L</p>
             </div>
           </div>
         </div>

@@ -28,6 +28,7 @@ public class MemberJoinForm {
     private String location;
     @Email
     private String mail;
+    private String introduce;
 //    @NotBlank
 //    private String interest;
 }

@@ -3,6 +3,7 @@ package book.chat.web.DTO;
 import book.chat.domain.entity.Comment;
 import lombok.Data;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ public class CommentDTO {
     private String writerId;
     private String content;
     private LocalDate date;
-    private LocalDateTime time;
+    private Time time;
 
     public CommentDTO(Comment entity) {
         this.boardNo = entity.getBoardNo();

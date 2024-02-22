@@ -33,6 +33,6 @@ public class ReviewDTO {
         this.content = entity.getContent();
         this.writeDate = entity.getWriteDate();
         this.writer = entity.getWriter();
-        this.book = entity.getBook();
+//        this.book = entity.getBook();
     }
 }

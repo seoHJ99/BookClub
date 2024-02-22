@@ -13,7 +13,7 @@ import java.time.LocalTime;
 public class MeetingDto {
     @Positive
     private Long clubNo;
-    private Long no;
+//    private Long no;
     @NotBlank
     private String meetingName;
     @NotNull
@@ -32,7 +32,7 @@ public class MeetingDto {
 
     public MeetingDto(Meeting entity) {
         this.clubNo = entity.getClubNo();
-        this.no = entity.getNo();
+//        this.no = entity.getNo();
         this.bookTitle = entity.getBookTitle();
         this.joinMember = entity.getJoinMember();
         this.online = entity.isOnline();
