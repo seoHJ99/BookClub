@@ -18,17 +18,23 @@ public class ClubService {
     private final ClubRepository clubRepository;
 
     public ClubDTO findClubByNo(Long clubNo){
-        return new ClubDTO(clubRepository.findByClubId(clubNo));
+        return new ClubDTO(clubRepository.findByNo(clubNo).orElse(null));
     }
-
-    public List<ClubDTO> findAsMuchAsLimit(int limit){
-        return clubRepository.findAsMuchAsLimit(limit).stream()
-                .map(entity -> new ClubDTO(entity))
-                .collect(Collectors.toList());
-    }
+//
+//    public List<ClubDTO> findAsMuchAsLimit(int limit){
+//        return clubRepository.findAsMuchAsLimit(limit).stream()
+//                .map(entity -> new ClubDTO(entity))
+//                .collect(Collectors.toList());
+//    }
 
     public ClubDTO save(ClubMakingForm newClub, MemberDTO leader){
         Club savedEntity = clubRepository.save(new Club(newClub, leader));
         return new ClubDTO(savedEntity);
+    }
+
+    public List<ClubDTO> findAll(){
+        return clubRepository.findAll().stream()
+                .map(ClubDTO::new)
+                .collect(Collectors.toList());
     }
 }

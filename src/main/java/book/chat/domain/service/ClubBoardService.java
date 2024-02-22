@@ -16,7 +16,7 @@ public class ClubBoardService {
     private final ClubRepository clubRepository;
 
     public List<ClubDTO> findClubsByName(String keyword){
-        return transferToDtoList( clubRepository.findByClubName(keyword));
+        return transferToDtoList( clubRepository.findByName(keyword));
     }
 
     public List<ClubDTO> findClubByLocation(String location){
@@ -29,14 +29,14 @@ public class ClubBoardService {
                 .collect(Collectors.toList());
     }
 
-    public List<ClubDTO> findByInterval(int intervalDay){
-        return transferToDtoList( clubRepository.findAllByInterval(intervalDay) );
-    }
+//    public List<ClubDTO> findByInterval(int intervalDay){
+//        return transferToDtoList( clubRepository.findAllByInterval(intervalDay) );
+//    }
 
 
-    public List <ClubDTO> findMemberJoinedClubs(Long memberNo){
-        return transferToDtoList(clubRepository.findByMemberJoin(memberNo));
-    }
+//    public List <ClubDTO> findMemberJoinedClubs(Long memberNo){
+//        return transferToDtoList(clubRepository.findByMemberJoin(memberNo));
+//    }
 
     public ClubDTO findByNo(Long no){
         return new ClubDTO( clubRepository.findByNo(no).orElse(null) );

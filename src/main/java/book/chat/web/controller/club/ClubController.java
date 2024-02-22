@@ -41,6 +41,12 @@ public class ClubController {
         return "layout/club-info";
     }
 
+    @GetMapping("/list")
+    public String clubList(Model model){
+        model.addAttribute("clubs", clubService.findAll());
+        return "layout/club-list";
+    }
+
     @GetMapping("/info/{clubNo}")
     public String clubInfo(@PathVariable("clubNo") Long clubNo, Model model){
         model.addAttribute("club", clubService.findClubByNo(clubNo));
