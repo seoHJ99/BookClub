@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.Set;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -35,10 +34,10 @@ public class RedisService {
     public void bookPopularPlus(ReviewDTO reviewDTO) {
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
         Set popularBooks = zSetOperations.range("popularBooks", 0, -1);
-        if (!popularBooks.contains(reviewDTO.getBook())) {
-            redisTemplate.opsForZSet().add("popularBooks", reviewDTO.getBook().getName(), 1);
+        if (!popularBooks.contains(reviewDTO.getIsbn())) {
+            redisTemplate.opsForZSet().add("popularBooks", reviewDTO.getIsbn(), 1);
         } else {
-            redisTemplate.opsForZSet().incrementScore("popularBooks", reviewDTO.getBook().getName(), 1);
+            redisTemplate.opsForZSet().incrementScore("popularBooks", reviewDTO.getIsbn(), 1);
         }
     }
 
