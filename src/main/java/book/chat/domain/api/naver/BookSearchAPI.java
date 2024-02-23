@@ -27,11 +27,16 @@ public class BookSearchAPI {
     private final String BOOK_URL = "https://openapi.naver.com/v1/search/book.json?query=";
 
     public List<BookDTO> bookSearch(String keyword, Integer displayAmount, int start) throws IOException, ParseException {
-        URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) + "&display=" + displayAmount + "&start=" +start);
-        String response = getResponse(sendRequest(apiURL));
-        JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
-        JSONArray jsonArray = (JSONArray) jsonObject.get("items");
+        JSONArray jsonArray = null;
+        try{
+            URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) + "&display=" + displayAmount + "&start=" +start);
+            String response = getResponse(sendRequest(apiURL));
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
+             jsonArray = (JSONArray) jsonObject.get("items");
+        }catch (Exception e){
+            log.error("exception = {}", e.getMessage());
+        }
         return (List<BookDTO>) jsonArray.stream()
                 .map(o -> {
                     JSONObject book = (JSONObject)o;
@@ -49,12 +54,17 @@ public class BookSearchAPI {
 
     }
 
-    public List<BookDTO> bookSearch(String keyword) throws IOException, ParseException {
-        URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) );
-        String response = getResponse(sendRequest(apiURL));
-        JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
-        JSONArray jsonArray = (JSONArray) jsonObject.get("items");
+    public List<BookDTO> bookSearch(String keyword) {
+        JSONArray jsonArray = null;
+        try{
+            URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) );
+            String response = getResponse(sendRequest(apiURL));
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
+            jsonArray = (JSONArray) jsonObject.get("items");
+        }catch (Exception e){
+            log.error("exception = {}", e.getMessage());
+        }
         return (List<BookDTO>) jsonArray.stream()
                 .map(o -> {
                     JSONObject book = (JSONObject)o;
