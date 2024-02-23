@@ -39,7 +39,7 @@ public class ReviewBoardService {
     }
 
     public List<ReviewDTO> findAllRecent(){
-        return reviewBoardRepository.findAll().stream()
+        return reviewBoardRepository.findTop10ByOrderByWriteDateDesc().stream()
                 .map(entity -> new ReviewDTO(entity))
                 .collect(Collectors.toList());
     }
