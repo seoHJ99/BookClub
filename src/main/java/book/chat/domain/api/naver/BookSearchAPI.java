@@ -48,7 +48,7 @@ public class BookSearchAPI {
                             .publisher((String) book.get("publisher"))
                             .publishDate((String) book.get("pubdate"))
                             .description((String) book.get("description"))
-                            .shoppingLink("link")
+                            .shoppingLink((String) book.get("link"))
                             .build();})
                 .collect(Collectors.toList());
 
@@ -76,7 +76,7 @@ public class BookSearchAPI {
                             .publisher((String) book.get("publisher"))
                             .publishDate((String) book.get("pubdate"))
                             .description((String) book.get("description"))
-                             .shoppingLink("link")
+                             .shoppingLink((String) book.get("link"))
                             .build();})
                 .collect(Collectors.toList());
     }
