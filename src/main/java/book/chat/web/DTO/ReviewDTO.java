@@ -2,11 +2,9 @@ package book.chat.web.DTO;
 
 import book.chat.domain.entity.Review;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,12 +18,12 @@ public class ReviewDTO {
     private String category;
     @NotBlank
     private String content;
-//    @NotBlank
-    private BookDTO book;
     @NotBlank
     private String isbn;
     private LocalDateTime writeDate;
     private String writer;
+    private String bookImg;
+
 
     public ReviewDTO(Review entity) {
         this.no = entity.getNo();
@@ -33,6 +31,7 @@ public class ReviewDTO {
         this.content = entity.getContent();
         this.writeDate = entity.getWriteDate();
         this.writer = entity.getWriter();
+        this.isbn = entity.getBook();
 //        this.book = entity.getBook();
     }
 }
