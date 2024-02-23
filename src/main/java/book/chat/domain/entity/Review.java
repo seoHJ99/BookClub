@@ -4,6 +4,7 @@ import book.chat.web.DTO.BookDTO;
 import book.chat.web.DTO.ReviewDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "review")
+@NoArgsConstructor
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +29,6 @@ public class Review {
         this.content = reviewDTO.getContent();
         this.writeDate = reviewDTO.getWriteDate();
         this.writer = reviewDTO.getWriter();
-//        this.book = reviewDTO.getBook();
+        this.book= reviewDTO.getIsbn();
     }
 }
