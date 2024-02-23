@@ -1,18 +1,18 @@
 package book.chat.domain.repository;
 
 import book.chat.domain.entity.Review;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ReviewBoardRepository {
+public interface ReviewBoardRepository extends JpaRepository<Review, Long> {
 
     Review save(Review review);
     Review findByNo(Long no);
 
     List<Review> findAll();
-    List<Review> findAllByBookName(String name);
-    List<Review> findAllByClubNo(Long no);
-    List<Review> findAllByMember(Long no);
-    List<Review> findAllByMember(String memberName);
-    List<Review> findAllByReviewName(String name);
+    List<Review> findTop10ByOrderByWriteDateDesc();
+    List<Review> findAllByBook(String name);
+    List<Review> findByTitleContaining(String title);
+    List<Review> findByWriter(String writer);
 }
