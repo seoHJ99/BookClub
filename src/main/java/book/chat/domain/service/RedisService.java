@@ -1,6 +1,7 @@
 package book.chat.domain.service;
 
 import book.chat.web.DTO.ReviewDTO;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,6 +21,18 @@ import java.util.Set;
 public class RedisService {
 
     private final RedisTemplate redisTemplate;
+
+    @PostConstruct
+    public void saveRankingBooks(){
+        redisTemplate.getConnectionFactory().getConnection().flushAll();
+        redisTemplate.opsForZSet().add("popularBooks", "1111", 1);
+        redisTemplate.opsForZSet().add("popularBooks", "2222222", 1);
+        redisTemplate.opsForZSet().add("popularBooks", "333333333333", 1);
+        redisTemplate.opsForZSet().incrementScore("popularBooks", "1111", 4);
+        redisTemplate.opsForZSet().incrementScore("popularBooks", "2222222", 3);
+        redisTemplate.opsForZSet().incrementScore("popularBooks", "333333333333", 2);
+
+    }
 
 
     // 회원가입시 중복 검사 체크.
