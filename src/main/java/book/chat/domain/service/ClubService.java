@@ -20,12 +20,6 @@ public class ClubService {
     public ClubDTO findClubByNo(Long clubNo){
         return new ClubDTO(clubRepository.findByNo(clubNo).orElse(null));
     }
-//
-//    public List<ClubDTO> findAsMuchAsLimit(int limit){
-//        return clubRepository.findAsMuchAsLimit(limit).stream()
-//                .map(entity -> new ClubDTO(entity))
-//                .collect(Collectors.toList());
-//    }
 
     public ClubDTO save(ClubMakingForm newClub, MemberDTO leader){
         Club savedEntity = clubRepository.save(new Club(newClub, leader));
@@ -37,4 +31,18 @@ public class ClubService {
                 .map(ClubDTO::new)
                 .collect(Collectors.toList());
     }
+
+    public List<ClubDTO> findRecent4Club(){
+        return clubRepository.findTop4OrderByStartDateDesc()
+                .stream()
+                .map(ClubDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<ClubDTO> transferToDtoList(List<Club> entities){
+        return entities.stream()
+                .map(entity -> new ClubDTO(entity))
+                .collect(Collectors.toList());
+    }
+
 }
