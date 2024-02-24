@@ -48,9 +48,6 @@ public class ReviewBoardController {
         List<BookDTO> bookDTOS = rescent10Dtos.stream()
                 .map(dto -> bookSearchAPI.bookSearch(dto.getIsbn()).get(0))
                 .collect(Collectors.toList());
-//        List<String> images = rescent10Dtos.stream()
-//                .map(dto -> bookSearchAPI.getBookImg(dto.getIsbn()))
-//                .collect(Collectors.toList());
         model.addAttribute("books", bookDTOS);
         model.addAttribute("boards", rescent10Dtos);
         return "layout/board-list";
