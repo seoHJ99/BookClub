@@ -10,14 +10,9 @@ import java.util.Optional;
 public interface ClubRepository extends JpaRepository<Club, Long> {
     Club save(Club entity);
     Optional<Club> findByNo(Long no);
-//    List<Club> findAsMuchAsLimit(int limit);
     List<Club> findAll();
-    List<Club> findAllByLocation(String location);
-//    List<Club> findAllByInterval(int interval);
-//    List<Club> findAllByMeetingDay(String day);
+    List<Club> findByLocationOrderByName(String location);
     List<Club> findByName(String name);
+    List<Club> findTop4OrderByStartDateDesc();
 
-//    Club findByNo(Long no);
-
-//    List<Club> findByMemberJoin(Long memberId);
 }
