@@ -44,7 +44,7 @@ public class ReviewBoardController {
 
     @GetMapping("/list")
     public String allReview(Model model) {
-        List<ReviewDTO> rescent10Dtos = reviewBoardService.findAllRecent();
+        List<ReviewDTO> rescent10Dtos = reviewBoardService.findRecent10Review();
         List<BookDTO> bookDTOS = rescent10Dtos.stream()
                 .map(dto -> bookSearchAPI.bookSearch(dto.getIsbn()).get(0))
                 .collect(Collectors.toList());
