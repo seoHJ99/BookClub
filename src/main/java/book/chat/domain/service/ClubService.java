@@ -33,7 +33,7 @@ public class ClubService {
     }
 
     public List<ClubDTO> findRecent4Club(){
-        return clubRepository.findTop4OrderByStartDateDesc()
+        return clubRepository.findTop4ByOrderByStartDateDesc()
                 .stream()
                 .map(ClubDTO::new)
                 .collect(Collectors.toList());
