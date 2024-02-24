@@ -13,6 +13,6 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     List<Club> findAll();
     List<Club> findByLocationOrderByName(String location);
     List<Club> findByName(String name);
-    List<Club> findTop4OrderByStartDateDesc();
+    List<Club> findTop4ByOrderByStartDateDesc();
 
 }
