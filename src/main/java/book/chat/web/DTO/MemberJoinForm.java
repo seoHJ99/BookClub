@@ -1,12 +1,10 @@
 package book.chat.web.DTO;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +19,7 @@ public class MemberJoinForm {
     @Size(min = 2, max = 5)
     private String name;
     @Size(min = 4, max = 15)
-    private String nickName;
+    private String nickname;
     @NotBlank
     private String profile;
     @NotBlank

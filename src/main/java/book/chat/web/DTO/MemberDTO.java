@@ -18,7 +18,7 @@ public class MemberDTO {
     @NotBlank
     private String pw;
     @NotBlank
-    private String nickName;
+    private String nickname;
 //    private String interest;
     private String location;
     private String mail;
@@ -30,7 +30,7 @@ public class MemberDTO {
         this.no = entity.getNo();
         this.id = entity.getId();
         this.pw = entity.getPw();
-        this.nickName = entity.getNickName();
+        this.nickname = entity.getNickname();
 //        this.interest = entity.getInterest();
         this.location = entity.getLocation();
         this.mail = entity.getMail();
@@ -45,7 +45,7 @@ public class MemberDTO {
         this.id = joinForm.getId();
         this.pw = joinForm.getPw();
 //        this.interest = joinForm.getPw();
-        this.nickName = joinForm.getNickName();
+        this.nickname = joinForm.getNickname();
         this.location = joinForm.getLocation();
         this.mail = joinForm.getMail();
         this.introduce =joinForm.getIntroduce();

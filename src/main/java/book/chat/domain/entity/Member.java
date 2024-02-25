@@ -6,8 +6,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @Entity
@@ -18,7 +16,8 @@ public class Member {
     private Long no;
     private String id;
     private String pw;
-    private String nickName;
+    @Column(name = "nickname")
+    private String nickname;
     private String location;
     private String introduce;
     private String mail;
@@ -31,7 +30,7 @@ public class Member {
     public Member(MemberJoinForm joinForm) {
         this.id = joinForm.getId();
         this.pw = joinForm.getPw();
-        this.nickName = joinForm.getNickName();
+        this.nickname = joinForm.getNickname();
         this.location = joinForm.getLocation();
         this.introduce = joinForm.getIntroduce();
         this.mail = joinForm.getMail();
