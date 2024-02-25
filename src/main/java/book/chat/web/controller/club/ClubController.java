@@ -2,6 +2,7 @@ package book.chat.web.controller.club;
 
 import book.chat.domain.entity.Club;
 import book.chat.domain.service.ClubService;
+import book.chat.web.DTO.BookDTO;
 import book.chat.web.DTO.ClubDTO;
 import book.chat.web.DTO.ClubMakingForm;
 import book.chat.web.DTO.MemberDTO;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,10 +36,8 @@ public class ClubController {
         if(bindingResult.hasErrors()){
             return "layout/club-make";
         }
-
         ClubDTO clubDTO = clubService.save(makingForm, (MemberDTO) request.getSession(false)
                 .getAttribute(SessionConst.LOGIN_MEMBER));
-
         model.addAttribute("club", clubDTO);
         return "layout/club-info";
     }
@@ -47,9 +48,12 @@ public class ClubController {
         return "layout/club-list";
     }
 
-    @GetMapping("/info/{clubNo}")
-    public String clubInfo(@PathVariable("clubNo") Long clubNo, Model model){
-        model.addAttribute("club", clubService.findClubByNo(clubNo));
+    @GetMapping("")
+    public String clubInfo(@RequestParam("clubNo") Long clubNo, Model model){
+        ClubDTO clubDTO = clubService.findClubByNo(clubNo);
+        model.addAttribute("club", clubDTO);
+        model.addAttribute("members", clubService.findClubMember(clubDTO));
+        model.addAttribute("books", clubService.findReadBooksLimit10(clubDTO.getReadBooks()));
         return "layout/club-info";
     }
 }
