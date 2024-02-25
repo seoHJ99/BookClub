@@ -19,14 +19,15 @@ public class MemberService {
     private final String TEMP_ID = "test";
 
     public void save(MemberJoinForm member){
-        memberRepository.save(member);
+        memberRepository.save(new Member(member));
     }
 
     public Member updateMemberInfo(MemberDTO newMember){
         // todo 세션에서 id찾기
         String id = TEMP_ID;
         Member entity = memberRepository.findById(id).get();
-        return memberRepository.update(new MemberDTO(entity));
+        entity.updateField(newMember);
+        return memberRepository.save(entity);
     }
 
     public MemberDTO findById(String id) {
@@ -42,9 +43,4 @@ public class MemberService {
         return memberRepository.findById(TEMP_ID);
     }
 
-    public List<MemberDTO> findByClubNo(Long clubNo){
-        return memberRepository.findByClubNo(clubNo).stream()
-                .map(MemberDTO::new)
-                .collect(Collectors.toList());
-    }
 }
