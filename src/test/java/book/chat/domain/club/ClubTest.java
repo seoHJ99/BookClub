@@ -8,11 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-//@SpringBootTest
 public class ClubTest {
-
-//    @Autowired
-//    ClubService clubService;
 
     @Test
     void streamLimitTest() {
