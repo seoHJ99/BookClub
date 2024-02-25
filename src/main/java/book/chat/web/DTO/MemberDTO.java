@@ -19,6 +19,7 @@ public class MemberDTO {
     private String pw;
     @NotBlank
     private String nickname;
+    private String profile;
 //    private String interest;
     private String location;
     private String mail;
@@ -38,6 +39,7 @@ public class MemberDTO {
         this.joinClub = Arrays.stream(entity.getJoinClub().split(","))
                 .map(string -> Long.parseLong(string))
                 .collect(Collectors.toList());
+        this.profile = entity.getProfile();
         this.introduce = entity.getIntroduce();
     }
 
