@@ -22,6 +22,7 @@ public class RedisService {
 
     private final RedisTemplate redisTemplate;
 
+    // 어플 시작 전 redis 초기화 및 더미 데이터 넣기
     @PostConstruct
     public void saveRankingBooks(){
         redisTemplate.getConnectionFactory().getConnection().flushAll();
