@@ -8,6 +8,7 @@ CREATE TABLE member(
     "NO" number PRIMARY KEY,
     "ID" varchar(13) not null,
     pw varchar(20) not null,
+    "PROFILE" varchar(300) not null,
     nickname varchar(8) not null,
     "LOCATION" varchar(40) not null,
     introduce varchar(50) not null,
@@ -55,6 +56,7 @@ CREATE TABLE REVIEW_COMMENT(
     content varchar(500) not null,
     CONSTRAINT pk_comment PRIMARY KEY (board_no, writer_id, write_date, write_time)
 );
+
 -- 클럽 데이터
 insert into club (no, name, introduce, members, meetings, read_books, report_board, start_date, profile, location) values (1, 'Emlyn Ruberry', 'Teal', '1, 5, 9, 12, 17, 22, 28, 33, 39, 44', '20, 25, 30, 35, 40, 45', '978-0-306-40615-7, 978-3-16-148410-0, 978-1-234-56789-0, 978-4-567-89012-3, 978-9-876-54321-0, 978-6-543-21098-7, 978-2-109-87654-3, 978-8-765-43210-9, 978-5-432-10987-6, 978-7-654-32109-8', '1, 5, 10', TO_DATE('3/23/2023', 'MM/DD/YYYY'), 'http://dummyimage.com/213x100.png/cc0000/ffffff', 'PO Box 72035');
 insert into club (no, name, introduce, members, meetings, read_books, report_board, start_date, profile, location) values (2, 'Barrie Bradd', 'Maroon', '1, 5, 9, 12, 17, 22, 28, 33, 39, 44', '20, 25, 30, 35, 40, 45', '978-0-306-40615-7, 978-3-16-148410-0, 978-1-234-56789-0, 978-4-567-89012-3, 978-9-876-54321-0, 978-6-543-21098-7, 978-2-109-87654-3, 978-8-765-43210-9, 978-5-432-10987-6, 978-7-654-32109-8', '1, 5, 10', TO_DATE('2/24/2023', 'MM/DD/YYYY'), 'http://dummyimage.com/175x100.png/ff4444/ffffff', 'Apt 738');
@@ -63,6 +65,7 @@ insert into club (no, name, introduce, members, meetings, read_books, report_boa
 insert into club (no, name, introduce, members, meetings, read_books, report_board, start_date, profile, location) values (5, 'Muffin Brenston', 'Indigo', '1, 5, 9, 12, 17, 22, 28, 33, 39, 44', '20, 25, 30, 35, 40, 45', '978-0-306-40615-7, 978-3-16-148410-0, 978-1-234-56789-0, 978-4-567-89012-3, 978-9-876-54321-0, 978-6-543-21098-7, 978-2-109-87654-3, 978-8-765-43210-9, 978-5-432-10987-6, 978-7-654-32109-8', '1, 5, 10', TO_DATE('1/10/2024', 'MM/DD/YYYY'), 'http://dummyimage.com/131x100.png/cc0000/ffffff', 'Suite 34');
 
 -- 맴버 데이터
+SET DEFINE OFF;
 insert into member (NO, ID, pw, nickname, location, introduce, mail, review_board, join_club, "PROFILE") values (1, 'Aspirin', 'Green Pepper', 'KELY', 'Female', '337941086995106', 'cdamiata0@xrea.com', '1,2', '1', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fko.wikipedia.org%2Fwiki%2F%25EC%2582%25AC%25EB%259E%258C&psig=AOvVaw1-0d_0mYJMmvdnoIHghwKr&ust=1708955706825000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIDi66DSxoQDFQAAAAAdAAAAABAD');
 insert into member (NO, ID, pw, nickname, location, introduce, mail, review_board, join_club, "PROFILE") values (2, 'Bright', 'Homeopathic', 'NCPK', 'Male', '337941134576635', 'scoie1@woothemes.com', '', '1,2', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fko.wikipedia.org%2Fwiki%2F%25EC%2582%25AC%25EB%259E%258C&psig=AOvVaw1-0d_0mYJMmvdnoIHghwKr&ust=1708955706825000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIDi66DSxoQDFQAAAAAdAAAAABAD');
 insert into member (NO, ID, pw, nickname, location, introduce, mail, review_board, join_club, "PROFILE") values (3, 'Cheratussin', 'OXYBUTYNIN', 'EGHD', 'Male', '374622544743528', 'cgilroy2@163.com', '3,4', '3', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fko.wikipedia.org%2Fwiki%2F%25EC%2582%25AC%25EB%259E%258C&psig=AOvVaw1-0d_0mYJMmvdnoIHghwKr&ust=1708955706825000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIDi66DSxoQDFQAAAAAdAAAAABAD');
