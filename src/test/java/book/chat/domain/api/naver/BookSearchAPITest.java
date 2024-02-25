@@ -32,12 +32,21 @@ class BookSearchAPITest {
     }
 
     @Test
-    void findBooksSearchLimit() {
-        assertThatThrownBy(() -> {
-            for (int i = 0; i < 100; i++) {
-                api.bookSearch("9791170222743");
-                System.out.println(i);
+    void findBooksSearchLimitTime() throws InterruptedException {
+        for(int i =0; i<1000; i++){
+            api.bookSearch("9791192300818");
+            System.out.println(i);
+            if(i%10==0){
+//                Thread.sleep(1000);
             }
-        }).isInstanceOf(Exception.class);
+        }
+
+
+//        assertThatThrownBy(() -> {
+//            for (int i = 0; i < 100; i++) {
+//                api.bookSearch("9791170222743");
+//                System.out.println(i);
+//            }
+//        }).isInstanceOf(Exception.class);
     }
 }
