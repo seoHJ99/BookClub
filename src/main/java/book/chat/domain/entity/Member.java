@@ -20,6 +20,7 @@ public class Member {
     private String nickname;
     private String location;
     private String introduce;
+    private String profile;
     private String mail;
     @Column(name = "review_board")
     private String reviewBoard;
