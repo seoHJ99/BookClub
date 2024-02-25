@@ -19,7 +19,7 @@ public class ClubDTO {
     private String location;
     private String leader;
     private int range;
-    private List<Integer> members;
+    private List<Long> members;
     private List<Long> meetings;
     private List<String> readBooks;
     private List<Long> reportBoard;
@@ -34,7 +34,7 @@ public class ClubDTO {
         this.location = entity.getLocation();
         this.members = Arrays.stream(entity.getMembers().split(","))
                 .map(element -> element.trim())
-                .map(Integer::parseInt)
+                .map(Long::parseLong)
                 .collect(Collectors.toList());
         this.meetings = Arrays.stream(entity.getMeetings().split(","))
                 .map(element -> element.trim())
