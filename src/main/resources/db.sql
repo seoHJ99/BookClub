@@ -31,12 +31,14 @@ CREATE TABLE club(
 );
 
 CREATE TABLE meeting(
+    "NO" number not null,
     club_no number not null,
     book_title varchar(50) not null,
     join_member varchar(1500) not null,
-    "ONLINE" char(1) not null,
+    is_online char(1) not null,
     meeting_date date not null,
-    meeting_time date not null
+    meeting_time date not null,
+    CONSTRAINT pk_meeting PRIMARY KEY(club_no, "NO")
 );
 
 CREATE TABLE review(
@@ -78,16 +80,16 @@ insert into member (NO, ID, pw, nickname, location, introduce, mail, review_boar
 insert into member (NO, ID, pw, nickname, location, introduce, mail, review_board, join_club, "PROFILE") values (10, 'Preference', 'Lidocaine', 'HKGA', 'Female', '374283752709428', 'ddamp9@devhub.com', '', '', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fko.wikipedia.org%2Fwiki%2F%25EC%2582%25AC%25EB%259E%258C&psig=AOvVaw1-0d_0mYJMmvdnoIHghwKr&ust=1708955706825000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIDi66DSxoQDFQAAAAAdAAAAABAD');
 
 -- 미팅 데이터
-insert into meeting (club_no, book_title, join_member, "ONLINE", meeting_date, meeting_time) values (1, 'Man from Down Under, The', 10, 'Y', TO_DATE('7/15/2023', 'MM/DD/YYYY'), TO_TIMESTAMP('23:50:00', 'HH24:MI:SS'));
-insert into meeting (club_no, book_title, join_member, "ONLINE", meeting_date, meeting_time) values (2, 'Shrek', 6, 'Y', TO_DATE('10/14/2023', 'MM/DD/YYYY'), TO_TIMESTAMP('12:18:00', 'HH24:MI:SS'));
-insert into meeting (club_no, book_title, join_member, "ONLINE", meeting_date, meeting_time) values (3, 'Boys, Les', 5, 'Y', TO_DATE('6/12/2023', 'MM/DD/YYYY'), TO_TIMESTAMP('05:22:00', 'HH24:MI:SS'));
-insert into meeting (club_no, book_title, join_member, "ONLINE", meeting_date, meeting_time) values (4, 'Woman in Red, The', 9, 'N', TO_DATE('1/8/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('12:15:00', 'HH24:MI:SS'));
-insert into meeting (club_no, book_title, join_member, "ONLINE", meeting_date, meeting_time) values (5, 'Airplane II: The Sequel', 5, 'N', TO_DATE('2/18/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('21:53:00', 'HH24:MI:SS'));
-insert into meeting (club_no, book_title, join_member, "ONLINE", meeting_date, meeting_time) values (6, 'Lucky Break', 4, 'N', TO_DATE('2/4/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('06:05:00', 'HH24:MI:SS'));
-insert into meeting (club_no, book_title, join_member, "ONLINE", meeting_date, meeting_time) values (7, 'Puppet Master: The Legacy (Puppet Master 8)', 6, 'N', TO_DATE('1/11/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('10:53:00', 'HH24:MI:SS'));
-insert into meeting (club_no, book_title, join_member, "ONLINE", meeting_date, meeting_time) values (8, 'When the Game Stands Tall', 4, 'N', TO_DATE('6/17/2023', 'MM/DD/YYYY'), TO_TIMESTAMP('13:02:00', 'HH24:MI:SS'));
-insert into meeting (club_no, book_title, join_member, "ONLINE", meeting_date, meeting_time) values (9, 'Sweeney, The', 1, 'N', TO_DATE('5/2/2023', 'MM/DD/YYYY'), TO_TIMESTAMP('19:21:00', 'HH24:MI:SS'));
-insert into meeting (club_no, book_title, join_member, "ONLINE", meeting_date, meeting_time) values (10, 'Åsa-Nisse - Wälkom to Knohult', 7, 'N', TO_DATE('2/8/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('15:44:00', 'HH24:MI:SS'));
+insert into meeting (club_no, no, book_title, join_member, is_online, meeting_date, meeting_time) values (1, 1, 'Man from Down Under, The', 10, 'Y', TO_DATE('7/15/2023', 'MM/DD/YYYY'), TO_TIMESTAMP('23:50:00', 'HH24:MI:SS'));
+insert into meeting (club_no, no, book_title, join_member, is_online, meeting_date, meeting_time) values (2, 1, 'Shrek', 6, 'Y', TO_DATE('10/14/2023', 'MM/DD/YYYY'), TO_TIMESTAMP('12:18:00', 'HH24:MI:SS'));
+insert into meeting (club_no, no, book_title, join_member, is_online, meeting_date, meeting_time) values (3, 1, 'Boys, Les', 5, 'Y', TO_DATE('6/12/2023', 'MM/DD/YYYY'), TO_TIMESTAMP('05:22:00', 'HH24:MI:SS'));
+insert into meeting (club_no, no, book_title, join_member, is_online, meeting_date, meeting_time) values (4, 1, 'Woman in Red, The', 9, 'N', TO_DATE('1/8/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('12:15:00', 'HH24:MI:SS'));
+insert into meeting (club_no, no, book_title, join_member, is_online, meeting_date, meeting_time) values (5, 1, 'Airplane II: The Sequel', 5, 'N', TO_DATE('2/18/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('21:53:00', 'HH24:MI:SS'));
+insert into meeting (club_no, no, book_title, join_member, is_online, meeting_date, meeting_time) values (6, 1, 'Lucky Break', 4, 'N', TO_DATE('2/4/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('06:05:00', 'HH24:MI:SS'));
+insert into meeting (club_no, no, book_title, join_member, is_online, meeting_date, meeting_time) values (7, 1, 'Puppet Master: The Legacy (Puppet Master 8)', 6, 'N', TO_DATE('1/11/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('10:53:00', 'HH24:MI:SS'));
+insert into meeting (club_no, no, book_title, join_member, is_online, meeting_date, meeting_time) values (8, 1, 'When the Game Stands Tall', 4, 'N', TO_DATE('6/17/2023', 'MM/DD/YYYY'), TO_TIMESTAMP('13:02:00', 'HH24:MI:SS'));
+insert into meeting (club_no, no, book_title, join_member, is_online, meeting_date, meeting_time) values (9, 1, 'Sweeney, The', 1, 'N', TO_DATE('5/2/2023', 'MM/DD/YYYY'), TO_TIMESTAMP('19:21:00', 'HH24:MI:SS'));
+insert into meeting (club_no, no, book_title, join_member, is_online, meeting_date, meeting_time) values (10, 1, 'Åsa-Nisse - Wälkom to Knohult', 7, 'N', TO_DATE('2/8/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('15:44:00', 'HH24:MI:SS'));
 
 -- 리뷰 데이터
 insert into review (no, title, content, write_date, writer, book) values (1, 'Breaking Upwards', '10-600 - Partitions', TO_DATE('12/30/2023', 'MM/DD/YYYY'), 'Amlodipine Besylate', '024338303-7');
