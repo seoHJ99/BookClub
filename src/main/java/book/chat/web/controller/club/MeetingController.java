@@ -9,6 +9,7 @@ import book.chat.web.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +44,11 @@ public class MeetingController {
         }
         meetingService.save(meeting, makingMenber);
         return "layout/club-info";
+    }
+
+    @GetMapping("/list")
+    public String meetingList(@RequestParam("clubNo") Long clubNo, Model model){
+        model.addAttribute("meetings", meetingService.findRecent10Meetings());
+        return "layout/meeting-list";
     }
 }

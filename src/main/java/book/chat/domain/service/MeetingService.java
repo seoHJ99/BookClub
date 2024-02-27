@@ -19,6 +19,12 @@ public class MeetingService {
 
     private final MeetingRepository meetingRepository;
 
+    public List<MeetingDto> findRecent10Meetings(){
+        return meetingRepository.findTop10ByOrderByMeetingDate().stream()
+                .map(MeetingDto::new)
+                .collect(Collectors.toList());
+    }
+
     public List<MeetingDto> findByClub(Long clubNo) {
         return meetingRepository.findAllByClub(clubNo).stream()
                 .map(meeting -> new MeetingDto(meeting))

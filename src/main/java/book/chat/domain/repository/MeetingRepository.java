@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface MeetingRepository {
+
+    List<Meeting> findTop10ByOrderByMeetingDate();
     List<Meeting> findAll();
     List<Meeting> findAllByDate(LocalDate meetingDate);
     List<Meeting> findAllByClub(long clubNo);
