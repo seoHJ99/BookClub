@@ -20,6 +20,7 @@
         border-radius: 10px;
         padding: 10px;
         margin-bottom: 10px;
+        position: relative;
       }
       .meeting-item h4 {
         margin-bottom: 5px;
@@ -47,6 +48,13 @@
         object-fit: cover;
         margin-right: 5px;
       }
+      /* 참가 버튼 스타일 */
+      .join-button {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+      }
       /* 클럽 만들기 버튼 스타일 */
       .create-club-btn {
         position: fixed;
@@ -59,17 +67,19 @@
   <body>
     <div class="container mt-5">
       <!-- 미팅 리스트 -->
-      <div class="meeting-item">
+      <div class="meeting-item" th:each="meeting:${meetings}">
         <!-- 날짜 -->
-        <h4>2024년 2월 16일</h4>
+        <h4 th:text="${meeting.meetingDate}">2024년 2월 16일</h4>
         <!-- 시간 -->
-        <p class="meeting-time">오후 3:00</p>
+        <p class="meeting-time" th:text="${meeting.meetingTime}">오후 3:00</p>
         <!-- 위치 -->
-        <p class="meeting-location">서울시 강남구</p>
+        <p class="meeting-location" th:text="${meeting.location}">
+          서울시 강남구
+        </p>
         <!-- 책 이름 -->
-        <p class="meeting-book">책 이름</p>
+        <p class="meeting-book" th:text="${meeting.bookTitle}">책 이름</p>
         <!-- 참가 정원 -->
-        <p class="meeting-capacity">참가 정원: 10명</p>
+        <p class="meeting-capacity" th:text="${meeting.max}">참가 정원: 10명</p>
         <!-- 맴버 프로필 사진 -->
         <div class="d-flex">
           <img src="profile1.jpg" alt="프로필 사진" class="member-profile" />
@@ -77,11 +87,13 @@
           <img src="profile3.jpg" alt="프로필 사진" class="member-profile" />
           <!-- 필요한 만큼 이미지 추가 -->
         </div>
+        <!-- 참가 버튼 -->
+        <button class="btn btn-primary join-button">참가</button>
       </div>
       <!-- 다른 미팅 항목 추가 -->
 
       <!-- 클럽 만들기 버튼 -->
-      <button class="btn btn-primary create-club-btn">클럽 만들기</button>
+      <button class="btn btn-primary create-club-btn">미팅 만들기</button>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

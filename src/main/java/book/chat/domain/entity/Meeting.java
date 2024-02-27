@@ -2,36 +2,55 @@ package book.chat.domain.entity;
 
 import book.chat.web.DTO.MeetingDto;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
 @Entity
 @Table(name = "meeting")
+@NoArgsConstructor
 public class Meeting {
-    @Id
-    @Column(name = "club_no")
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long clubNo;
+    @EmbeddedId
+    private MeetingId id;
     @Column(name = "book_title")
     private String bookTitle;
     @Column(name = "join_member")
     private String joinMember;
-    private boolean online;
+    @Column(name = "is_online")
+    private String online;
     @Column(name = "meeting_date")
     private LocalDate meetingDate;
     @Column(name = "meeting_time")
     private LocalTime meetingTime;
+    @Column(name = "join_max")
+    private int max;
 
     public Meeting(MeetingDto meetingDto) {
-        this.clubNo = meetingDto.getClubNo();
+        this.id = new MeetingId(meetingDto.getNo(), meetingDto.getClubNo());
         this.bookTitle = meetingDto.getBookTitle();
         this.joinMember = meetingDto.getJoinMember();
-        this.online = meetingDto.isOnline();
+        if(meetingDto.isOnline()){
+            this.online = "Y";
+        }else {
+            this.online="N";
+        }
         this.meetingDate = meetingDto.getMeetingDate();
         this.meetingTime = getMeetingTime();
+        this.max = meetingDto.getMax();
+    }
+
+    @Embeddable
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @EqualsAndHashCode
+    public static class MeetingId implements Serializable {
+        @Column(name = "NO")
+        private Long no;
+        @Column(name = "club_no")
+        private Long clubNo;
     }
 }

@@ -11,6 +11,7 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 public class MeetingDto {
+    private Long no;
     @Positive
     private Long clubNo;
 //    private Long no;
@@ -31,11 +32,17 @@ public class MeetingDto {
     private String location;
 
     public MeetingDto(Meeting entity) {
-        this.clubNo = entity.getClubNo();
-//        this.no = entity.getNo();
+        this.clubNo = entity.getId().getClubNo();
+        this.no = entity.getId().getNo();
         this.bookTitle = entity.getBookTitle();
         this.joinMember = entity.getJoinMember();
-        this.online = entity.isOnline();
+        if(entity.getOnline().equals("Y")){
+            this.online = true;
+        }else {
+            this.online = false;
+        }
+//        this.online = entity.isOnline();
+        this.max = entity.getMax();
         this.meetingDate = entity.getMeetingDate();
         this.meetingTime = entity.getMeetingTime();
     }

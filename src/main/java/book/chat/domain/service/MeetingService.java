@@ -4,8 +4,6 @@ import book.chat.domain.entity.Meeting;
 import book.chat.domain.repository.MeetingRepository;
 import book.chat.web.DTO.MeetingDto;
 import book.chat.web.DTO.MemberDTO;
-import book.chat.web.SessionConst;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +18,19 @@ public class MeetingService {
     private final MeetingRepository meetingRepository;
 
     public List<MeetingDto> findRecent10Meetings(){
-        return meetingRepository.findTop10ByOrderByMeetingDate().stream()
+        return meetingRepository.findTop10ByOrderByMeetingDateDesc().stream()
+                .map(MeetingDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<MeetingDto> findRecent10Meetings(Long clubNo){
+        return meetingRepository.findAllByIdClubNo(clubNo).stream()
                 .map(MeetingDto::new)
                 .collect(Collectors.toList());
     }
 
     public List<MeetingDto> findByClub(Long clubNo) {
-        return meetingRepository.findAllByClub(clubNo).stream()
+        return meetingRepository.findAllByIdClubNo(clubNo).stream()
                 .map(meeting -> new MeetingDto(meeting))
                 .collect(Collectors.toList());
     }

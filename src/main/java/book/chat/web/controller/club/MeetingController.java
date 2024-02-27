@@ -47,7 +47,11 @@ public class MeetingController {
     }
 
     @GetMapping("/list")
-    public String meetingList(@RequestParam("clubNo") Long clubNo, Model model){
+    public String meetingList(@RequestParam(value = "clubNo", required = false) Long clubNo, Model model){
+        if(clubNo != null){
+            model.addAttribute("meetings", meetingService.findRecent10Meetings(clubNo));
+        }
+//        System.out.println(meetingService.findRecent10Meetings().get(0).getMeetingDate());
         model.addAttribute("meetings", meetingService.findRecent10Meetings());
         return "layout/meeting-list";
     }

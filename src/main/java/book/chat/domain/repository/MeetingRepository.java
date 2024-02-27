@@ -2,18 +2,18 @@ package book.chat.domain.repository;
 
 
 import book.chat.domain.entity.Meeting;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 
-public interface MeetingRepository {
+public interface MeetingRepository extends JpaRepository<Meeting, Meeting.MeetingId> {
 
-    List<Meeting> findTop10ByOrderByMeetingDate();
+    List<Meeting> findTop10ByOrderByMeetingDateDesc();
     List<Meeting> findAll();
-    List<Meeting> findAllByDate(LocalDate meetingDate);
-    List<Meeting> findAllByClub(long clubNo);
-    List<Meeting> findByType(String type);
+//    List<Meeting> findAllByDate(LocalDate meetingDate);
+    List<Meeting> findAllByIdClubNo(long clubNo);
+    List<Meeting> findByOnline(String type);
 
     Meeting save(Meeting meeting);
-    Meeting findByNo(long meetingNo);
+//    Meeting findByNo(long meetingNo);
 }
