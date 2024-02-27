@@ -43,4 +43,8 @@ public class MemberService {
         return memberRepository.findById(TEMP_ID);
     }
 
+    public MemberDTO findByNo(Long no){
+        return new MemberDTO(memberRepository.findByNo(no));
+    }
+
 }

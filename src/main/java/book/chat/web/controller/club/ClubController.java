@@ -56,4 +56,12 @@ public class ClubController {
         model.addAttribute("books", clubService.findReadBooksLimit10(clubDTO.getReadBooks()));
         return "layout/club-info";
     }
+
+    @PostMapping("/join")
+    public String joinClub(@RequestParam("clubNo") Long clubNo, HttpServletRequest request){
+        // todo 아이디로 현재 로그인 맴버 가져오기
+        Long memberNo = (Long) request.getSession(false).getAttribute("id");
+        clubService.joinMember(memberNo, clubNo);
+        return "redirect:/club?clubNo=" + clubNo;
+    }
 }

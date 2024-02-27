@@ -22,6 +22,7 @@ public class ClubService {
 
     private final ClubRepository clubRepository;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final BookSearchAPI bookSearchAPI;
 
     public ClubDTO findClubByNo(Long clubNo) {
@@ -62,4 +63,8 @@ public class ClubService {
                 .collect(Collectors.toList());
     }
 
+    public void joinMember(Long memberNo, Long clubNo){
+        findClubByNo(clubNo).getMembers().add(memberNo);
+        memberService.findByNo(memberNo).getJoinClub().add(clubNo);
+    }
 }
