@@ -20,8 +20,17 @@
         margin-top: 10px;
         margin-bottom: 10px;
       }
+
       main {
         padding: 10px;
+      }
+
+      /* 클럽 만들기 버튼 스타일 */
+      .create-club-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000; /* 다른 요소 위에 표시 */
       }
     </style>
   </head>
@@ -59,6 +68,11 @@
           </div>
         </div>
       </section>
+
+      <!-- 클럽 만들기 버튼 -->
+      <div class="create-club-button">
+        <a href="/create-club" class="btn btn-primary">클럽 만들기</a>
+      </div>
     </main>
   </body>
 </html>
