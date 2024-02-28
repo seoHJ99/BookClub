@@ -2,9 +2,11 @@ package book.chat.domain.repository;
 
 import book.chat.domain.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface ReviewBoardRepository extends JpaRepository<Review, Long> {
 
     Review save(Review review);
