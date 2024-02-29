@@ -25,13 +25,12 @@ public class TestCon extends HttpServlet {
 
     @ResponseBody
     @GetMapping("/test")
-    public String test(HttpServletRequest request){
+    public String test(HttpServletRequest request, HttpSession httpSession){
         ServletContext servletContext = request.getServletContext();
-        HttpSession session = request.getSession(false);
-        session.setAttribute("aaa", "value");
-        HttpSession contextSession = servletContext.(true);
 
-//        session.setAttribute("test", "aaa");
+        request.getSession(false).setAttribute("aaa", "sss");
+        System.out.println(httpSession.getAttribute("aaa"));
+
         return "ok";
     }
 

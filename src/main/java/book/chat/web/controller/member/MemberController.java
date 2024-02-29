@@ -87,7 +87,7 @@ public class MemberController {
     }
 
     public boolean cookieAndSessionSameCheck(String idCheck, HttpSession session) {
-        return request.getSession(false).getAttribute("idCheck").equals(idCheck);
+        return session.getAttribute("idCheck").equals(idCheck);
     }
 
     public boolean pwIsSame(MemberJoinForm memberJoinForm) {

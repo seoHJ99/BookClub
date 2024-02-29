@@ -16,12 +16,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 public class LoginController {
 
+    public static final Map<String, String> sharedLoginMap = new ConcurrentHashMap<>();
+
     private final LoginService loginService;
+
 
     @GetMapping("/login")
     public String loginForm(@ModelAttribute LoginDto loginDto){
@@ -33,18 +39,22 @@ public class LoginController {
                                BindingResult bindingResult,
                                @RequestParam (defaultValue = "/") String redirectURL,
                                HttpSession session){
-        System.out.println("LoginController.loginProcess");
         if(bindingResult.hasErrors()){
-            return "layout/home";
+            return "redirect:/";
         }
         MemberDTO loginMember = loginService.doLogin(loginDto.getId(), loginDto.getPw());
 
         if(loginMember == null){
-            // todo reject 내용을 스크립트 alert로 보여줌
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "layout/home";
+            return "redirect:/";
         }
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+        if(session.getAttribute(loginMember.getId()) != null){
+            System.out.println("이미 로그인한 사용자");
+            sharedLoginMap.put(loginMember.getId(), session.getId());
+        }
+
+        sharedLoginMap.put(loginMember.getId(), session.getId());
         return "redirect:"+ redirectURL;
     }
 

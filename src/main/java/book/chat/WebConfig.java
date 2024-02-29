@@ -4,7 +4,7 @@ import book.chat.domain.service.MemberService;
 import book.chat.web.interceptor.LogInterceptor;
 import book.chat.web.interceptor.LoginCheckInterceptor;
 import book.chat.web.interceptor.LoginCountInterceptor;
-import book.chat.web.service.CamSession;
+import book.chat.web.service.SessionListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +36,7 @@ public class WebConfig  implements WebMvcConfigurer {
     }
 
     @Bean
-    public CamSession camSession(){
-        return new CamSession();
+    public SessionListener camSession(){
+        return new SessionListener();
     }
 }
