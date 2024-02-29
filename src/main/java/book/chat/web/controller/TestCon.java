@@ -1,14 +1,44 @@
 package book.chat.web.controller;
 
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.time.LocalTime;
+import java.util.Enumeration;
 
 @Controller
-public class TestCon {
+@Slf4j
+//@RequiredArgsConstructor
+public class TestCon extends HttpServlet {
 
-    @GetMapping("/tamplate/test")
-    public String test(){
-        return "layout/board-write";
+//    private final CamSession camSession;
+
+
+    @ResponseBody
+    @GetMapping("/test")
+    public String test(HttpServletRequest request){
+        ServletContext servletContext = request.getServletContext();
+        HttpSession session = request.getSession(false);
+        session.setAttribute("aaa", "value");
+        HttpSession contextSession = servletContext.(true);
+
+//        session.setAttribute("test", "aaa");
+        return "ok";
+    }
+
+    @ResponseBody
+    @GetMapping("/test2")
+    public String test2(HttpSession session, HttpServletRequest request){
+
+        return "ok";
     }
 }

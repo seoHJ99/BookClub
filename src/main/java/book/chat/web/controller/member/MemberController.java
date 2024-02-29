@@ -7,6 +7,7 @@ import book.chat.web.DTO.MemberJoinForm;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -43,7 +44,7 @@ public class MemberController {
     public String checkIdDuplicate(@Validated @ModelAttribute MemberJoinForm memberJoinForm,
                                    BindingResult bindingResult,
                                    HttpServletResponse response,
-                                   HttpServletRequest request) throws IOException {
+                                   HttpSession session) throws IOException {
         if(bindingResult.hasErrors()){
             return "layout/member-join";
         }
@@ -58,8 +59,8 @@ public class MemberController {
         cookie.setMaxAge(300); // 5분간 유지되는 쿠키
         response.addCookie(cookie);
         redisService.idDuplicationSave(id);
-        request.getSession().setAttribute("idCheck", cookie.getAttribute(id));
-        request.getSession().setMaxInactiveInterval(300);
+        session.setAttribute("idCheck", cookie.getAttribute(id));
+        session.setMaxInactiveInterval(300);
         return "layout/member-join";
     }
 
@@ -68,8 +69,8 @@ public class MemberController {
                        BindingResult bindingResult,
                        @CookieValue(value = "idCheck", required = false) String idCheck,
                        @CookieValue(value = "emailCheck", required = false) String mailCheck,
-                       HttpServletRequest request){
-        if(!cookieAndSessionSameCheck(idCheck, request)){
+                       HttpSession session){
+        if(!cookieAndSessionSameCheck(idCheck, session)){
             bindingResult.reject("idDoubleCheck", null, null);
             return "layout/member-join";
         }
@@ -85,7 +86,7 @@ public class MemberController {
         return "layout/home";
     }
 
-    public boolean cookieAndSessionSameCheck(String idCheck, HttpServletRequest request) {
+    public boolean cookieAndSessionSameCheck(String idCheck, HttpSession session) {
         return request.getSession(false).getAttribute("idCheck").equals(idCheck);
     }
 

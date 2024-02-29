@@ -1,14 +1,16 @@
 package book.chat.web.service;
 
-import jakarta.servlet.http.HttpServletRequest;
+import book.chat.web.SessionConst;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.stereotype.Component;
+
 
 @Slf4j
+@Component
 public class CamSession implements HttpSessionListener {
 
     /*
@@ -22,17 +24,15 @@ public class CamSession implements HttpSessionListener {
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
-        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession(false);
-        Object memberId = session.getAttribute("memberId");
-        log.info("화상 모임 접속 [{}]", memberId);
+        HttpSession session = se.getSession();
+        session.getAttribute(SessionConst.LOGIN_MEMBER);
+//        log.info("유저 로그인 [{}]",  );
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession(false);
+        HttpSession session = se.getSession();
         Object memberId = session.getAttribute("memberId");
-        log.info("화상 모임 나감 [{}]", memberId);
+        log.info("유저 로그아웃 [{}]", memberId);
     }
 }

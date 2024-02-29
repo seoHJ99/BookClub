@@ -8,6 +8,7 @@ import book.chat.web.DTO.ClubMakingForm;
 import book.chat.web.DTO.MemberDTO;
 import book.chat.web.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,9 +50,9 @@ public class ClubController {
     }
 
     @GetMapping("")
-    public String clubInfo(@RequestParam("clubNo") Long clubNo, Model model, HttpServletRequest request){
+    public String clubInfo(@RequestParam("clubNo") Long clubNo, Model model, HttpSession session){
         ClubDTO clubDTO = clubService.findClubByNo(clubNo);
-        Object memberDto =  request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        Object memberDto =  session.getAttribute(SessionConst.LOGIN_MEMBER);
         if(memberDto != null ){
             MemberDTO memberDTO = (MemberDTO) memberDto;
             if(  clubDTO.getMembers().contains(memberDTO.getNo() )){
@@ -65,10 +66,9 @@ public class ClubController {
     }
 
     @GetMapping("/join")
-    public String joinClub(@RequestParam("clubNo") Long clubNo, HttpServletRequest request){
+    public String joinClub(@RequestParam("clubNo") Long clubNo, HttpSession session){
         // todo 아이디로 현재 로그인 맴버 가져오기
-        MemberDTO memberDTO =(MemberDTO) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
-        System.out.println(memberDTO);
+        MemberDTO memberDTO =(MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
         clubService.joinMember(memberDTO.getNo(), clubNo);
         return "redirect:/club?clubNo=" + clubNo;
     }

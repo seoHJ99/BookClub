@@ -42,5 +42,4 @@ public class HomeController {
         model.addAttribute("ranking", redisService.getTop10PopularBooks());
         return "layout/home";
     }
-
 }

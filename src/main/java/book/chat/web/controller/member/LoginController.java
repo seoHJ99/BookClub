@@ -32,7 +32,7 @@ public class LoginController {
     public String loginProcess(@Validated @ModelAttribute("loginDto") LoginDto loginDto,
                                BindingResult bindingResult,
                                @RequestParam (defaultValue = "/") String redirectURL,
-                               HttpServletRequest request){
+                               HttpSession session){
         System.out.println("LoginController.loginProcess");
         if(bindingResult.hasErrors()){
             return "layout/home";
@@ -44,13 +44,12 @@ public class LoginController {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "layout/home";
         }
-        request.getSession().setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
         return "redirect:"+ redirectURL;
     }
 
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
+    public String logout(HttpSession session){
         if(session != null){
             session.invalidate();
         }
