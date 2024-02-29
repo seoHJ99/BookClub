@@ -3,6 +3,7 @@ package book.chat;
 import book.chat.domain.service.MemberService;
 import book.chat.web.interceptor.LogInterceptor;
 import book.chat.web.interceptor.LoginCheckInterceptor;
+import book.chat.web.interceptor.LoginCountInterceptor;
 import book.chat.web.service.CamSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,10 +24,15 @@ public class WebConfig  implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/css/**", "/*.ico", "/error");
 
-        registry.addInterceptor(new LoginCheckInterceptor())
+        registry.addInterceptor(new LoginCountInterceptor())
                 .order(2)
                 .addPathPatterns("/login")
                 .excludePathPatterns("/css/**","/*.ico");
+
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(3)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/", "css/**", "/*.ico", "/login", "/logout", "/error");
     }
 
     @Bean
