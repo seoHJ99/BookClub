@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,9 +37,15 @@ public class MemberDTO {
         this.location = entity.getLocation();
         this.mail = entity.getMail();
         this.reviewBoard = entity.getReviewBoard();
-        this.joinClub = Arrays.stream(entity.getJoinClub().split(","))
-                .map(string -> Long.parseLong(string))
-                .collect(Collectors.toList());
+        if(entity.getJoinClub() == null){
+            this.joinClub = new ArrayList<>();
+        }else {
+            this.joinClub = Arrays.stream(entity.getJoinClub().replaceAll("\\[","")
+                            .replaceAll("]","")
+                            .split(","))
+                    .map(string -> Long.parseLong(string))
+                    .collect(Collectors.toList());
+        }
         this.profile = entity.getProfile();
         this.introduce = entity.getIntroduce();
     }

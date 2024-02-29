@@ -49,19 +49,27 @@ public class ClubController {
     }
 
     @GetMapping("")
-    public String clubInfo(@RequestParam("clubNo") Long clubNo, Model model){
+    public String clubInfo(@RequestParam("clubNo") Long clubNo, Model model, HttpServletRequest request){
         ClubDTO clubDTO = clubService.findClubByNo(clubNo);
+        Object memberDto =  request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        if(memberDto != null ){
+            MemberDTO memberDTO = (MemberDTO) memberDto;
+            if(  clubDTO.getMembers().contains(memberDTO.getNo() )){
+                model.addAttribute("joined", "zz");
+            }
+        }
         model.addAttribute("club", clubDTO);
         model.addAttribute("members", clubService.findClubMember(clubDTO));
         model.addAttribute("books", clubService.findReadBooksLimit10(clubDTO.getReadBooks()));
         return "layout/club-info";
     }
 
-    @PostMapping("/join")
+    @GetMapping("/join")
     public String joinClub(@RequestParam("clubNo") Long clubNo, HttpServletRequest request){
         // todo 아이디로 현재 로그인 맴버 가져오기
-        Long memberNo = (Long) request.getSession(false).getAttribute("id");
-        clubService.joinMember(memberNo, clubNo);
+        MemberDTO memberDTO =(MemberDTO) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        System.out.println(memberDTO);
+        clubService.joinMember(memberDTO.getNo(), clubNo);
         return "redirect:/club?clubNo=" + clubNo;
     }
 }

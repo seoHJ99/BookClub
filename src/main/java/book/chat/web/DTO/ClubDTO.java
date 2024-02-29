@@ -32,18 +32,26 @@ public class ClubDTO {
         this.profile = entity.getProfile();
         this.introduce = entity.getIntroduce();
         this.location = entity.getLocation();
-        this.members = Arrays.stream(entity.getMembers().split(","))
+        this.members = Arrays.stream(entity.getMembers().replaceAll("\\[","")
+                        .replaceAll("]","")
+                        .split(","))
                 .map(element -> element.trim())
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
-        this.meetings = Arrays.stream(entity.getMeetings().split(","))
+        this.meetings = Arrays.stream(entity.getMeetings().replaceAll("\\[","")
+                        .replaceAll("]","")
+                        .split(","))
                 .map(element -> element.trim())
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
-        this.readBooks = Arrays.stream(entity.getReadBooks().split(","))
+        this.readBooks = Arrays.stream(entity.getReadBooks().replaceAll("\\[","")
+                        .replaceAll("]","")
+                        .split(","))
                 .map(element -> element.trim())
                 .collect(Collectors.toList());
-        this.reportBoard = Arrays.stream(entity.getReportBoard().split(","))
+        this.reportBoard = Arrays.stream(entity.getReportBoard().replaceAll("\\[","")
+                        .replaceAll("]","")
+                        .split(","))
                 .map(element -> element.trim())
                 .map(Long::parseLong)
                 .collect(Collectors.toList());

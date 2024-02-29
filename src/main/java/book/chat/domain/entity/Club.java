@@ -47,6 +47,7 @@ public class Club {
         this.meetings = clubDTO.getMeetings().toString();
         this.readBooks = clubDTO.getReadBooks().toString();
         this.reportBoard = clubDTO.getReportBoard().toString();
+        this.startDate = clubDTO.getStartDate();
     }
 
     public Club(ClubMakingForm clubDTO, MemberDTO memberDTO){

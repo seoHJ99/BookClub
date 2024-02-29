@@ -6,6 +6,7 @@ import book.chat.domain.service.MemberService;
 import book.chat.domain.service.RedisService;
 import book.chat.domain.service.ReviewBoardService;
 import book.chat.web.DTO.BookDTO;
+import book.chat.web.DTO.LoginDto;
 import book.chat.web.DTO.ReviewDTO;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class HomeController {
         List<BookDTO> bookDTOS = rescent10Dtos.stream()
                 .map(dto -> bookSearchAPI.bookSearch(dto.getIsbn()).get(0))
                 .collect(Collectors.toList());
+        model.addAttribute("loginDto", new LoginDto());
         model.addAttribute("books", bookDTOS);
         model.addAttribute("clubs",clubService.findRecent4Club());
         model.addAttribute("boards", rescent10Dtos);

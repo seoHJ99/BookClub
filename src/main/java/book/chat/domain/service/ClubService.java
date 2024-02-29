@@ -11,6 +11,7 @@ import book.chat.web.DTO.ClubMakingForm;
 import book.chat.web.DTO.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +30,7 @@ public class ClubService {
         return new ClubDTO(clubRepository.findByNo(clubNo).orElse(null));
     }
 
+    @Transactional
     public ClubDTO save(ClubMakingForm newClub, MemberDTO leader) {
         Club savedEntity = clubRepository.save(new Club(newClub, leader));
         return new ClubDTO(savedEntity);
@@ -63,8 +65,19 @@ public class ClubService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public ClubDTO updateClubInfo(ClubDTO clubDTO){
+        clubRepository.save(new Club(clubDTO));
+        return clubDTO;
+    }
+
+    @Transactional
     public void joinMember(Long memberNo, Long clubNo){
-        findClubByNo(clubNo).getMembers().add(memberNo);
-        memberService.findByNo(memberNo).getJoinClub().add(clubNo);
+        ClubDTO club = findClubByNo(clubNo);
+        club.getMembers().add(memberNo);
+        MemberDTO member = memberService.findByNo(memberNo);
+        member.getJoinClub().add(clubNo);
+        memberService.updateMemberInfo(member);
+        updateClubInfo(club);
     }
 }

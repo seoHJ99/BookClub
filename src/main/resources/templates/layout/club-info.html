@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<html
-  lang="ko"
-  th:replace="~{layout-main/layout :: layout(~{::title}, ~{::main}, ~{::style})}"
-  xmlns:th="http://www.thymeleaf.org"
->
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <title>클럽 정보</title>
@@ -11,11 +7,8 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <!-- Bootstrap JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
     <style>
+      /* 스타일 */
       .menu-item.active {
         border-bottom: 2px solid black;
       }
@@ -54,50 +47,64 @@
         max-width: 1320px;
         margin-left: auto;
         margin-right: auto;
+        position: relative;
       }
 
       .nav-link {
         border: none;
+        text-align: center;
       }
 
       .nav-link.active {
         border-bottom: 2px solid black;
       }
 
-      .nav-link {
-        text-align: center;
-      }
       .member_profile {
         width: 50px;
         border: 1px solid black;
         border-radius: 50%;
       }
+
       .memberBox {
         display: flex;
         justify-content: center;
       }
+
       .eachMember {
         padding: 10px;
       }
+
       .bookImg {
         width: 70px;
         border: 1px solid black;
       }
+
       .bookBox {
         display: flex;
         justify-content: center;
       }
+
       .eachBook {
         padding: 10px;
       }
+
+      /* 클럽 가입 버튼 스타일 */
+      .join-club-btn {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        width: 100%;
+        max-width: 1320px;
+      }
     </style>
   </head>
-
   <body>
     <main>
       <div class="container-fluid mt-4 text-center">
         <!-- 클럽 명 -->
-        <div class="">
+        <div>
           <h2 class="p-2" th:text="${club.name}">클럽 명</h2>
         </div>
         <!-- 대표 사진 -->
@@ -209,7 +216,6 @@
             </div>
           </div>
         </div>
-
         <!-- 구분자 -->
         <div class="divider mt-4"></div>
         <!-- 클럽 맴버 -->
@@ -256,6 +262,16 @@
           <!-- 추가 읽은 책 추가 가능 -->
         </div>
       </div>
+      <!-- 클럽 가입 버튼 -->
+      <a
+        th:unless="${joined}"
+        th:href="@{/club/join(clubNo=${club.no})}"
+        class="btn btn-primary join-club-btn"
+        >클럽 가입</a
+      >
     </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
