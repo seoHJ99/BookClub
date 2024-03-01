@@ -126,13 +126,13 @@
           </div>
           <div class="modal-body">
             <!-- 로그인 폼 -->
-            <form action="/login" method="post" th:object="${loginDto}">
+            <form action="/login" method="post">
               <div class="mb-3">
                 <label for="username" class="form-label">아이디</label>
                 <input
                   type="text"
                   class="form-control"
-                  th:field="*{id}"
+                  name="id"
                   id="username"
                   required
                 />
@@ -142,8 +142,8 @@
                 <input
                   type="password"
                   class="form-control"
+                  name="pw"
                   id="password"
-                  th:field="*{pw}"
                   required
                 />
               </div>

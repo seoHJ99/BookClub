@@ -35,7 +35,7 @@ public class LogInterceptor implements HandlerInterceptor {
     public static final String LOGIN_ID = "login_uuid";
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if(bucket.tryConsume(1)){
             return true;
         }
