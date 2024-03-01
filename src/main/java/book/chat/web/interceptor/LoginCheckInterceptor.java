@@ -14,7 +14,8 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        MemberDTO memberDto = (MemberDTO) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        Object memberObject = request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        MemberDTO memberDto = (MemberDTO) memberObject;
         if( memberDto != null){
             System.out.println("로그인된 사용자");
             if(LoginController.sharedLoginMap.get(memberDto.getId()) != request.getSession().getId()){
