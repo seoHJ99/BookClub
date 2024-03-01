@@ -17,14 +17,22 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         MemberDTO memberDto = (MemberDTO) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+
+        // 다른 환경에서 로그인 되었는지 검사
         if( memberDto != null){
-            System.out.println("로그인된 사용자");
+            System.out.println("로그인 된 사용자");
             if(LoginController.sharedLoginMap.get(memberDto.getId()) != request.getSession().getId()){
                 System.out.println("다른 사용자가 로그인됨");
                 request.getSession().invalidate();
                 response.getWriter().write("<script>alert('다른 환경에서 로그인되었습니다.')</script>");
+                response.sendRedirect("/");
                 return false;
             }
+        }
+
+        // 로그인 한 사용자인지 체크
+        if(memberDto == null){
+            return false;
         }
         return true;
     }

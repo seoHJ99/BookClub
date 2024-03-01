@@ -51,7 +51,7 @@ public class LoginController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
         if(session.getAttribute(loginMember.getId()) != null){
             System.out.println("이미 로그인한 사용자");
-            sharedLoginMap.put(loginMember.getId(), session.getId());
+            sharedLoginMap.replace(loginMember.getId(), session.getId());
         }
 
         sharedLoginMap.put(loginMember.getId(), session.getId());
