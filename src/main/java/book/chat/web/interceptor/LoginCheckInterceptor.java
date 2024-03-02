@@ -7,6 +7,7 @@ import book.chat.web.controller.member.LoginController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         Object memberObject = request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         MemberDTO memberDto = (MemberDTO) memberObject;
         System.out.println("LoginCheckInterceptor.preHandle");
-        System.out.println(memberDto);
+        System.out.println("member = " + memberDto);
         // 다른 환경에서 로그인 되었는지 검사
         if (memberDto != null) {
             System.out.println("로그인 된 사용자");
@@ -40,7 +41,10 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 //         로그인 한 사용자인지 체크
         if (memberDto == null) {
             System.out.println("로그인 안한 사용자");
-            response.sendRedirect("/");
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType("text/html; charset=UTF-8");
+            response.getWriter().write("<script>alert('로그인 후 사용해 주세요'); " +
+                    "location.href='/'</script>");
             return false;
         }
         System.out.println("무사 통과");

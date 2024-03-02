@@ -6,6 +6,7 @@ import book.chat.web.DTO.MemberDTO;
 import book.chat.web.SessionConst;
 import groovy.util.logging.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,6 +35,11 @@ public class LoginController {
 //    public String loginForm(@ModelAttribute LoginDto loginDto){
 //        return "layout/home";
 //    }
+
+    @GetMapping("/ss")
+    public void ss(HttpServletResponse response) throws IOException {
+        response.sendError(400, "aa");
+    }
 
     @PostMapping("/login")
     public String loginProcess(@Validated @ModelAttribute("loginDto") LoginDto loginDto,
