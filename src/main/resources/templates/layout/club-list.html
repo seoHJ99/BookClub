@@ -19,6 +19,7 @@
       .club {
         margin-top: 10px;
         margin-bottom: 10px;
+        cursor: pointer;
       }
 
       main {
@@ -48,6 +49,7 @@
             th:each="club:${clubs}"
             th:object="${club}"
           >
+            <input type="hidden" th:value="*{no}" class="clubNo" />
             <div
               class="rounded p-4 border border-3 border-dark text-center d-flex flex-column justify-content-between"
               style="min-height: 500px; max-width: 600px"
@@ -73,6 +75,13 @@
       <div class="create-club-button">
         <a href="/club/save" class="btn btn-primary">클럽 만들기</a>
       </div>
+      <script>
+        $(".club").each(function (index, item) {
+          $(item).on("click", function () {
+            location.href = "/club?clubNo=" + $(".clubNo").eq(index).val();
+          });
+        });
+      </script>
     </main>
   </body>
 </html>

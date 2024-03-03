@@ -53,6 +53,9 @@ public class ClubService {
     }
 
     public List<BookDTO> findReadBooksLimit10(List<String> bookList) {
+        if(bookList.size() == 0){
+            return null;
+        }
         return bookList.stream()
                 .map(isbn -> bookSearchAPI.bookSearch(isbn).get(0))
                 .limit(10)
