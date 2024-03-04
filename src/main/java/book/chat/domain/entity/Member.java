@@ -38,6 +38,7 @@ public class Member {
     }
 
     public Member updateField(MemberDTO newMemberDTO){
+        this.profile = newMemberDTO.getProfile();
         this.pw = newMemberDTO.getPw();
         this.mail = newMemberDTO.getMail();
         this.location = newMemberDTO.getLocation();

@@ -1,17 +1,25 @@
 package book.chat.chatting;
 
 
+import book.chat.domain.service.MemberService;
 import book.chat.web.DTO.ChatMessageDto;
+import book.chat.web.DTO.MemberDTO;
+import book.chat.web.MemberInfo;
+import book.chat.web.SessionConst;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -30,11 +38,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class WebSocketChatHandler extends TextWebSocketHandler {
 
+    private final MemberService memberService;
+
     private final ObjectMapper mapper;
 
     private final Set<WebSocketSession> sessions = new HashSet<>();
 
-    private final Map<Long,Set<WebSocketSession>> chatRoomSessionMap = new ConcurrentHashMap<>();
+    private final Map<Long, Set<WebSocketSession>> chatRoomSessionMap = new ConcurrentHashMap<>();
+
 
     // 소켓 연결 확인
     @Override
@@ -49,25 +60,26 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
         ChatMessageDto chatMessageDto = mapper.readValue(payload, ChatMessageDto.class);
+        chatMessageDto.setMemberProfile("sssssssssssss");
         Long chatRoomId = chatMessageDto.getClubNo();
+        System.out.println(chatRoomId);
 
-        if(!chatRoomSessionMap.containsKey(chatRoomId)){
-            chatRoomSessionMap.put(chatRoomId,new HashSet<>());
+        if (!chatRoomSessionMap.containsKey(chatRoomId)) {
+            chatRoomSessionMap.put(chatRoomId, new HashSet<>());
         }
+
         Set<WebSocketSession> chatRoomSession = chatRoomSessionMap.get(chatRoomId);
-//        if(chatMessageDto.getMessageType().equals("open")){
-//            chatRoomSession.add(session);
-//        }
+
+        if(chatMessageDto.getMessageType().equals("open")){
+            chatRoomSession.add(session);
+        }
         if (chatMessageDto.getMessageType().equals("chat")) {
-           chatRoomSession.add(session);
-            for (WebSocketSession webSocketSession : chatRoomSession) {
-                webSocketSession.sendMessage(new TextMessage(mapper.writeValueAsString(message)));
-            }
+            sendMessageToChatRoom(chatMessageDto, chatRoomSession);
         }
-        if (chatRoomSession.size()>=3) {
-            removeClosedSession(chatRoomSession);
+        if(chatMessageDto.getMessageType().equals("close")){
+            chatRoomSession.remove(session);
         }
-        sendMessageToChatRoom(chatMessageDto, chatRoomSession);
+
 
     }
 
@@ -90,7 +102,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
 
     public <T> void sendMessage(WebSocketSession session, T message) {
-        try{
+        try {
             session.sendMessage(new TextMessage(mapper.writeValueAsString(message)));
         } catch (IOException e) {
             log.error(e.getMessage(), e);

@@ -145,6 +145,7 @@
           <div class="enter-message">
             <textarea
               class="form-control me-2"
+              id="messageText"
               rows="1"
               placeholder="메시지를 입력하세요"
               style="overflow-y: auto; resize: none; flex: 1; height: 50px"
@@ -154,17 +155,68 @@
         </div>
       </div>
       <script th:inline="javascript">
+        $(".btn").on("click", function () {
+          sendMessage();
+        });
+
         var websocket = new WebSocket("ws://localhost:8080/ws/chat");
 
-        let item = { clubNo: [[${}]], message: "aaaa", messageType: "chat" };
         websocket.onmessage = onMessage;
+        websocket.onopen = onOpen;
+
+        function onOpen() {
+          var sendItem = {
+            clubNo: 1,
+            sender: 1,
+            messageType: "open",
+            chattingContent: "",
+          };
+          websocket.send(JSON.stringify(sendItem));
+        }
 
         function onMessage(msg) {
           var messageInfo = JSON.parse(msg.data);
-          console.log(messageInfo);
+          // if (messageInfo.sender == $("#memberId").val()) {
+          //   return;
+          // }
+          let chatMessage =
+            `<div class="chat-message">
+                 <img
+                   src="` +
+            messageInfo.memberProfile +
+            `"
+                   alt="프로필 사진"
+                 />
+                 <strong>` +
+            messageInfo.memberId +
+            `</strong>
+
+                 <div>
+                   <div
+                     class="message-bubble"
+                     style="display: inline-block; margin-top: 5px"
+                   >
+                     <div class="message-content" style="display: inline-block">
+                       ` +
+            messageInfo.message +
+            `
+                     </div>
+                     <div class="message-time">12:35 PM</div>
+                   </div>
+                 </div>
+               </div>`;
+
+          $(".chat-box").append(chatMessage);
+          // console.log(messageInfo);
         }
 
-        function send() {
+        function sendMessage() {
+          let item = {
+            clubNo: 1,
+            memberId: "test",
+            message: $("#messageText").val(),
+            messageType: "chat",
+          };
           websocket.send(JSON.stringify(item));
         }
       </script>

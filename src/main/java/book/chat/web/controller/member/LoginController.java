@@ -3,6 +3,7 @@ package book.chat.web.controller.member;
 import book.chat.domain.service.LoginService;
 import book.chat.web.DTO.LoginDto;
 import book.chat.web.DTO.MemberDTO;
+import book.chat.web.MemberInfo;
 import book.chat.web.SessionConst;
 import groovy.util.logging.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,12 +51,14 @@ public class LoginController {
             return "layout-main/layout";
         }
         MemberDTO loginMember = loginService.doLogin(loginDto.getId(), loginDto.getPw());
+        MemberInfo.memberDTO = loginMember;
 
         if(loginMember == null){
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "layout-main/layout";
         }
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
         if(session.getAttribute(loginMember.getId()) != null){
             System.out.println("이미 로그인한 사용자");
             sharedLoginMap.replace(loginMember.getId(), session.getId());
