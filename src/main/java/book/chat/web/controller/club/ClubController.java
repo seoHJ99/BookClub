@@ -72,4 +72,15 @@ public class ClubController {
         clubService.joinMember(memberDTO.getNo(), clubNo);
         return "redirect:/club?clubNo=" + clubNo;
     }
+
+    @GetMapping("/chatting")
+    public String chatting(@RequestParam("clubNo") Long clubNo, HttpSession session, Model model){
+        // 이 인증 과정은 인터셉터로
+        MemberDTO loginMember = (MemberDTO)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(loginMember.getJoinClub().contains(clubNo)){
+            model.addAttribute("clubNo", clubNo);
+
+        }
+        return "layout/chatting";
+    }
 }

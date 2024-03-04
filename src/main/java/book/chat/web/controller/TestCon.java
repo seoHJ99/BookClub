@@ -23,15 +23,16 @@ public class TestCon extends HttpServlet {
 //    private final CamSession camSession;
 
 
-    @ResponseBody
+//    @ResponseBody
     @GetMapping("/test")
     public String test(HttpServletRequest request, HttpSession httpSession){
-        ServletContext servletContext = request.getServletContext();
+//        ServletContext servletContext = request.getServletContext();
+//
+//        request.getSession(false).setAttribute("aaa", "sss");
+//        System.out.println(httpSession.getAttribute("aaa"));
+        System.out.println("TestCon.test");
 
-        request.getSession(false).setAttribute("aaa", "sss");
-        System.out.println(httpSession.getAttribute("aaa"));
-
-        return "ok";
+        return "layout/chattingTest";
     }
 
     @ResponseBody

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div></div>
+    <input type="text" name="message" />
+    <button type="submit" onclick="send()">보내기</button>
+    <script>
+      var websocket = new WebSocket("ws://localhost:8080/ws/chat");
+
+      let item = { clubNo: "1", message: "aaaa", messageType: "chat" };
+      websocket.onmessage = onMessage;
+
+      function onMessage(msg) {
+        var messageInfo = JSON.parse(msg.data);
+        console.log(messageInfo);
+      }
+
+      function send() {
+        websocket.send(JSON.stringify(item));
+      }
+    </script>
+  </body>
+</html>
