@@ -8,6 +8,7 @@ import book.chat.web.MemberInfo;
 import book.chat.web.SessionConst;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -38,8 +40,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class WebSocketChatHandler extends TextWebSocketHandler {
 
-    private final MemberService memberService;
-
     private final ObjectMapper mapper;
 
     private final Set<WebSocketSession> sessions = new HashSet<>();
@@ -52,17 +52,26 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         // TODO Auto-generated method stub
         log.info("{} 연결됨", session.getId());
-        sessions.add(session);
+
     }
 
     // 소켓 통신 시 메세지의 전송을 다루는 부분
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        sessions.add(session);
+        HttpSession reqSession = (HttpSession) session.getAttributes().get("reqSession");
+        MemberDTO memberDTO = (MemberDTO) reqSession.getAttribute(SessionConst.LOGIN_MEMBER);
         String payload = message.getPayload();
         ChatMessageDto chatMessageDto = mapper.readValue(payload, ChatMessageDto.class);
-        chatMessageDto.setMemberProfile("sssssssssssss");
+        chatMessageDto.setMemberProfile(memberDTO.getProfile());
         Long chatRoomId = chatMessageDto.getClubNo();
-        System.out.println(chatRoomId);
+        chatMessageDto.setTime(LocalDateTime.now());
+        chatMessageDto.setMemberId(memberDTO.getId());
+
+        if(!isClubMember(memberDTO, chatRoomId)){
+            log.info("자신의 모임이 아닌 채팅 접근");
+            return;
+        }
 
         if (!chatRoomSessionMap.containsKey(chatRoomId)) {
             chatRoomSessionMap.put(chatRoomId, new HashSet<>());
@@ -72,15 +81,21 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
         if(chatMessageDto.getMessageType().equals("open")){
             chatRoomSession.add(session);
+            sendMessageToChatRoom(chatMessageDto, chatRoomSession);
         }
         if (chatMessageDto.getMessageType().equals("chat")) {
             sendMessageToChatRoom(chatMessageDto, chatRoomSession);
         }
         if(chatMessageDto.getMessageType().equals("close")){
+            sendMessageToChatRoom(chatMessageDto, chatRoomSession);
             chatRoomSession.remove(session);
         }
 
 
+    }
+
+    private static boolean isClubMember(MemberDTO memberDTO, Long chatRoomId) {
+        return memberDTO.getJoinClub().contains(chatRoomId);
     }
 
     // 소켓 종료 확인

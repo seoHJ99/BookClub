@@ -8,8 +8,10 @@ import book.chat.web.DTO.ClubMakingForm;
 import book.chat.web.DTO.MemberDTO;
 import book.chat.web.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -74,12 +76,13 @@ public class ClubController {
     }
 
     @GetMapping("/chatting")
-    public String chatting(@RequestParam("clubNo") Long clubNo, HttpSession session, Model model){
+    public String chatting(@RequestParam("clubNo") Long clubNo, HttpSession session, Model model, HttpServletResponse response){
         MemberDTO loginMember = (MemberDTO)session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if(loginMember.getJoinClub().contains(clubNo)){
-            model.addAttribute("clubNo", clubNo);
+        if(! loginMember.getJoinClub().contains(clubNo)){
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+            return "redirect:/";
         }
-        model.addAttribute("member", loginMember);
+        model.addAttribute("clubNo", clubNo);
         return "layout/chatting";
     }
 }

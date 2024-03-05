@@ -92,54 +92,7 @@
         <div class="chat-container">
           <!-- 채팅 창 -->
           <div class="chat-box" style="overflow-y: scroll">
-            <!-- 채팅 날짜 -->
-            <div class="chat-date custom-background">2024-02-17</div>
-            <!-- 사용자 입장 메시지 -->
-            <div class="user-entered custom-background">
-              *** 님이 입장하셨습니다.
-            </div>
             <!-- 대화 내용 -->
-            <!-- 대화 내용 -->
-            <div class="chat-message">
-              <img
-                src="https://cdn.pixabay.com/photo/2024/02/09/14/54/butterfly-8563213_1280.jpg"
-                alt="프로필 사진"
-              />
-              <strong>상대방 닉네임:</strong>
-
-              <div>
-                <div
-                  class="message-bubble"
-                  style="display: inline-block; margin-top: 5px"
-                >
-                  <div class="message-content" style="display: inline-block">
-                    대화 내용이 여기에 표시됩니다.
-                  </div>
-                  <div class="message-time">12:35 PM</div>
-                </div>
-              </div>
-            </div>
-            <div class="chat-message">
-              <img
-                src="https://cdn.pixabay.com/photo/2024/02/09/14/54/butterfly-8563213_1280.jpg"
-                alt="프로필 사진"
-              />
-              <strong>상대방 닉네임:</strong>
-
-              <div>
-                <div
-                  class="message-bubble"
-                  style="display: inline-block; margin-top: 5px"
-                >
-                  <div class="message-content" style="display: inline-block">
-                    대화 내용이 여기에 표시됩니다.
-                  </div>
-                  <div class="message-time">12:35 PM</div>
-                </div>
-              </div>
-            </div>
-            <!-- 추가 대화 내용 -->
-            <!-- 이와 같은 형식으로 계속해서 추가할 수 있습니다. -->
           </div>
           <!-- 메시지 입력 창 -->
           <div class="enter-message">
@@ -154,6 +107,7 @@
           </div>
         </div>
       </div>
+      <input type="hidden" th:value="${clubNo}" id="clubNo" />
       <script th:inline="javascript">
         $(".btn").on("click", function () {
           sendMessage();
@@ -163,12 +117,21 @@
 
         websocket.onmessage = onMessage;
         websocket.onopen = onOpen;
+        websocket.onclose = onClose;
 
         function onOpen() {
           var sendItem = {
-            clubNo: 1,
-            sender: 1,
+            clubNo: $("#clubNo").val(),
             messageType: "open",
+            chattingContent: "",
+          };
+          websocket.send(JSON.stringify(sendItem));
+        }
+
+        function onClose() {
+          var sendItem = {
+            clubNo: $("#clubNo").val(),
+            messageType: "close",
             chattingContent: "",
           };
           websocket.send(JSON.stringify(sendItem));
@@ -176,48 +139,91 @@
 
         function onMessage(msg) {
           var messageInfo = JSON.parse(msg.data);
-          // if (messageInfo.sender == $("#memberId").val()) {
-          //   return;
-          // }
-          let chatMessage =
-            `<div class="chat-message">
-                 <img
-                   src="` +
-            messageInfo.memberProfile +
-            `"
-                   alt="프로필 사진"
-                 />
-                 <strong>` +
-            messageInfo.memberId +
-            `</strong>
+          let chatMessage = "";
+          let dateTime = messageInfo.time.split("T");
+          let date = dateTime[0];
+          let time = dateTime[1];
+          if (messageInfo.messageType == "open") {
+            chatMessage =
+              `<div class="user-entered custom-background">
+                             ` +
+              messageInfo.memberId +
+              ` 님이 입장하셨습니다.
+                            </div>`;
+          } else if (messageInfo.messageType == "chat") {
+            chatMessage =
+              `<div class="chat-message">
+                                 <img
+                                   src="` +
+              messageInfo.memberProfile +
+              `"
+                                   alt="프로필 사진"
+                                 />
+                                 <strong>` +
+              messageInfo.memberId +
+              `</strong>
 
-                 <div>
-                   <div
-                     class="message-bubble"
-                     style="display: inline-block; margin-top: 5px"
-                   >
-                     <div class="message-content" style="display: inline-block">
-                       ` +
-            messageInfo.message +
-            `
-                     </div>
-                     <div class="message-time">12:35 PM</div>
-                   </div>
-                 </div>
-               </div>`;
+                                 <div>
+                                   <div
+                                     class="message-bubble"
+                                     style="display: inline-block; margin-top: 5px"
+                                   >
+                                     <div class="message-content" style="display: inline-block">
+                                       ` +
+              messageInfo.message +
+              `
+                                     </div>
+                                     <div class="message-time">` +
+              time +
+              `</div>
+                                   </div>
+                                 </div>
+                               </div>`;
+          } else if (messageInfo.messageType == "close") {
+            chatMessage =
+              `<div class="user-entered custom-background">
+                             ` +
+              messageInfo.memberId +
+              ` 님이 퇴장하셨습니다.
+                            </div>`;
+          }
+          if (
+            $(".chat-date").last().text() != toStringByFormatting(new Date())
+          ) {
+            let time =
+              ` <div class="chat-date custom-background">` +
+              toStringByFormatting(new Date()) +
+              `</div>`;
+            $(".chat-box").append(time);
+          }
 
           $(".chat-box").append(chatMessage);
-          // console.log(messageInfo);
         }
 
         function sendMessage() {
           let item = {
-            clubNo: 1,
-            memberId: "test",
+            clubNo: $("#clubNo").val(),
             message: $("#messageText").val(),
             messageType: "chat",
           };
           websocket.send(JSON.stringify(item));
+          $("#messageText").val("");
+        }
+
+        function toStringByFormatting(source, delimiter = "-") {
+          const year = source.getFullYear();
+          const month = leftPad(source.getMonth() + 1);
+          const day = leftPad(source.getDate());
+
+          return [year, month, day].join(delimiter);
+        }
+
+        function leftPad(value) {
+          if (value >= 10) {
+            return value;
+          }
+
+          return `0${value}`;
         }
       </script>
     </main>
