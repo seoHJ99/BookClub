@@ -5,11 +5,11 @@ import book.chat.web.DTO.LoginDto;
 import book.chat.web.DTO.MemberDTO;
 import book.chat.web.MemberInfo;
 import book.chat.web.SessionConst;
-import groovy.util.logging.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -60,7 +60,7 @@ public class LoginController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
         if(session.getAttribute(loginMember.getId()) != null){
-            System.out.println("이미 로그인한 사용자");
+            log.info("이미 로그인한 사용자");
             sharedLoginMap.replace(loginMember.getId(), session.getId());
         }
 

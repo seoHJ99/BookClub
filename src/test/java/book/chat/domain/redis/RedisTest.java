@@ -72,7 +72,7 @@ public class RedisTest {
         if (!popularBooks.contains(dto.getName())) {
             redisTemplate.opsForZSet().add("test", dto.getName().toString(), 1);
         } else {
-            System.out.println("여기");
+            System.out.println("이미 저장되어 있음");
             redisTemplate.opsForZSet().incrementScore("test", dto.getName().toString(), +1);
         }
     }

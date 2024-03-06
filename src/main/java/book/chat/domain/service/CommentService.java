@@ -26,9 +26,7 @@ public class CommentService {
     }
 
     public List<CommentDTO> findByBoardNo(Long no){
-        System.out.println("CommentService.findByBoardNo");
         List<Comment> entities = commentRepository.findByIdBoardNo(no);
-        System.out.println(entities.size());
         return entities.stream()
                 .map(entity -> new CommentDTO(entity))
                 .collect(Collectors.toList());

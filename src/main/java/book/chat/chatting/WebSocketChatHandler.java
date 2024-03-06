@@ -90,8 +90,6 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
             sendMessageToChatRoom(chatMessageDto, chatRoomSession);
             chatRoomSession.remove(session);
         }
-
-
     }
 
     private static boolean isClubMember(MemberDTO memberDTO, Long chatRoomId) {

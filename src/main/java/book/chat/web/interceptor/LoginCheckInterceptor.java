@@ -20,13 +20,13 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         String redirect = request.getRequestURI();
         Object memberObject = request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         MemberDTO memberDto = (MemberDTO) memberObject;
-        System.out.println("LoginCheckInterceptor.preHandle");
-        System.out.println("member = " + memberDto);
+        log.info("LoginCheckInterceptor.preHandle");
+        log.info("member = " + memberDto);
         // 다른 환경에서 로그인 되었는지 검사
         if (memberDto != null) {
-            System.out.println("로그인 된 사용자");
+            log.info("로그인 된 사용자");
             if (LoginController.sharedLoginMap.get(memberDto.getId()) != request.getSession().getId()) {
-                System.out.println("다른 사용자가 로그인됨");
+                log.info("다른 사용자가 로그인됨");
                 log.info("유저 강제 로그아웃 [{}]", memberDto.getId());
                 request.getSession().invalidate();
                 response.setContentType("text/html; charset=UTF-8");
@@ -40,14 +40,14 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
 //         로그인 한 사용자인지 체크
         if (memberDto == null) {
-            System.out.println("로그인 안한 사용자");
+            log.info("로그인 안한 사용자");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType("text/html; charset=UTF-8");
             response.getWriter().write("<script>alert('로그인 후 사용해 주세요'); " +
                     "location.href='/'</script>");
             return false;
         }
-        System.out.println("무사 통과");
+        log.info("무사 통과");
         return true;
     }
 }
