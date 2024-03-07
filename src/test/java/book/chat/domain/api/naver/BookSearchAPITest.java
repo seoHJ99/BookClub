@@ -1,6 +1,7 @@
 package book.chat.domain.api.naver;
 
-import book.chat.web.DTO.BookDTO;
+import book.chat.api.naver.BookSearchAPI;
+import book.chat.common.dto.BookDTO;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package book.chat.domain.redis;
 
-import book.chat.entity.RedisTestEntity;
-import book.chat.entity.RedisTestRepository;
+import book.chat.redis.test.RedisTestEntity;
+import book.chat.redis.test.RedisTestRepository;
 import groovy.util.logging.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.RedisServer;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.Duration;
 import java.util.Optional;
