@@ -5,11 +5,13 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
 public class WebcamTestController {
+
     //offer 정보를 주고 받기 위한 websocket
     //camKey : 각 요청하는 캠의 key , roomId : 룸 아이디
     @MessageMapping("/peer/offer/{camKey}/{roomId}")

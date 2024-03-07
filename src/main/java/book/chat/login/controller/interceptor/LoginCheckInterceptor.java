@@ -32,7 +32,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
                 response.setContentType("text/html; charset=UTF-8");
                 response.getWriter().write("<script>alert('다른 환경에서 로그인되었습니다.'); " +
                         "location.href='/'</script>");
-
 //                response.sendRedirect("/");
                 return false;
             }
@@ -47,7 +46,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
                     "location.href='/'</script>");
             return false;
         }
-        log.info("무사 통과");
         return true;
     }
 }

@@ -43,13 +43,11 @@ public class LoginController {
     @PostMapping("/login")
     public String loginProcess(@Validated @ModelAttribute("loginDto") LoginDto loginDto,
                                BindingResult bindingResult,
-                               @RequestParam (name = "redirect",defaultValue = "/") String redirectURL,
                                HttpSession session){
         if(bindingResult.hasErrors()){
             return "layout-main/layout";
         }
         MemberDTO loginMember = loginService.doLogin(loginDto.getId(), loginDto.getPw());
-
 
         if(loginMember == null){
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
@@ -63,7 +61,7 @@ public class LoginController {
         }
 
         sharedLoginMap.put(loginMember.getId(), session.getId());
-        return "redirect:"+ redirectURL;
+        return "redirect:/";
     }
 
     @PostMapping("/logout")
