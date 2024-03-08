@@ -31,7 +31,7 @@ public class Meeting {
     public Meeting(MeetingDto meetingDto) {
         this.id = new MeetingId(meetingDto.getNo(), meetingDto.getClubNo());
         this.bookTitle = meetingDto.getBookTitle();
-        this.joinMember = meetingDto.getJoinMember();
+        this.joinMember = meetingDto.getJoinMember().toString();
         if(meetingDto.isOnline()){
             this.online = "Y";
         }else {

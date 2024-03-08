@@ -45,14 +45,13 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         // TODO Auto-generated method stub
+        sessions.add(session);
         log.info("{} 연결됨", session.getId());
-
     }
 
     // 소켓 통신 시 메세지의 전송을 다루는 부분
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        sessions.add(session);
         HttpSession reqSession = (HttpSession) session.getAttributes().get("reqSession");
         MemberDTO memberDTO = (MemberDTO) reqSession.getAttribute(SessionConst.LOGIN_MEMBER);
         String payload = message.getPayload();

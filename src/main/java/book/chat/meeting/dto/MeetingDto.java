@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +25,7 @@ public class MeetingDto {
     @Max(value = 50)
     private int max;
     @NotBlank
-    private String joinMember;
+    private List<Long> joinMember;
 //    @NotBlank
     private boolean online;
     @FutureOrPresent
@@ -35,7 +38,12 @@ public class MeetingDto {
         this.clubNo = entity.getId().getClubNo();
         this.no = entity.getId().getNo();
         this.bookTitle = entity.getBookTitle();
-        this.joinMember = entity.getJoinMember();
+        this.joinMember = Arrays.stream(entity.getJoinMember().replaceAll("\\[","")
+                        .replaceAll("]","")
+                        .split(","))
+                .map(element -> element.trim())
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
         if(entity.getOnline().equals("Y")){
             this.online = true;
         }else {

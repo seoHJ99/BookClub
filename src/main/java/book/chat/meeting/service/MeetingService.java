@@ -17,6 +17,10 @@ public class MeetingService {
 
     private final MeetingRepository meetingRepository;
 
+    public MeetingDto findByClubNoAndNo(Long clubNo,  Long meetingNo){
+        return new MeetingDto( meetingRepository.findByIdClubNoAndIdNo(clubNo, meetingNo));
+    }
+
     public List<MeetingDto> findRecent10Meetings(){
         return meetingRepository.findTop10ByOrderByMeetingDateDesc().stream()
                 .map(MeetingDto::new)
@@ -36,13 +40,13 @@ public class MeetingService {
     }
 
     public MeetingDto save(MeetingDto meetingDto, MemberDTO meetingMaker) {
-        String joinMemberStr = meetingDto.getJoinMember();
+        String joinMemberStr = meetingDto.getJoinMember().toString().replaceAll("\\[","").replaceAll("]","");
         List<Long> joinMember = Arrays.stream(joinMemberStr.split(","))
                 .map(Long::parseLong)
                 .toList();
         // 본인 추가
         joinMember.add(meetingMaker.getNo());
-        meetingDto.setJoinMember(joinMember.toString());
+        meetingDto.setJoinMember(joinMember);
         Meeting savedMeeting = meetingRepository.save(new Meeting(meetingDto));
         return new MeetingDto(savedMeeting);
     }
