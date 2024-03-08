@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebCamViewController {
 
     private final MeetingService meetingService;
-    private final Map<UUID, UUID> uuidCamMap = new ConcurrentHashMap<>();
+    private final Map<MeetingDto, UUID> roomIdMap = new ConcurrentHashMap<>();
 
     @GetMapping("/webcam")
     public String webcam(@RequestParam("meetingNo") Long meetingNo, @RequestParam("clubNo") Long clubNo,
@@ -36,7 +36,13 @@ public class WebCamViewController {
             response.sendError(403);
         }
 
-        UUID roomId = UUID.randomUUID();
+        UUID roomId = null;
+        if(roomIdMap.containsKey(meetingDto)){
+            roomId = roomIdMap.get(meetingDto);
+        }else {
+            roomIdMap.put(meetingDto, UUID.randomUUID());
+        }
+
         model.addAttribute("roomId", roomId);
         return "web";
     }

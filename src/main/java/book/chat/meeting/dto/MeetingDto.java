@@ -3,6 +3,7 @@ package book.chat.meeting.dto;
 import book.chat.meeting.entity.Meeting;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 public class MeetingDto {
     private Long no;
     @Positive

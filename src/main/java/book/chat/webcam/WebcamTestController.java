@@ -57,5 +57,4 @@ public class WebcamTestController {
     public String sendKey(@Payload String message) {
         return message;
     }
-
 }
