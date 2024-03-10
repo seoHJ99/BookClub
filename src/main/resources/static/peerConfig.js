@@ -197,9 +197,11 @@ document.querySelector("#enterRoomBtn").addEventListener("click", async () => {
     document.querySelector("#localStream").style.display = "block";
     document.querySelector("#startSteamBtn").style.display = "";
   }
-
   roomId = document.querySelector("#roomIdInput").value;
-  document.querySelector("#enterRoomBtn").style.display = "none";
+  console.log(roomId);
+
+  document.querySelector("#roomIdInput").disabled = true;
+  document.querySelector("#enterRoomBtn").disabled = true;
 
   await connectSocket();
 });
@@ -217,4 +219,5 @@ document.querySelector("#startSteamBtn").addEventListener("click", async () => {
       }
     });
   }, 1000);
+  document.querySelector(".btnBox").style.display = "none";
 });

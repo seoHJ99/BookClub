@@ -38,12 +38,20 @@ public class WebCamViewController {
 
         UUID roomId = null;
         if(roomIdMap.containsKey(meetingDto)){
+            System.out.println("기존");
             roomId = roomIdMap.get(meetingDto);
         }else {
-            roomIdMap.put(meetingDto, UUID.randomUUID());
+            System.out.println("신규");
+            roomId = UUID.randomUUID();
+            roomIdMap.put(meetingDto, roomId);
         }
 
         model.addAttribute("roomId", roomId);
+        return "web";
+    }
+
+    @GetMapping("/test")
+    public String test(){
         return "web";
     }
 }

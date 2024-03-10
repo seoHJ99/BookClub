@@ -18,7 +18,7 @@ public class WebcamTestController {
     @SendTo("/topic/peer/offer/{camKey}/{roomId}")
     public String PeerHandleOffer(@Payload String offer, @DestinationVariable(value = "roomId") String roomId,
                                   @DestinationVariable(value = "camKey") String camKey) {
-        log.info("[OFFER] {} : {}", camKey, offer);
+//        log.info("[OFFER] {} : {}", camKey, offer);
         return offer;
     }
 
@@ -29,7 +29,7 @@ public class WebcamTestController {
     public String PeerHandleIceCandidate(@Payload String candidate,
                                          @DestinationVariable(value = "roomId") String roomId,
                                          @DestinationVariable(value = "camKey") String camKey) {
-        log.info("[ICECANDIDATE] {} : {}", camKey, candidate);
+//        log.info("[ICECANDIDATE] {} : {}", camKey, candidate);
         return candidate;
     }
 
@@ -39,7 +39,7 @@ public class WebcamTestController {
     @SendTo("/topic/peer/answer/{camKey}/{roomId}")
     public String PeerHandleAnswer(@Payload String answer, @DestinationVariable(value = "roomId") String roomId,
                                    @DestinationVariable(value = "camKey") String camKey) {
-        log.info("[ANSWER] {} : {}", camKey, answer);
+//        log.info("[ANSWER] {} : {}", camKey, answer);
         return answer;
     }
 
@@ -47,7 +47,7 @@ public class WebcamTestController {
     @MessageMapping("/call/key")
     @SendTo("/topic/call/key")
     public String callKey(@Payload String message) {
-        log.info("[Key] : {}", message);
+//        log.info("[Key] : {}", message);
         return message;
     }
 

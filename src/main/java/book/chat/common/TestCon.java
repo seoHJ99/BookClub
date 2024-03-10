@@ -24,7 +24,7 @@ public class TestCon extends HttpServlet {
 
 
 //    @ResponseBody
-    @GetMapping("/test")
+//    @GetMapping("/test")
     public String test(HttpServletRequest request, HttpSession httpSession){
 //        ServletContext servletContext = request.getServletContext();
 //
@@ -35,7 +35,7 @@ public class TestCon extends HttpServlet {
     }
 
     @ResponseBody
-    @GetMapping("/test2")
+//    @GetMapping("/test2")
     public String test2(HttpSession session, HttpServletRequest request){
 
         return "ok";
