@@ -53,10 +53,10 @@
         </h2>
         <!-- 로그인 버튼 -->
         <ul class="list-inline">
-          <li class="list-inline-item">
-            <a href="#">내 정보</a>
+          <li th:if="${loginMember eq 'true'}" class="list-inline-item">
+            <a href="/my-info">내 정보</a>
           </li>
-          <li class="list-inline-item">
+          <li th:if="${loginMember eq 'false'}" class="list-inline-item">
             <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
               >로그인</a
             >
@@ -113,7 +113,7 @@
       aria-labelledby="loginModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div th:if="${loginMember eq 'false'}" class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="loginModalLabel">로그인</h5>
