@@ -36,6 +36,7 @@ public class LoginModelAop {
         for (Object arg : args) {
             if (arg instanceof Model) {
                 Model model = (Model) arg;
+                model.addAttribute("loginMember", "true");
                 if (user == null) {
                     System.out.println(user);
                     model.addAttribute("loginMember", "false");
