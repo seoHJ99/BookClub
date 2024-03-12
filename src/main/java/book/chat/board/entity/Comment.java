@@ -22,6 +22,10 @@ public class Comment {
     @Column(name = "CONTENT")
     private String content;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_no")
+    private Review review;
+
 
     public Comment(CommentDTO commentDTO) {
         this.id = new CommentId(commentDTO.getBoardNo(), commentDTO.getWriterId(), commentDTO.getDate(), commentDTO.getTime());
@@ -34,7 +38,7 @@ public class Comment {
     @NoArgsConstructor
     @EqualsAndHashCode
     public static class CommentId implements Serializable {
-        @Column(name = "BOARD_NO")
+        @Column(name = "BOARD_NO", insertable = false, updatable = false)
         private Long boardNo;
         @Column(name = "WRITER_ID")
         private String writerId;
