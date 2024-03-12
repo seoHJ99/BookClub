@@ -2,6 +2,7 @@ package book.chat.member.entity;
 
 import book.chat.member.dto.MemberDTO;
 import book.chat.member.dto.MemberJoinForm;
+import book.chat.member.dto.UpdateForm;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,8 +38,21 @@ public class Member {
         this.mail = joinForm.getMail();
     }
 
+    public Member updateField(UpdateForm newMemberDTO){
+//        this.profile = newMemberDTO.getProfile();
+        this.pw = newMemberDTO.getPw();
+        this.nickname = newMemberDTO.getNickname();
+//        this.mail = newMemberDTO.getMail();
+//        this.location = newMemberDTO.getLocation();
+//        this.interest = newMemberDTO.getInterest();
+//        this.nickName = newMemberDTO.getNickName();
+//        this.joinClub = newMemberDTO.getJoinClub().toString();
+//        this.reviewBoard = newMemberDTO.getReviewBoard();
+        return this;
+    }
+
     public Member updateField(MemberDTO newMemberDTO){
-        this.profile = newMemberDTO.getProfile();
+//        this.profile = newMemberDTO.getProfile();
         this.pw = newMemberDTO.getPw();
         this.mail = newMemberDTO.getMail();
         this.location = newMemberDTO.getLocation();

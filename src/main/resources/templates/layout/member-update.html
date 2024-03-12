@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,14 +30,23 @@
   </head>
   <body>
     <main>
-      <div class="container">
+      <div class="container" th:object="${member}">
         <h1 class="text-center">내 정보 수정</h1>
-        <form>
+        <form th:action="@{/member/info/{id}(id=${member.id})}" method="post">
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            th:field="*{id}"
+            name="id"
+            style="width: 500px"
+          />
           <div class="form-group">
             <label for="nickname" class="form-title">닉네임 변경</label>
             <input
               type="text"
               class="form-control"
+              name="nickname"
               id="nickname"
               placeholder="새로운 닉네임 입력"
             />
@@ -47,9 +56,30 @@
             <input
               type="password"
               class="form-control"
+              name="pw"
               id="password"
               placeholder="새로운 비밀번호 입력"
             />
+          </div>
+          <div class="mb-3 d-flex justify-content-center">
+            <label for="confirmPassword" class="form-label" style="width: 150px"
+              >비밀번호 확인:</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              id="pw2"
+              name="pw2"
+              style="width: 500px"
+            />
+          </div>
+          <div
+            class="field-error"
+            th:if=" ${#fields.hasGlobalErrors()}"
+            th:each="err : ${#fields.globalErrors()}"
+            th:text="${err}"
+          >
+            비밀번호 오류
           </div>
           <div class="form-group">
             <label for="profile-pic" class="form-title">프로필 사진 변경</label>

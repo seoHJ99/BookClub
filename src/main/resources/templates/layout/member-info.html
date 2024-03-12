@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -36,7 +36,11 @@
               <div class="card-body">
                 <h5 class="card-title">내가 쓴 글</h5>
                 <p class="card-text">내가 작성한 글 목록이 표시됩니다.</p>
-                <a href="#" class="btn btn-primary">글 목록 보기</a>
+                <a
+                  th:href="@{/member/board/{id}(id=${member.id})}"
+                  class="btn btn-primary"
+                  >글 목록 보기</a
+                >
               </div>
             </div>
           </div>
@@ -45,7 +49,11 @@
               <div class="card-body">
                 <h5 class="card-title">내가 쓴 댓글</h5>
                 <p class="card-text">내가 작성한 댓글 목록이 표시됩니다.</p>
-                <a href="#" class="btn btn-primary">댓글 목록 보기</a>
+                <a
+                  th:href="@{/member/comment/{id}(id=${member.id})}"
+                  class="btn btn-primary"
+                  >댓글 목록 보기</a
+                >
               </div>
             </div>
           </div>
@@ -56,7 +64,11 @@
                 <p class="card-text">
                   내 정보를 수정할 수 있는 페이지로 이동합니다.
                 </p>
-                <a href="#" class="btn btn-primary">정보 수정하기</a>
+                <a
+                  th:href="@{/member/info/{id}(id=${member.id})}"
+                  class="btn btn-primary"
+                  >정보 수정하기</a
+                >
               </div>
             </div>
           </div>

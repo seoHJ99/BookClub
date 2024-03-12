@@ -13,7 +13,7 @@ public interface CommentRepository extends JpaRepository<Comment, Comment.Commen
     // todo orderBy 추가. 나중에 date 와 time 통합한 이후
     List<Comment> findByIdBoardNo(Long no);
     List<Comment> findByIdWriterId(String id);
-    @Query("select c from Comment c join fetch c.review where c.id.boardNo = :boardNo and c.id.writerId = :writerId")
-    List<Comment> findWithBoardByWriterId(@Param("boardNo") Long boardNo, @Param("writerId") String writerId);
+    @Query("select c from Comment c join fetch c.review where c.id.boardNo = c.review.no and c.id.writerId = :writerId")
+    List<Comment> findWithBoardByWriterId(@Param("writerId") String writerId);
 
 }

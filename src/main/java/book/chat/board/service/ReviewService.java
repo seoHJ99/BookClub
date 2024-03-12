@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -31,17 +32,23 @@ public class ReviewService {
          return savedDto;
     }
 
-    public List<ReviewDTO> findByClubNo(Long clubNo){
-        // todo 클럽 번호로 리뷰 찾기 기능. 맵으로 구현은 안해둠.
-        List<Review> reviewEntities = new ArrayList<>();
-        return reviewEntities.stream()
-                .map(entity -> new ReviewDTO(entity))
-                .collect(Collectors.toList());
-    }
+//    public List<ReviewDTO> findByClubNo(Long clubNo){
+//        // todo 클럽 번호로 리뷰 찾기 기능. 맵으로 구현은 안해둠.
+//        List<Review> reviewEntities = reviewBoardRepository.findBy
+//        return entityToDto(reviewEntities);
+//    }
 
     public List<ReviewDTO> findRecent10Review(){
-        return reviewBoardRepository.findTop10ByOrderByWriteDateDesc().stream()
-                .map(entity -> new ReviewDTO(entity))
+        return entityToDto( reviewBoardRepository.findTop10ByOrderByWriteDateDesc());
+
+    }
+
+    public List<ReviewDTO> findByWriter(String memberId){
+        return entityToDto(reviewBoardRepository.findByWriter(memberId));
+    }
+
+    public List<ReviewDTO> entityToDto(List<Review> reviewEntity){
+        return reviewEntity.stream().map(entity -> new ReviewDTO(entity))
                 .collect(Collectors.toList());
     }
 }

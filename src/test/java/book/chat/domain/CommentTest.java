@@ -18,7 +18,10 @@ public class CommentTest {
 
     @Test
     public void fetchJoinTest(){
-        List<Comment> test = commentRepository.findWithBoardByWriterId(1l,"test");
-        Assertions.assertThat(test.size()).isEqualTo(2);
+        List<Comment> test = commentRepository.findWithBoardByWriterId("test");
+        for (Comment comment : test) {
+            System.out.println(comment.getReview().getNo());
+        }
+        Assertions.assertThat(test.size()).isEqualTo(3);
     }
 }
