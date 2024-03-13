@@ -5,7 +5,9 @@ import book.chat.board.service.ReviewService;
 import book.chat.board.dto.ReviewDTO;
 import book.chat.board.dto.CommentDTO;
 import book.chat.board.service.CommentService;
+import book.chat.common.SessionConst;
 import book.chat.common.dto.BookDTO;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
@@ -74,9 +76,10 @@ public class ReviewController {
     }
 
     @PostMapping("/comment/save")
-    public String saveComment( @Validated @ModelAttribute("comment") CommentDTO comment,
+    public String saveComment(@Validated @ModelAttribute("comment") CommentDTO comment,
                               BindingResult bindingResult,
-                              Model model) {
+                              Model model, HttpSession session) {
+        comment.setWriterId((String) session.getAttribute(SessionConst.LOGIN_MEMBER));
         commentService.save(comment);
         ReviewDTO review = reviewService.findReviewByNo(comment.getBoardNo());
         return "redirect:/review?no=" + review.getNo();

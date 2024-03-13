@@ -18,7 +18,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     public void save(CommentDTO commentDTO){
-        // todo writerId 로그인 구현후 삽입
         commentDTO.setDate(LocalDate.now());
         commentDTO.setTime(LocalTime.now());
         commentDTO.setWriterId("aaa");
