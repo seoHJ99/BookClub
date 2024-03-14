@@ -28,7 +28,7 @@
 
     // 유저의 카메라로 부터 입력을 사용할 수 있도록 요청
     navigator.mediaDevices
-      .getUserMedia({ video: true })
+      .getUserMedia({ audio:true, video: true })
       .then(function (newMediaStream) {
         mediaStream = newMediaStream;
 
