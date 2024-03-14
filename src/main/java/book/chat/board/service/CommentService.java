@@ -25,7 +25,7 @@ public class CommentService {
     }
 
     public List<CommentDTO> findByBoardNo(Long no){
-        List<Comment> entities = commentRepository.findByIdBoardNo(no);
+        List<Comment> entities = commentRepository.findByIdBoardNoOrderByIdDate(no);
         return entities.stream()
                 .map(entity -> new CommentDTO(entity))
                 .collect(Collectors.toList());
@@ -37,7 +37,7 @@ public class CommentService {
 //    }
 
     public List<CommentDTO> findByWriter(String memberId){
-        List<Comment> entity = commentRepository.findWithBoardByWriterId(memberId);
+        List<Comment> entity = commentRepository.findWithBoardByWriterIdOrderByIdDate(memberId);
         return entity.stream().map(CommentDTO::new).collect(Collectors.toList());
     }
 

@@ -18,7 +18,7 @@ public class CommentTest {
 
     @Test
     public void fetchJoinTest(){
-        List<Comment> test = commentRepository.findWithBoardByWriterId("test");
+        List<Comment> test = commentRepository.findWithBoardByWriterIdOrderByIdDate("test");
         for (Comment comment : test) {
             System.out.println(comment.getReview().getNo());
         }

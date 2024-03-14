@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
@@ -23,7 +24,7 @@ public class CommentDTO {
         this.boardNo = entity.getId().getBoardNo();
         this.writerId = entity.getId().getWriterId();
         this.content = entity.getContent();
-        this.date = entity.getId().getDate();
-        this.time = entity.getId().getTime();
+        this.date = entity.getId().getDate().toLocalDate();
+        this.time = entity.getId().getDate().toLocalTime();
     }
 }
