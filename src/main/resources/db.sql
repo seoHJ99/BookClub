@@ -2,7 +2,7 @@ drop table club;
 drop table member;
 drop table meeting;
 drop table review;
-drop table "COMMENT";
+drop table REVIEW_COMMENT;
 
 CREATE TABLE member(
     "NO" number PRIMARY KEY,
@@ -55,7 +55,6 @@ CREATE TABLE REVIEW_COMMENT(
     board_no NUMBER not null,
     writer_id VARCHAR(15) NOT NULL,
     write_date date NOT NULL,
-    write_time date NOT NULL,
     content varchar(500) not null,
     CONSTRAINT pk_comment PRIMARY KEY (board_no, writer_id, write_date, write_time)
 );
@@ -105,26 +104,26 @@ insert into review (no, title, content, write_date, writer, book) values (9, 'Iv
 insert into review (no, title, content, write_date, writer, book) values (10, 'Silent Witness (Do Not Disturb)', '10-900 - Wardrobe and Closet Specialties', TO_DATE('6/2/2023', 'MM/DD/YYYY'), 'Hot Spot', '520978540-8');
 
 -- 댓글 데이터
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (1, 'Tikal', TO_DATE('5/23/2023', 'MM/DD/YYYY'), TO_DATE('10/4/2023', 'MM/DD/YYYY'), 'United Promotions Inc.');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (2, 'Sochi', TO_DATE('7/20/2023', 'MM/DD/YYYY'), TO_DATE('12/18/2023', 'MM/DD/YYYY'), 'Dispensing Solutions, Inc.');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (3, 'Paranavaí', TO_DATE('12/24/2023', 'MM/DD/YYYY'), TO_DATE('11/29/2023', 'MM/DD/YYYY'), 'EBPD LLC');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (4, 'Bethel', TO_DATE('11/16/2023', 'MM/DD/YYYY'), TO_DATE('4/6/2023', 'MM/DD/YYYY'), 'Carolina Medical Products Company');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (5, 'Ceuta', TO_DATE('9/18/2023', 'MM/DD/YYYY'), TO_DATE('10/16/2023', 'MM/DD/YYYY'), 'Group Practice Solutions, Inc.');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (6, 'aa', TO_DATE('5/20/2023', 'MM/DD/YYYY'), TO_DATE('3/23/2023', 'MM/DD/YYYY'), 'Noxell');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (7, 'Havre St-Pierre', TO_DATE('12/19/2023', 'MM/DD/YYYY'), TO_DATE('7/31/2023', 'MM/DD/YYYY'), 'Apotheca Company');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (8, 'Red Devil', TO_DATE('3/14/2023', 'MM/DD/YYYY'), TO_DATE('6/3/2023', 'MM/DD/YYYY'), 'Sun ss Care Research, LLC');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (9, 'Wahiawa', TO_DATE('1/11/2024', 'MM/DD/YYYY'), TO_DATE('3/22/2023', 'MM/DD/YYYY'), 'PD-Rx Pharmaceuticals, Inc.');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (10, 'bb', TO_DATE('4/11/2023', 'MM/DD/YYYY'), TO_DATE('3/22/2023', 'MM/DD/YYYY'), 'REMEDYREPACK INC.');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (11, 'Pocatello', TO_DATE('1/19/2024', 'MM/DD/YYYY'), TO_DATE('8/2/2023', 'MM/DD/YYYY'), 'KAISER FOUNDATION HOSPITALS');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (12, 'Bennettsville', TO_DATE('4/12/2023', 'MM/DD/YYYY'), TO_DATE('6/20/2023', 'MM/DD/YYYY'), 'Fenwal, Inc.');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (13, 'Olbia (SS)', TO_DATE('12/2/2023', 'MM/DD/YYYY'), TO_DATE('11/10/2023', 'MM/DD/YYYY'), 'Neutrogena Corporation');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (14, 'Chigorodó', TO_DATE('9/15/2023', 'MM/DD/YYYY'), TO_DATE('12/26/2023', 'MM/DD/YYYY'), 'Medline Industries, Inc.');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (15, 'cc', TO_DATE('6/6/2023', 'MM/DD/YYYY'), TO_DATE('3/26/2023', 'MM/DD/YYYY'), 'Apotheca Company');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (16, 'Janakpur', TO_DATE('8/18/2023', 'MM/DD/YYYY'), TO_DATE('4/25/2023', 'MM/DD/YYYY'), 'Preferred Pharmaceuticals, Inc');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (17, 'Bern', TO_DATE('9/4/2023', 'MM/DD/YYYY'), TO_DATE('11/27/2023', 'MM/DD/YYYY'), 'McNEIL-PPC, Inc.');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (18, 'Skwentna', TO_DATE('3/8/2023', 'MM/DD/YYYY'), TO_DATE('12/30/2023', 'MM/DD/YYYY'), 'Genesis Pharmaceutical, Inc.');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (19, 'Norridgewock', TO_DATE('9/5/2023', 'MM/DD/YYYY'), TO_DATE('11/15/2023', 'MM/DD/YYYY'), 'Jubilant HollisterStier LLC');
-insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, write_time, content) values (20, 'Omidiyeh', TO_DATE('1/23/2024', 'MM/DD/YYYY'), TO_DATE('9/27/2023', 'MM/DD/YYYY'), 'Bryant Ranch Prepack');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (1, 'Tikal', TO_DATE('5/23/2023', 'MM/DD/YYYY'),  'United Promotions Inc.');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (2, 'Sochi', TO_DATE('7/20/2023', 'MM/DD/YYYY'), 'Dispensing Solutions, Inc.');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (3, 'Paranavaí', TO_DATE('12/24/2023', 'MM/DD/YYYY'),  'EBPD LLC');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (4, 'Bethel', TO_DATE('11/16/2023', 'MM/DD/YYYY'),  'Carolina Medical Products Company');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (5, 'Ceuta', TO_DATE('9/18/2023', 'MM/DD/YYYY'),  'Group Practice Solutions, Inc.');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (6, 'aa', TO_DATE('5/20/2023', 'MM/DD/YYYY'), 'Noxell');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (7, 'Havre St-Pierre', TO_DATE('12/19/2023', 'MM/DD/YYYY'),  'Apotheca Company');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (8, 'Red Devil', TO_DATE('3/14/2023', 'MM/DD/YYYY'), 'Sun ss Care Research, LLC');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (9, 'Wahiawa', TO_DATE('1/11/2024', 'MM/DD/YYYY'), 'PD-Rx Pharmaceuticals, Inc.');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (10, 'bb', TO_DATE('4/11/2023', 'MM/DD/YYYY'), 'REMEDYREPACK INC.');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (11, 'Pocatello', TO_DATE('1/19/2024', 'MM/DD/YYYY'), 'KAISER FOUNDATION HOSPITALS');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (12, 'Bennettsville', TO_DATE('4/12/2023', 'MM/DD/YYYY'),  'Fenwal, Inc.');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (13, 'Olbia (SS)', TO_DATE('12/2/2023', 'MM/DD/YYYY'),  'Neutrogena Corporation');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (14, 'Chigorodó', TO_DATE('9/15/2023', 'MM/DD/YYYY'), 'Medline Industries, Inc.');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (15, 'cc', TO_DATE('6/6/2023', 'MM/DD/YYYY'),  'Apotheca Company');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (16, 'Janakpur', TO_DATE('8/18/2023', 'MM/DD/YYYY'),  'Preferred Pharmaceuticals, Inc');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (17, 'Bern', TO_DATE('9/4/2023', 'MM/DD/YYYY'), 'McNEIL-PPC, Inc.');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (18, 'Skwentna', TO_DATE('3/8/2023', 'MM/DD/YYYY'), 'Genesis Pharmaceutical, Inc.');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (19, 'Norridgewock', TO_DATE('9/5/2023', 'MM/DD/YYYY'), 'Jubilant HollisterStier LLC');
+insert into "REVIEW_COMMENT" (board_no, writer_id, write_date, content) values (20, 'Omidiyeh', TO_DATE('1/23/2024', 'MM/DD/YYYY'), 'Bryant Ranch Prepack');
 
 
 commit;
