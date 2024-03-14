@@ -75,12 +75,12 @@ public class ClubService {
     }
 
     @Transactional
-    public void joinMember(Long memberNo, Long clubNo){
+    public void joinMember(MemberDTO member, Long clubNo){
         ClubDTO club = findClubByNo(clubNo);
-        club.getMembers().add(memberNo);
-        MemberDTO member = memberService.findByNo(memberNo);
-        member.getJoinClub().add(clubNo);
-        memberService.updateMemberInfo(member);
+        club.getMembers().add(member.getNo());
+        MemberDTO newMember = memberService.findByNo(member.getNo());
+        newMember.getJoinClub().add(clubNo);
+        memberService.updateMemberInfo(newMember, member);
         updateClubInfo(club);
     }
 }

@@ -65,9 +65,8 @@ public class ClubController {
 
     @GetMapping("/join")
     public String joinClub(@RequestParam("clubNo") Long clubNo, HttpSession session){
-        // todo 아이디로 현재 로그인 맴버 가져오기
         MemberDTO memberDTO =(MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        clubService.joinMember(memberDTO.getNo(), clubNo);
+        clubService.joinMember(memberDTO, clubNo);
         return "redirect:/club?clubNo=" + clubNo;
     }
 

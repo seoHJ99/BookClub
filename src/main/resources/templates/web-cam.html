@@ -71,8 +71,8 @@
           document.body.appendChild(link);
           link.href = recordedMediaURL;
           let time = getCurrentDateTime();
-          link.download = "" + time + +".webm";
-          link.click();
+          link.download = "" + time + ".webm";
+          //   link.click();
           document.body.removeChild(link);
         }
       };

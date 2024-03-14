@@ -18,7 +18,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     public void save(CommentDTO commentDTO){
-        // todo writerId 로그인 구현후 삽입
         commentDTO.setDate(LocalDate.now());
         commentDTO.setTime(LocalTime.now());
         commentDTO.setWriterId("aaa");
@@ -31,5 +30,16 @@ public class CommentService {
                 .map(entity -> new CommentDTO(entity))
                 .collect(Collectors.toList());
     }
+//
+//    public List<CommentDTO> findByWriter(String memberId){
+//        List<Comment> entity = commentRepository.findByIdWriterId(memberId);
+//        return entity.stream().map(CommentDTO::new).collect(Collectors.toList());
+//    }
+
+    public List<CommentDTO> findByWriter(String memberId){
+        List<Comment> entity = commentRepository.findWithBoardByWriterId(memberId);
+        return entity.stream().map(CommentDTO::new).collect(Collectors.toList());
+    }
+
 
 }

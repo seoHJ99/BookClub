@@ -29,38 +29,33 @@ public class LoginController {
 
     private final LoginService loginService;
 
-
-//    @GetMapping("/login")
-//    public String loginForm(@ModelAttribute LoginDto loginDto){
-//        return "layout/home";
-//    }
-
-    @GetMapping("/ss")
-    public void ss(HttpServletResponse response) throws IOException {
-        response.sendError(400, "aa");
-    }
-
     @PostMapping("/login")
     public String loginProcess(@Validated @ModelAttribute("loginDto") LoginDto loginDto,
                                BindingResult bindingResult,
-                               HttpSession session){
+                               HttpSession session,
+                               HttpServletResponse response) throws IOException {
+
         if(bindingResult.hasErrors()){
-            return "layout-main/layout";
+            return "redirect:/";
         }
-        MemberDTO loginMember = loginService.doLogin(loginDto.getId(), loginDto.getPw());
 
-        if(loginMember == null){
+        MemberDTO findMeber = loginService.doLogin(loginDto.getId(), loginDto.getPw());
+
+        if(findMeber == null){
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "layout-main/layout";
+            response.getWriter().write("<script>alert('아이디 또는 비밀번호가 맞지 않습니다.');</script>");
+            return "redirect:/";
         }
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
-        if(session.getAttribute(loginMember.getId()) != null){
+        if(session.getAttribute(findMeber.getId()) != null){
             log.info("이미 로그인한 사용자");
-            sharedLoginMap.replace(loginMember.getId(), session.getId());
+            sharedLoginMap.replace(findMeber.getId(), session.getId());
         }
 
-        sharedLoginMap.put(loginMember.getId(), session.getId());
+        System.out.println(findMeber);
+
+        session.setAttribute(SessionConst.LOGIN_MEMBER, findMeber);
+        sharedLoginMap.put(findMeber.getId(), session.getId());
         return "redirect:/";
     }
 
