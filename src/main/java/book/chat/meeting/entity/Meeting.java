@@ -39,7 +39,7 @@ public class Meeting {
             this.online="N";
         }
         this.meetingDate = meetingDto.getMeetingDate();
-        this.meetingTime = getMeetingTime();
+        this.meetingTime = meetingDto.getMeetingTime();
         this.max = meetingDto.getMax();
     }
 

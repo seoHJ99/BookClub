@@ -57,14 +57,14 @@ public class ClubController {
     @GetMapping("")
     public String clubInfo(@RequestParam("clubNo") Long clubNo, Model model, HttpSession session) {
         ClubDTO clubDTO = clubService.findClubByNo(clubNo);
-        Object memberDto = session.getAttribute(SessionConst.LOGIN_MEMBER);
+        MemberDTO memberDto = (MemberDTO)session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (memberDto != null) {
-            MemberDTO memberDTO = (MemberDTO) memberDto;
-            if (clubDTO.getMembers().contains(memberDTO.getNo())) {
+            if (clubDTO.getMembers().contains(memberDto.getNo())) {
                 model.addAttribute("joined", "zz");
             }
         }
         List<ClubBoardDTO> byClubNo = boardService.findClubBoardByClubNo(clubNo);
+        model.addAttribute("loginMember", memberDto.getNo());
         model.addAttribute("club", clubDTO);
         model.addAttribute("boards", byClubNo);
         model.addAttribute("meetings", meetingService.findNotDoneMeeting(clubNo));
@@ -80,6 +80,7 @@ public class ClubController {
         clubService.joinMember(memberDTO, clubNo);
         return "redirect:/club?clubNo=" + clubNo;
     }
+
 
     @GetMapping("/chatting")
     public String chatting(@RequestParam("clubNo") Long clubNo, HttpSession session, Model model, HttpServletResponse response) {

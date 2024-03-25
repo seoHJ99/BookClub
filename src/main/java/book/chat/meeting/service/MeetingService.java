@@ -6,6 +6,7 @@ import book.chat.meeting.entity.MeetingRepository;
 import book.chat.member.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -40,6 +41,7 @@ public class MeetingService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public MeetingDto save(MeetingDto meetingDto, MemberDTO meetingMaker) {
         String joinMemberStr = meetingDto.getJoinMember().toString().replaceAll("\\[","").replaceAll("]","");
         List<Long> joinMember = Arrays.stream(joinMemberStr.split(","))
@@ -50,6 +52,25 @@ public class MeetingService {
         meetingDto.setJoinMember(joinMember);
         Meeting savedMeeting = meetingRepository.save(new Meeting(meetingDto));
         return new MeetingDto(savedMeeting);
+    }
+
+    @Transactional
+    public void save(MeetingDto meetingDto) {
+       meetingRepository.save(new Meeting(meetingDto));
+    }
+
+    @Transactional
+    public void join(MemberDTO memberDTO, Long clubNo, Long no){
+        MeetingDto meetingDto = findByClubNoAndNo(clubNo, no);
+        meetingDto.getJoinMember().add(memberDTO.getNo());
+        save(meetingDto);
+    }
+
+    @Transactional
+    public void out(MemberDTO memberDTO, Long clubNo, Long no){
+        MeetingDto meetingDto = findByClubNoAndNo(clubNo, no);
+        meetingDto.getJoinMember().remove(memberDTO.getNo());
+        save(meetingDto);
     }
 
     public List<MeetingDto> findNotDoneMeeting(Long clubNo){

@@ -6,13 +6,17 @@ import book.chat.meeting.dto.MeetingDto;
 import book.chat.meeting.service.MeetingService;
 import book.chat.member.dto.MemberDTO;
 import book.chat.common.SessionConst;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -54,5 +58,26 @@ public class MeetingController {
 //        System.out.println(meetingService.findRecent10Meetings().get(0).getMeetingDate());
         model.addAttribute("meetings", meetingService.findRecent10Meetings());
         return "layout/meeting-list";
+    }
+
+    @GetMapping("/join")
+    public String meetingJoin(@RequestParam(value = "no") Long no, @RequestParam(value = "clubNo") Long clubNo, Model model, HttpSession session, HttpServletResponse response) throws IOException {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(!loginMember.getJoinClub().contains(no)){
+            response.sendError(HttpStatus.FORBIDDEN.value());
+        }
+        meetingService.join(loginMember, clubNo, no);
+        response.setStatus(HttpStatus.OK.value());
+        return "redirect:/club";
+    }
+
+    @GetMapping("/out")
+    public String meetingOut(@RequestParam(value = "no") Long no, @RequestParam(value = "clubNo") Long clubNo, Model model, HttpSession session, HttpServletResponse response) throws IOException {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(!loginMember.getJoinClub().contains(no)){
+            response.sendError(HttpStatus.FORBIDDEN.value());
+        }
+        meetingService.out(loginMember, clubNo, no);
+        return "redirect:/club";
     }
 }
