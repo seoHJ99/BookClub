@@ -102,6 +102,52 @@
         width: 100%;
         max-width: 1320px;
       }
+
+      .meeting-item {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: relative;
+      }
+      .meeting-item h4 {
+        margin-bottom: 5px;
+      }
+      .meeting-item p {
+        margin-bottom: 3px;
+      }
+      .meeting-time {
+        font-size: 0.8rem;
+      }
+      .meeting-location {
+        font-style: italic;
+        font-size: 0.9rem;
+      }
+      .meeting-book {
+        font-weight: bold;
+      }
+      .meeting-capacity {
+        font-size: 0.8rem;
+      }
+      .member-profile {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 5px;
+        border: 1px solid black;
+      }
+      /* 참가 버튼 스타일 */
+      .join-button {
+        position: absolute;
+        top: 50%;
+        right: 100px;
+        transform: translateY(-50%);
+      }
+
+      .d-flex {
+        justify-content: center;
+      }
     </style>
   </head>
   <body>
@@ -235,6 +281,14 @@
                   ></a>
                 </li>
               </ul>
+              <!-- 오른쪽 하단에 버튼 -->
+              <div class="text-end mt-3">
+                <a
+                  th:href="@{/board/club/list(no=${club.no})}"
+                  class="btn btn-primary"
+                  >모든 글 보러가기</a
+                >
+              </div>
             </div>
             <div
               class="tab-pane fade"
@@ -242,7 +296,48 @@
               role="tabpanel"
               aria-labelledby="contact-tab"
             >
-              ...
+              <!-- 미팅 리스트 -->
+              <div class="meeting-item" th:each="meeting:${meetings}">
+                <!-- 날짜 -->
+                <h4 th:text="${meeting.meetingDate}">2024년 2월 16일</h4>
+                <!-- 시간 -->
+                <p class="meeting-time" th:text="${meeting.meetingTime}">
+                  오후 3:00
+                </p>
+                <!-- 위치 -->
+                <p class="meeting-location" th:text="${meeting.location}">
+                  서울시 강남구
+                </p>
+                <!-- 책 이름 -->
+                <p class="meeting-book" th:text="${meeting.bookTitle}">
+                  책 이름
+                </p>
+                <!-- 참가 정원 -->
+                <p class="meeting-capacity" th:text="${meeting.max}">
+                  참가 정원: 10명
+                </p>
+                <!-- 맴버 프로필 사진 -->
+                <div class="d-flex">
+                  <img
+                    src="profile1.jpg"
+                    alt="프로필 사진"
+                    class="member-profile"
+                  />
+                  <img
+                    src="profile2.jpg"
+                    alt="프로필 사진"
+                    class="member-profile"
+                  />
+                  <img
+                    src="profile3.jpg"
+                    alt="프로필 사진"
+                    class="member-profile"
+                  />
+                  <!-- 필요한 만큼 이미지 추가 -->
+                </div>
+                <!-- 참가 버튼 -->
+                <button class="btn btn-primary join-button">참가</button>
+              </div>
             </div>
           </div>
         </div>

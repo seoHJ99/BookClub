@@ -6,6 +6,7 @@ import book.chat.club.dto.ClubDTO;
 import book.chat.club.dto.ClubMakingForm;
 import book.chat.club.service.ClubService;
 import book.chat.common.SessionConst;
+import book.chat.meeting.service.MeetingService;
 import book.chat.member.dto.MemberDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,6 +28,7 @@ public class ClubController {
 
     private final ClubService clubService;
     private final BoardService boardService;
+    private final MeetingService meetingService;
 
     @GetMapping("/save")
     public String makingForm(@ModelAttribute ClubMakingForm makingForm) {
@@ -65,6 +67,7 @@ public class ClubController {
         List<ClubBoardDTO> byClubNo = boardService.findClubBoardByClubNo(clubNo);
         model.addAttribute("club", clubDTO);
         model.addAttribute("boards", byClubNo);
+        model.addAttribute("meetings", meetingService.findNotDoneMeeting(clubNo));
         model.addAttribute("members", clubService.findClubMember(clubDTO));
         model.addAttribute("books", clubService.findReadBooksLimit10(clubDTO.getReadBooks()));
 

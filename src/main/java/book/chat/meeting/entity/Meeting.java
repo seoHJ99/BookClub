@@ -12,6 +12,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "meeting")
 @NoArgsConstructor
+@ToString
 public class Meeting {
     @EmbeddedId
     private MeetingId id;

@@ -7,6 +7,7 @@ import book.chat.member.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,5 +50,12 @@ public class MeetingService {
         meetingDto.setJoinMember(joinMember);
         Meeting savedMeeting = meetingRepository.save(new Meeting(meetingDto));
         return new MeetingDto(savedMeeting);
+    }
+
+    public List<MeetingDto> findNotDoneMeeting(Long clubNo){
+        List<Meeting> allNotDoneMeeting = meetingRepository.findAllNotDoneMeeting(clubNo, LocalDate.now());
+        return allNotDoneMeeting.stream()
+                .map(MeetingDto::new)
+                .collect(Collectors.toList());
     }
 }
