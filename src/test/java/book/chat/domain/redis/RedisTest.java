@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisServer;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -24,9 +26,19 @@ public class RedisTest {
     private RedisTestRepository repository;
     private RedisServer redisServer;
 
-    @Autowired
+    @Configuration
+    class config{
+        @Bean
+        RedisTemplate redisTemplateTest(){
+            return new RedisTemplate();
+        }
+    }
+
     private RedisTemplate redisTemplate;
 
+    public RedisTest(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @BeforeEach
     void init() {

@@ -4,7 +4,7 @@ import book.chat.api.naver.BookSearchAPI;
 import book.chat.board.dto.CommentDTO;
 import book.chat.board.dto.ReviewDTO;
 import book.chat.board.service.CommentService;
-import book.chat.board.service.ReviewService;
+import book.chat.board.service.BoardService;
 import book.chat.common.SessionConst;
 import book.chat.common.dto.BookDTO;
 import book.chat.member.dto.MemberDTO;
@@ -38,7 +38,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final RedisService redisService;
-    private final ReviewService reviewService;
+    private final BoardService reviewService;
     private final BookSearchAPI bookSearchAPI;
     private final CommentService commentService;
 

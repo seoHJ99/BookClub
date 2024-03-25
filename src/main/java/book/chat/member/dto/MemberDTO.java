@@ -42,6 +42,7 @@ public class MemberDTO {
         }else {
             this.joinClub = Arrays.stream(entity.getJoinClub().replaceAll("\\[","")
                             .replaceAll("]","")
+                            .replaceAll(" ", "")
                             .split(","))
                     .map(string -> Long.parseLong(string))
                     .collect(Collectors.toList());

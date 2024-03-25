@@ -1,8 +1,8 @@
 package book.chat.board.service;
 
+import book.chat.board.dto.ClubBoardDTO;
 import book.chat.board.dto.CommentDTO;
-import book.chat.board.entity.Comment;
-import book.chat.board.entity.CommentRepository;
+import book.chat.board.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+
+
 
     @Transactional
     public void save(CommentDTO commentDTO){

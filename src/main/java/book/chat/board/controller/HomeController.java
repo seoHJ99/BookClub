@@ -1,8 +1,8 @@
 package book.chat.board.controller;
 
 import book.chat.api.naver.BookSearchAPI;
-import book.chat.board.service.ReviewService;
 import book.chat.board.dto.ReviewDTO;
+import book.chat.board.service.BoardService;
 import book.chat.club.service.ClubService;
 import book.chat.member.service.MemberService;
 import book.chat.redis.service.RedisService;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class HomeController {
 
     private final ClubService clubService;
-    private final ReviewService reviewService;
+    private final BoardService reviewService;
     private final RedisService redisService;
     private final MemberService memberService;
     private final BookSearchAPI bookSearchAPI;

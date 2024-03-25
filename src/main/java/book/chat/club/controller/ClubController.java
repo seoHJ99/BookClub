@@ -1,10 +1,12 @@
 package book.chat.club.controller;
 
+import book.chat.board.dto.ClubBoardDTO;
+import book.chat.board.service.BoardService;
 import book.chat.club.dto.ClubDTO;
 import book.chat.club.dto.ClubMakingForm;
 import book.chat.club.service.ClubService;
-import book.chat.member.dto.MemberDTO;
 import book.chat.common.SessionConst;
+import book.chat.member.dto.MemberDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -16,23 +18,26 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/club")
 public class ClubController {
 
     private final ClubService clubService;
+    private final BoardService boardService;
 
     @GetMapping("/save")
-    public String makingForm(@ModelAttribute ClubMakingForm makingForm){
+    public String makingForm(@ModelAttribute ClubMakingForm makingForm) {
         return "layout/club-make";
     }
 
     @PostMapping("/save")
     public String clubMaking(@Validated @ModelAttribute ClubMakingForm makingForm, BindingResult bindingResult,
-                             HttpServletRequest request, Model model){
+                             HttpServletRequest request, Model model) {
         // 만약 클럽을 못만든다면
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "layout/club-make";
         }
         ClubDTO clubDTO = clubService.save(makingForm, (MemberDTO) request.getSession(false)
@@ -42,38 +47,45 @@ public class ClubController {
     }
 
     @GetMapping("/list")
-    public String clubList(Model model){
+    public String clubList(Model model) {
         model.addAttribute("clubs", clubService.findAll());
         return "layout/club-list";
     }
 
     @GetMapping("")
-    public String clubInfo(@RequestParam("clubNo") Long clubNo, Model model, HttpSession session){
+    public String clubInfo(@RequestParam("clubNo") Long clubNo, Model model, HttpSession session) {
         ClubDTO clubDTO = clubService.findClubByNo(clubNo);
-        Object memberDto =  session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if(memberDto != null ){
+        Object memberDto = session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (memberDto != null) {
             MemberDTO memberDTO = (MemberDTO) memberDto;
-            if(  clubDTO.getMembers().contains(memberDTO.getNo() )){
+            if (clubDTO.getMembers().contains(memberDTO.getNo())) {
                 model.addAttribute("joined", "zz");
             }
         }
+        List<ClubBoardDTO> byClubNo = boardService.findClubBoardByClubNo(clubNo);
         model.addAttribute("club", clubDTO);
+        model.addAttribute("boards", byClubNo);
         model.addAttribute("members", clubService.findClubMember(clubDTO));
         model.addAttribute("books", clubService.findReadBooksLimit10(clubDTO.getReadBooks()));
+
         return "layout/club-info";
     }
 
     @GetMapping("/join")
-    public String joinClub(@RequestParam("clubNo") Long clubNo, HttpSession session){
-        MemberDTO memberDTO =(MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+    public String joinClub(@RequestParam("clubNo") Long clubNo, HttpSession session) {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
         clubService.joinMember(memberDTO, clubNo);
         return "redirect:/club?clubNo=" + clubNo;
     }
 
     @GetMapping("/chatting")
-    public String chatting(@RequestParam("clubNo") Long clubNo, HttpSession session, Model model, HttpServletResponse response){
-        MemberDTO loginMember = (MemberDTO)session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if(! loginMember.getJoinClub().contains(clubNo)){
+    public String chatting(@RequestParam("clubNo") Long clubNo, HttpSession session, Model model, HttpServletResponse response) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(loginMember == null){
+            // todo
+//            throw new AuthenticationException();
+        }
+        if (!loginMember.getJoinClub().contains(clubNo)) {
             response.setStatus(HttpStatus.BAD_REQUEST.value());
             return "redirect:/";
         }
