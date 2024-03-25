@@ -7,6 +7,7 @@ import book.chat.board.dto.CommentDTO;
 import book.chat.board.service.CommentService;
 import book.chat.common.SessionConst;
 import book.chat.common.dto.BookDTO;
+import book.chat.member.dto.MemberDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -79,7 +80,8 @@ public class ReviewController {
     public String saveComment(@Validated @ModelAttribute("comment") CommentDTO comment,
                               BindingResult bindingResult,
                               Model model, HttpSession session) {
-        comment.setWriterId((String) session.getAttribute(SessionConst.LOGIN_MEMBER));
+        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        comment.setWriterId(loginMember.getId());
         commentService.save(comment);
         ReviewDTO review = reviewService.findReviewByNo(comment.getBoardNo());
         return "redirect:/review?no=" + review.getNo();

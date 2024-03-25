@@ -2,10 +2,7 @@ package book.chat.board.entity;
 
 import book.chat.board.dto.CommentDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -16,6 +13,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "REVIEW_COMMENT")
 @NoArgsConstructor
+@ToString
 public class Comment {
     @EmbeddedId
     private CommentId id;
@@ -24,7 +22,7 @@ public class Comment {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_no")
+    @JoinColumn(name = "board_no", insertable = false, updatable = false)
     private Review review;
 
 
@@ -38,6 +36,7 @@ public class Comment {
     @AllArgsConstructor
     @NoArgsConstructor
     @EqualsAndHashCode
+    @ToString
     public static class CommentId implements Serializable {
         @Column(name = "BOARD_NO", insertable = false, updatable = false)
         private Long boardNo;

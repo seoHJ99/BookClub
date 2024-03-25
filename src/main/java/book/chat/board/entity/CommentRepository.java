@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Comment.CommentId> {
-//    void save(Comment comment);
+    Comment save(Comment comment);
     List<Comment> findByIdBoardNoOrderByIdDate(Long no);
     List<Comment> findByIdWriterId(String id);
     @Query("select c from Comment c join fetch c.review where c.id.boardNo = c.review.no and c.id.writerId = :writerId Order by c.id.date")
