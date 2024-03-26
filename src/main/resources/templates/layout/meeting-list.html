@@ -106,13 +106,19 @@
           <!-- 참가 버튼 -->
           <div class="cam" th:if="${meeting.online eq true}">화상회의</div>
           <a
-            th:if="${! #arrays.contains(meeting.joinMember, loginMember)}"
+            th:if="${! #arrays.contains(meeting.joinMember, loginMember) and meeting.online eq true}"
+            th:href="@{/webcam(clubNo=${meeting.clubNo}, no=${meeting.no})}"
+            class="btn btn-primary join-button"
+            >참가</a
+          >
+          <a
+            th:if="${! #arrays.contains(meeting.joinMember, loginMember) and meeting.online eq false}"
             th:href="@{/meeting/join(clubNo=${meeting.clubNo}, no=${meeting.no})}"
             class="btn btn-primary join-button"
             >참가</a
           >
           <a
-            th:if="${ #arrays.contains(meeting.joinMember, loginMember)}"
+            th:if="${ #arrays.contains(meeting.joinMember, loginMember) and meeting.online eq false}"
             th:href="@{/meeting/out(clubNo=${meeting.clubNo}, no=${meeting.no})}"
             class="btn btn-danger join-button"
             >불참</a
