@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class MeetingService {
 
     private final MeetingRepository meetingRepository;
-    private final MemberRepository memberRepository;
 
     public MeetingDto findByClubNoAndNo(Long clubNo,  Long meetingNo){
         return new MeetingDto( meetingRepository.findByIdClubNoAndIdNo(clubNo, meetingNo));
@@ -69,10 +68,7 @@ public class MeetingService {
         if(meetingDto.getMax() <= meetingDto.getJoinMember().size()){
             return false;
         }
-        if(meetingDto.isOnline()){
-            memberDTO.getCamMeetingDate().add(meetingDto.getDateTimeAll());
-            memberRepository.save(new Member().updateField(memberDTO));
-        }
+
         meetingDto.getJoinMember().add(memberDTO.getNo());
         save(meetingDto);
         return true;

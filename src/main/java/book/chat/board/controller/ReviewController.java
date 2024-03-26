@@ -2,6 +2,7 @@ package book.chat.board.controller;
 
 import book.chat.api.naver.BookSearchAPI;
 import book.chat.board.dto.ClubBoardDTO;
+import book.chat.board.entity.ClubCommentRepository;
 import book.chat.board.service.BoardService;
 import book.chat.board.dto.ReviewDTO;
 import book.chat.board.dto.CommentDTO;
@@ -39,9 +40,8 @@ public class ReviewController {
     private final CommentService commentService;
 
 
-
     @GetMapping("")
-    public String reviewBoard(Model model, @RequestParam("no") Long no) {
+    public String reviewBoard(Model model, @RequestParam("no") Long no, HttpSession session) {
         ReviewDTO review = boardService.findReviewByNo(no);
         model.addAttribute("review", review);
         model.addAttribute("comment", new CommentDTO());

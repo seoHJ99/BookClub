@@ -27,8 +27,6 @@ public class Member {
     private String reviewBoard;
     @Column(name = "join_club")
     private String joinClub;
-    @Column(name = "JOIN_MEETING_DATE")
-    private String camMeetingDate;
 
 
     public Member(MemberJoinForm joinForm) {
@@ -56,7 +54,6 @@ public class Member {
 //        this.nickName = newMemberDTO.getNickName();
         this.joinClub = newMemberDTO.getJoinClub().toString();
         this.reviewBoard = newMemberDTO.getReviewBoard();
-        this.camMeetingDate = newMemberDTO.getCamMeetingDate().toString();
         return this;
     }
 }

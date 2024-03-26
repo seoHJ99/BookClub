@@ -59,5 +59,8 @@ public class MeetingDto {
         this.meetingDate = entity.getMeetingDate();
         this.meetingTime = entity.getMeetingTime();
         this.dateTimeAll = LocalDateTime.of(this.meetingDate, this.meetingTime);
+        if(meetingDate.isEqual(LocalDate.now())){
+            this.available = true;
+        }
     }
 }

@@ -30,7 +30,6 @@ public class TestCon extends HttpServlet {
 //
 //        request.getSession(false).setAttribute("aaa", "sss");
 //        System.out.println(httpSession.getAttribute("aaa"));
-        System.out.println("TestCon.test");
         return "layout/chattingTest";
     }
 

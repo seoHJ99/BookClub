@@ -1,6 +1,6 @@
 package book.chat.board.service;
 
-import book.chat.board.dto.ClubBoardDTO;
+import book.chat.board.dto.ClubCommentDTO;
 import book.chat.board.dto.CommentDTO;
 import book.chat.board.entity.*;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +17,23 @@ import java.util.stream.Collectors;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-
-
+    private final ClubCommentRepository clubCommentRepository;
 
     @Transactional
     public void save(CommentDTO commentDTO){
         commentDTO.setDate(LocalDate.now());
         commentDTO.setTime(LocalTime.now());
-        System.out.println(new Comment(commentDTO));
         commentRepository.save(new Comment(commentDTO));
+    }
+
+    public List<ClubCommentDTO> findClubCommentById(String id){
+        List<ClubCommentDTO> dtoList = clubCommentRepository.findAllByIdWriterIdOrderByIdDateDesc(id).stream()
+                .map(ClubCommentDTO::new)
+                .collect(Collectors.toList());
+        for (ClubCommentDTO clubCommentDTO : dtoList) {
+            System.out.println(clubCommentDTO);
+        }
+        return dtoList;
     }
 
     public List<CommentDTO> findByBoardNo(Long no){

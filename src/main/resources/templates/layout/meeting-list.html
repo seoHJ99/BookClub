@@ -69,7 +69,7 @@
 
       .cam {
         position: absolute;
-        top: 30%;
+        top: 15%;
         right: 10px;
       }
     </style>
@@ -104,21 +104,20 @@
             <!-- 필요한 만큼 이미지 추가 -->
           </div>
           <!-- 참가 버튼 -->
-          <div class="cam" th:if="${meeting.online eq true}">화상회의</div>
           <a
-            th:if="${! #arrays.contains(meeting.joinMember, loginMember) and meeting.online eq true}"
-            th:href="@{/webcam(clubNo=${meeting.clubNo}, no=${meeting.no})}"
-            class="btn btn-primary join-button"
-            >참가</a
+            th:if="${ #arrays.contains(meeting.joinMember, loginMember2) and meeting.available == true and meeting.online == true}"
+            th:href="@{/webcam(clubNo=${meeting.clubNo}, meetingNo=${meeting.no})}"
+            class="btn btn-secondary cam"
+            >화상회의 바로 가기</a
           >
           <a
-            th:if="${! #arrays.contains(meeting.joinMember, loginMember) and meeting.online eq false}"
+            th:if="${! #arrays.contains(meeting.joinMember, loginMember)}"
             th:href="@{/meeting/join(clubNo=${meeting.clubNo}, no=${meeting.no})}"
             class="btn btn-primary join-button"
             >참가</a
           >
           <a
-            th:if="${ #arrays.contains(meeting.joinMember, loginMember) and meeting.online eq false}"
+            th:if="${ #arrays.contains(meeting.joinMember, loginMember)}"
             th:href="@{/meeting/out(clubNo=${meeting.clubNo}, no=${meeting.no})}"
             class="btn btn-danger join-button"
             >불참</a

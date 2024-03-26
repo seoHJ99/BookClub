@@ -34,18 +34,17 @@ public class WebCamViewController {
         MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         if(!meetingDto.getJoinMember().contains(loginMember.getNo())){
-            response.sendError(403);
+             response.sendError(403);
         }
-        if(!LocalDateTime.now().isAfter(meetingDto.getDateTimeAll())){
+
+        if(!LocalDateTime.now().isBefore(meetingDto.getDateTimeAll())){
             response.sendError(HttpStatus.UNAUTHORIZED.value());
         }
 
         UUID roomId = null;
         if(roomIdMap.containsKey(meetingDto)){
-            System.out.println("기존");
             roomId = roomIdMap.get(meetingDto);
         }else {
-            System.out.println("신규");
             roomId = UUID.randomUUID();
             roomIdMap.put(meetingDto, roomId);
         }

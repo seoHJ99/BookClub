@@ -2,7 +2,6 @@ package book.chat.board.dto;
 
 
 import book.chat.board.entity.ClubBoard;
-import book.chat.board.entity.ClubBoardComment;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +35,7 @@ public class ClubBoardDTO {
         this.writeDate = entity.getWriteDate();
         this.writer = entity.getWriter();
         this.comment = entity.getComment().stream()
-                .map(comm -> new ClubCommentDTO(comm))
+                .map(ClubCommentDTO::new)
                 .collect(Collectors.toList());
     }
 }

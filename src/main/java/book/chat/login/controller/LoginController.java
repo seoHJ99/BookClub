@@ -50,8 +50,6 @@ public class LoginController {
             sharedLoginMap.replace(findMember.getId(), session.getId());
         }
 
-        System.out.println(findMember);
-
         session.setAttribute(SessionConst.LOGIN_MEMBER, findMember);
         sharedLoginMap.put(findMember.getId(), session.getId());
         return "<script>location.href='/';</script>";

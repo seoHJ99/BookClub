@@ -57,7 +57,7 @@ public class MeetingController {
         if (clubNo != null) {
             model.addAttribute("meetings", meetingService.findRecent10Meetings(clubNo));
         }
-        model.addAttribute("loginMember", memberDto.getNo());
+        model.addAttribute("loginMember2", memberDto.getNo());
         model.addAttribute("meetings", meetingService.findRecent10Meetings());
         return "layout/meeting-list";
     }
@@ -95,17 +95,17 @@ public class MeetingController {
         return "redirect:/club";
     }
 
-    @GetMapping("/start")
-    public String camMeetingStart(@RequestParam(value = "no") Long no,
-                                  @RequestParam(value = "clubNo") Long clubNo,
-                                  Model model,
-                                  HttpSession session,
-                                  HttpServletResponse response) throws IOException {
-        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        MeetingDto meetingDto = meetingService.findByClubNoAndNo(clubNo, no);
-        if(!meetingDto.isOnline()){
-            response.sendError(HttpStatus.FORBIDDEN.value());
-        }
-        return "redirect:/webcam?meetingNo="+no+"&clubNo="+ clubNo;
-    }
+//    @GetMapping("/start")
+//    public String camMeetingStart(@RequestParam(value = "no") Long no,
+//                                  @RequestParam(value = "clubNo") Long clubNo,
+//                                  Model model,
+//                                  HttpSession session,
+//                                  HttpServletResponse response) throws IOException {
+//        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+//        MeetingDto meetingDto = meetingService.findByClubNoAndNo(clubNo, no);
+//        if(!meetingDto.isOnline()){
+//            response.sendError(HttpStatus.FORBIDDEN.value());
+//        }
+//        return "redirect:/webcam?meetingNo="+no+"&clubNo="+ clubNo;
+//    }
 }

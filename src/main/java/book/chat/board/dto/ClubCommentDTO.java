@@ -1,5 +1,6 @@
 package book.chat.board.dto;
 
+import book.chat.board.entity.ClubBoard;
 import book.chat.board.entity.ClubBoardComment;
 import book.chat.board.entity.Comment;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class ClubCommentDTO {
     private LocalDate date;
     private LocalTime time;
     private ClubBoardDTO boardDTO;
+    private ClubBoardDTO clubBoardDTO;
 
     public ClubCommentDTO(ClubBoardComment entity) {
 //        this.boardDTO = new ClubBoardDTO(entity.getClubBoard());
@@ -29,5 +31,6 @@ public class ClubCommentDTO {
         this.content = entity.getContent();
         this.date = entity.getId().getDate().toLocalDate();
         this.time = entity.getId().getDate().toLocalTime();
+        this.clubBoardDTO = entity.entityToBoardDto();
     }
 }

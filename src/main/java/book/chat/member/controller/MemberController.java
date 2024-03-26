@@ -131,7 +131,6 @@ public class MemberController {
                                    BindingResult bindingResult, HttpSession session) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (bindingResult.hasErrors()) {
-            System.out.println("오류");
             updateForm.setId(id);
             return "layout/member-update";
         }
@@ -152,8 +151,10 @@ public class MemberController {
     }
 
     @GetMapping("/comment/{member}")
-    public String memberComment(@PathVariable("member") String memberId, Model model) {
+    public String memberComment(@PathVariable("member") String memberId, Model model, HttpSession session) {
         List<CommentDTO> comments = commentService.findByWriter(memberId);
+        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        model.addAttribute("clubComments", commentService.findClubCommentById(loginMember.getId()));
         model.addAttribute("comments", comments);
         return "layout/member-comment";
     }

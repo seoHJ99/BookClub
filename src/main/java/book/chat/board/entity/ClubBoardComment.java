@@ -1,5 +1,6 @@
 package book.chat.board.entity;
 
+import book.chat.board.dto.ClubBoardDTO;
 import book.chat.board.dto.ClubCommentDTO;
 import book.chat.board.dto.CommentDTO;
 import jakarta.persistence.*;
@@ -33,8 +34,6 @@ public class ClubBoardComment {
         this.content = commentDTO.getContent();
     }
 
-
-
     @Embeddable
     @Getter
     @AllArgsConstructor
@@ -48,5 +47,9 @@ public class ClubBoardComment {
         private String writerId;
         @Column(name = "write_date")
         private LocalDateTime date;
+    }
+
+    public ClubBoardDTO entityToBoardDto(){
+        return new ClubBoardDTO(this.getClubBoard());
     }
 }
