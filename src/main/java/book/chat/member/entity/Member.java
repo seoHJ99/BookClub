@@ -27,6 +27,8 @@ public class Member {
     private String reviewBoard;
     @Column(name = "join_club")
     private String joinClub;
+    @Column(name = "JOIN_MEETING_DATE")
+    private String camMeetingDate;
 
 
     public Member(MemberJoinForm joinForm) {
@@ -42,12 +44,6 @@ public class Member {
 //        this.profile = newMemberDTO.getProfile();
         this.pw = newMemberDTO.getPw();
         this.nickname = newMemberDTO.getNickname();
-//        this.mail = newMemberDTO.getMail();
-//        this.location = newMemberDTO.getLocation();
-//        this.interest = newMemberDTO.getInterest();
-//        this.nickName = newMemberDTO.getNickName();
-//        this.joinClub = newMemberDTO.getJoinClub().toString();
-//        this.reviewBoard = newMemberDTO.getReviewBoard();
         return this;
     }
 
@@ -60,6 +56,7 @@ public class Member {
 //        this.nickName = newMemberDTO.getNickName();
         this.joinClub = newMemberDTO.getJoinClub().toString();
         this.reviewBoard = newMemberDTO.getReviewBoard();
+        this.camMeetingDate = newMemberDTO.getCamMeetingDate().toString();
         return this;
     }
 }

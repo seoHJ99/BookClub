@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +29,7 @@ public class MemberDTO {
     private String reviewBoard;
     private List<Long> joinClub;
     private String introduce;
+    private List<LocalDateTime> camMeetingDate;
 
     public MemberDTO(Member entity) {
         this.no = entity.getNo();
@@ -49,7 +52,15 @@ public class MemberDTO {
         }
         this.profile = entity.getProfile();
         this.introduce = entity.getIntroduce();
+        this.camMeetingDate = Arrays.stream(entity.getCamMeetingDate().replaceAll("\\[","")
+                        .replaceAll("]","")
+                        .replaceAll(" ", "")
+                        .split(","))
+                .map(LocalDateTime::parse)
+                .collect(Collectors.toList());
     }
+
+
 
     public MemberDTO(MemberJoinForm joinForm) {
         this.id = joinForm.getId();

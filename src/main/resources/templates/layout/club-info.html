@@ -337,7 +337,7 @@
                 <a
                   th:if="${ #arrays.contains(meeting.joinMember, loginMember)}"
                   th:href="@{/meeting/out(clubNo=${club.no}, no=${meeting.no})}"
-                  class="btn btn-primary join-button"
+                  class="btn btn-danger join-button"
                   >불참</a
                 >
               </div>

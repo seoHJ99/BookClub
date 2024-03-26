@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -29,34 +26,35 @@ public class LoginController {
 
     private final LoginService loginService;
 
+    @ResponseBody
     @PostMapping("/login")
     public String loginProcess(@Validated @ModelAttribute("loginDto") LoginDto loginDto,
                                BindingResult bindingResult,
                                HttpSession session,
                                HttpServletResponse response) throws IOException {
-
         if(bindingResult.hasErrors()){
-            return "redirect:/";
+            return "<script>location.href='/';</script>";
         }
 
-        MemberDTO findMeber = loginService.doLogin(loginDto.getId(), loginDto.getPw());
+        MemberDTO findMember = loginService.doLogin(loginDto.getId(), loginDto.getPw());
 
-        if(findMeber == null){
+        if(findMember == null){
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            response.getWriter().write("<script>alert('아이디 또는 비밀번호가 맞지 않습니다.');</script>");
-            return "redirect:/";
+            return "<script>" +
+                    "alert('아이디 또는 비밀번호가 맞지 않습니다.');"+
+                    "location.href='/';</script>";
         }
 
-        if(session.getAttribute(findMeber.getId()) != null){
+        if(session.getAttribute(findMember.getId()) != null){
             log.info("이미 로그인한 사용자");
-            sharedLoginMap.replace(findMeber.getId(), session.getId());
+            sharedLoginMap.replace(findMember.getId(), session.getId());
         }
 
-        System.out.println(findMeber);
+        System.out.println(findMember);
 
-        session.setAttribute(SessionConst.LOGIN_MEMBER, findMeber);
-        sharedLoginMap.put(findMeber.getId(), session.getId());
-        return "redirect:/";
+        session.setAttribute(SessionConst.LOGIN_MEMBER, findMember);
+        sharedLoginMap.put(findMember.getId(), session.getId());
+        return "<script>location.href='/';</script>";
     }
 
     @PostMapping("/logout")

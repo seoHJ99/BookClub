@@ -4,6 +4,8 @@ import book.chat.meeting.dto.MeetingDto;
 import book.chat.meeting.entity.Meeting;
 import book.chat.meeting.entity.MeetingRepository;
 import book.chat.member.dto.MemberDTO;
+import book.chat.member.entity.Member;
+import book.chat.member.entity.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,25 +20,26 @@ import java.util.stream.Collectors;
 public class MeetingService {
 
     private final MeetingRepository meetingRepository;
+    private final MemberRepository memberRepository;
 
     public MeetingDto findByClubNoAndNo(Long clubNo,  Long meetingNo){
         return new MeetingDto( meetingRepository.findByIdClubNoAndIdNo(clubNo, meetingNo));
     }
 
     public List<MeetingDto> findRecent10Meetings(){
-        return meetingRepository.findTop10ByOrderByMeetingDateDesc().stream()
+        return meetingRepository.findTop10ByMeetingDateGreaterThanEqualOrderByMeetingDateDesc(LocalDate.now()).stream()
                 .map(MeetingDto::new)
                 .collect(Collectors.toList());
     }
 
     public List<MeetingDto> findRecent10Meetings(Long clubNo){
-        return meetingRepository.findAllByIdClubNo(clubNo).stream()
+        return meetingRepository.findFirst10ByIdClubNoAndMeetingDateGreaterThanEqualOrderByMeetingDateDesc(clubNo, LocalDate.now()).stream()
                 .map(MeetingDto::new)
                 .collect(Collectors.toList());
     }
 
     public List<MeetingDto> findByClub(Long clubNo) {
-        return meetingRepository.findAllByIdClubNo(clubNo).stream()
+        return meetingRepository.findFirst10ByIdClubNoAndMeetingDateGreaterThanEqualOrderByMeetingDateDesc(clubNo, LocalDate.now()).stream()
                 .map(meeting -> new MeetingDto(meeting))
                 .collect(Collectors.toList());
     }
@@ -60,10 +63,19 @@ public class MeetingService {
     }
 
     @Transactional
-    public void join(MemberDTO memberDTO, Long clubNo, Long no){
+    public boolean join(MemberDTO memberDTO, Long clubNo, Long no){
+
         MeetingDto meetingDto = findByClubNoAndNo(clubNo, no);
+        if(meetingDto.getMax() <= meetingDto.getJoinMember().size()){
+            return false;
+        }
+        if(meetingDto.isOnline()){
+            memberDTO.getCamMeetingDate().add(meetingDto.getDateTimeAll());
+            memberRepository.save(new Member().updateField(memberDTO));
+        }
         meetingDto.getJoinMember().add(memberDTO.getNo());
         save(meetingDto);
+        return true;
     }
 
     @Transactional

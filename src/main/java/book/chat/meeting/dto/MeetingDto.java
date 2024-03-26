@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +34,8 @@ public class MeetingDto {
     @FutureOrPresent
     private LocalDate meetingDate;
     private LocalTime meetingTime;
+    private LocalDateTime dateTimeAll;
+    private boolean available;
     @NotBlank
     private String location;
 
@@ -55,5 +58,6 @@ public class MeetingDto {
         this.max = entity.getMax();
         this.meetingDate = entity.getMeetingDate();
         this.meetingTime = entity.getMeetingTime();
+        this.dateTimeAll = LocalDateTime.of(this.meetingDate, this.meetingTime);
     }
 }

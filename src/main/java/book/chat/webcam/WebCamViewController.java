@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +35,9 @@ public class WebCamViewController {
 
         if(!meetingDto.getJoinMember().contains(loginMember.getNo())){
             response.sendError(403);
+        }
+        if(!LocalDateTime.now().isAfter(meetingDto.getDateTimeAll())){
+            response.sendError(HttpStatus.UNAUTHORIZED.value());
         }
 
         UUID roomId = null;
