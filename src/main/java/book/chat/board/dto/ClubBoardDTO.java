@@ -34,8 +34,8 @@ public class ClubBoardDTO {
         this.isbn = entity.getBook();
         this.writeDate = entity.getWriteDate();
         this.writer = entity.getWriter();
-        this.comment = entity.getComment().stream()
-                .map(ClubCommentDTO::new)
-                .collect(Collectors.toList());
+//        this.comment = entity.getComment().stream()
+//                .map(ClubCommentDTO::new)
+//                .collect(Collectors.toList());
     }
 }

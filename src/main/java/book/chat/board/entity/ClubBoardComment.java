@@ -48,8 +48,4 @@ public class ClubBoardComment {
         @Column(name = "write_date")
         private LocalDateTime date;
     }
-
-    public ClubBoardDTO entityToBoardDto(){
-        return new ClubBoardDTO(this.getClubBoard());
-    }
 }

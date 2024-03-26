@@ -13,6 +13,9 @@
       rel="stylesheet"
     />
     <style>
+      .container {
+        padding: 50px;
+      }
       .comment {
         border: 1px solid #ddd;
         border-radius: 5px;
@@ -44,40 +47,67 @@
   <body>
     <main>
       <div class="container">
+        <button class="btn-primary" onclick="clubChange()">
+          모임 댓글 보기
+        </button>
+        <button class="btn-primary" onclick="normalChange()">
+          일반 댓글 보기
+        </button>
         <!-- 클럽 댓글 -->
-        <div class="row comment" th:each="comment:${clubComments}">
-          <div class="col-md-8">
-            <div class="comment-title" th:text="${comment.reviewDTO.title}">
-              댓글 제목 1
+        <div style="display: none" id="clubBox">
+          <div class="row comment" th:each="comment:${clubComments}">
+            <div class="col-md-8">
+              <a
+                th:href="@{/board/club( no=${comment.boardDTO.no})}"
+                class="comment-title"
+              >
+                원글 보러 가기</a
+              >
+              <div class="comment-content" th:text="${comment.content}">
+                댓글 내용이 여기에 표시됩니다. 너무 길어지면 ...으로 요약됩니다.
+              </div>
             </div>
-            <div class="comment-content" th:text="${comment.content}">
-              댓글 내용이 여기에 표시됩니다. 너무 길어지면 ...으로 요약됩니다.
+            <div class="col-md-4">
+              <div class="comment-date" th:text="${comment.date}">
+                2024-02-16
+              </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="comment-date" th:text="${comment.date}">2024-02-16</div>
           </div>
         </div>
 
         <!-- 일반 댓글 -->
-        <div class="row comment" th:each="comment:${comments}">
-          <div class="col-md-8">
-            <a
-              th:href="@{/board(no=${comment.boardNo})}"
-              class="comment-title"
-              th:text="${comment.clubBoardDTO.title}"
-            >
-              댓글 제목 1
-            </a>
-            <div class="comment-content" th:text="${comment.content}">
-              댓글 내용이 여기에 표시됩니다. 너무 길어지면 ...으로 요약됩니다.
+        <div id="normal">
+          <div class="row comment" th:each="comment:${comments}">
+            <div class="col-md-8">
+              <a
+                th:href="@{/board(no=${comment.boardNo})}"
+                class="comment-title"
+                th:text="${comment.reviewDTO.title}"
+              >
+                댓글 제목 1
+              </a>
+              <div class="comment-content" th:text="${comment.content}">
+                댓글 내용이 여기에 표시됩니다. 너무 길어지면 ...으로 요약됩니다.
+              </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="comment-date" th:text="${comment.date}">2024-02-16</div>
+            <div class="col-md-4">
+              <div class="comment-date" th:text="${comment.date}">
+                2024-02-16
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <script>
+        function clubChange() {
+          $("#normal").css("display", "none");
+          $("#clubBox").css("display", "block");
+        }
+        function normalChange() {
+          $("#normal").css("display", "block");
+          $("#clubBox").css("display", "none");
+        }
+      </script>
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
