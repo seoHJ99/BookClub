@@ -38,3 +38,4 @@ out/
 
 #### aws 키 ###
 .AWS.properties
+src/main/resources/AWS.properties
