@@ -40,12 +40,12 @@ public class RedisService {
     @Transactional
     public void idDuplicationSave(String id) {
         if (!existId(id)) {
-            redisTemplate.opsForValue().set(id.hashCode(), id, Duration.ofMinutes(5));
+            redisTemplate.opsForValue().set(id.hashCode()+"", id, Duration.ofMinutes(5));
         }
     }
 
     public boolean existId(String id) {
-        return Boolean.TRUE.equals(redisTemplate.opsForValue().get(id.hashCode()));
+        return Boolean.TRUE.equals(redisTemplate.opsForValue().get(id.hashCode() + ""));
     }
 
     @Transactional

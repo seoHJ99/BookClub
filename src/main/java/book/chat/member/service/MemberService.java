@@ -8,6 +8,7 @@ import book.chat.member.entity.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,7 +18,10 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public MemberDTO save(MemberJoinForm member){
+        Member member1 = new Member(member);
+        System.out.println(member1);
         return new MemberDTO(memberRepository.save(new Member(member)));
     }
 

@@ -1,33 +1,35 @@
 package book.chat.member.controller;
 
+import book.chat.api.aws.AwsS3Service;
 import book.chat.api.naver.BookSearchAPI;
 import book.chat.board.dto.CommentDTO;
 import book.chat.board.dto.ReviewDTO;
-import book.chat.board.service.CommentService;
 import book.chat.board.service.BoardService;
+import book.chat.board.service.CommentService;
 import book.chat.common.SessionConst;
 import book.chat.common.dto.BookDTO;
 import book.chat.member.dto.MemberDTO;
 import book.chat.member.dto.MemberJoinForm;
 import book.chat.member.dto.UpdateForm;
-import book.chat.member.entity.Member;
 import book.chat.member.service.MemberService;
 import book.chat.redis.service.RedisService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
@@ -41,6 +43,7 @@ public class MemberController {
     private final BoardService reviewService;
     private final BookSearchAPI bookSearchAPI;
     private final CommentService commentService;
+    private final AwsS3Service awsS3Service;
 
     @GetMapping("/join")
     public String joinPage(@ModelAttribute MemberJoinForm memberJoinForm) {
@@ -54,37 +57,54 @@ public class MemberController {
      * 만약 redis 에도 없으면 해당 id를 redis에 5분간 저장하고 5분간 유지되는 쿠키를 내려줌.
      * 이후 회원가입 진행시, 쿠키가 존재하면 id중복 체크 통과한걸로 판단하고 계속 진행
      * */
-    @PostMapping  // todo ajax 통신으로?? 어떻게 해야하냐?
-    public String checkIdDuplicate(@Validated @ModelAttribute MemberJoinForm memberJoinForm,
-                                   BindingResult bindingResult,
+    @ResponseBody
+    @PostMapping("/id/check")
+    public String checkIdDuplicate(@RequestParam("id") String id,
                                    HttpServletResponse response,
-                                   HttpSession session) throws IOException {
-        if (bindingResult.hasErrors()) {
-            return "layout/member-join";
-        }
-        String id = memberJoinForm.getId();
+                                   HttpServletRequest request) throws IOException {
+
         MemberDTO memberDTO = memberService.findById(id);
+        System.out.println(id.hashCode());
 
         if (memberDTO != null || redisService.existId(id)) {
-            response.getWriter().write("<script>alert('이미 존재하는 id입니다.'); </script>");
-            return "layout/member-join";
+            System.out.println("존재");
+            return "<script>alert('이미 존재하는 id입니다.'); </script>";
         }
-        Cookie cookie = new Cookie(id, UUID.randomUUID().toString());
+
+        Cookie cookie = new Cookie("idCheck", id);
+        cookie.setPath("/member");
         cookie.setMaxAge(300); // 5분간 유지되는 쿠키
         response.addCookie(cookie);
         redisService.idDuplicationSave(id);
-        session.setAttribute("idCheck", cookie.getAttribute(id));
-        session.setMaxInactiveInterval(300);
-        return "layout/member-join";
+        System.out.println("체크 통과");
+        return "<script>alert('중복 체크 통과'); </script>";
     }
 
-    @PostMapping("/join")
+    @PostMapping(path = "/join", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public String join(@Validated @ModelAttribute MemberJoinForm memberJoinForm,
                        BindingResult bindingResult,
                        @CookieValue(value = "idCheck", required = false) String idCheck,
-                       @CookieValue(value = "emailCheck", required = false) String mailCheck,
-                       HttpSession session) {
-        if (!cookieAndSessionSameCheck(idCheck, session)) {
+                       @CookieValue(value = "emailCheck", required = false) String mailCheck) {
+
+        System.out.println(memberJoinForm.getProfile().getOriginalFilename());
+        memberJoinForm.setMail(memberJoinForm.getEmail() + "@" + memberJoinForm.getEmail2());
+        String x = validationCheck(memberJoinForm, bindingResult, idCheck);
+        if (x != null) return x;
+
+        if(memberJoinForm.getProfile() != null){
+            String uploadURL = awsS3Service.upload(memberJoinForm.getProfile());
+            memberJoinForm.setProfileURL(uploadURL);
+        }
+        memberService.save(memberJoinForm);
+        return "redirect:/";
+    }
+
+    private String validationCheck(MemberJoinForm memberJoinForm, BindingResult bindingResult, String idCheck) {
+        if (idCheck == null) {
+            bindingResult.reject("noDoubleCheck", null, null);
+            return "layout/member-join";
+        }
+        if (!memberJoinForm.getId().equals(idCheck)) {
             bindingResult.reject("idDoubleCheck", null, null);
             return "layout/member-join";
         }
@@ -94,15 +114,13 @@ public class MemberController {
             return "layout/member-join";
         }
         if (bindingResult.hasErrors()) {
+            List<ObjectError> allErrors = bindingResult.getAllErrors();
+            System.out.println(allErrors);
             return "layout/member-join";
         }
-        memberService.save(memberJoinForm);
-        return "layout/home";
+        return null;
     }
 
-    public boolean cookieAndSessionSameCheck(String idCheck, HttpSession session) {
-        return session.getAttribute("idCheck").equals(idCheck);
-    }
 
     public boolean pwIsSame(MemberJoinForm memberJoinForm) {
         return memberJoinForm.getPw().equals(memberJoinForm.getPw2());
@@ -135,7 +153,7 @@ public class MemberController {
             return "layout/member-update";
         }
         MemberDTO member = memberService.updateMemberInfo(updateForm, loginMember);
-        session.setAttribute(SessionConst.LOGIN_MEMBER, member );
+        session.setAttribute(SessionConst.LOGIN_MEMBER, member);
         return "redirect:/member/info/" + loginMember.getId();
     }
 

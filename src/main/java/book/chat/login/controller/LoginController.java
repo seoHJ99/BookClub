@@ -32,6 +32,7 @@ public class LoginController {
                                BindingResult bindingResult,
                                HttpSession session,
                                HttpServletResponse response) throws IOException {
+        System.out.println("LoginController.loginProcess");
         if(bindingResult.hasErrors()){
             return "<script>location.href='/';</script>";
         }
@@ -55,7 +56,7 @@ public class LoginController {
         return "<script>location.href='/';</script>";
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session){
         if(session != null){
             session.invalidate();

@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,19 +27,19 @@ public class BookSearchAPI {
 
     public List<BookDTO> bookSearch(String keyword, Integer displayAmount, int start) throws IOException, ParseException {
         JSONArray jsonArray = null;
-        try{
+        try {
             Thread.sleep(100);
-            URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) + "&display=" + displayAmount + "&start=" +start);
+            URL apiURL = new URL(BOOK_URL + URLEncoder.encode(keyword) + "&display=" + displayAmount + "&start=" + start);
             String response = getResponse(sendRequest(apiURL));
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
-             jsonArray = (JSONArray) jsonObject.get("items");
-        }catch (Exception e){
+            jsonArray = (JSONArray) jsonObject.get("items");
+        } catch (Exception e) {
             log.error("exception = {}", e.getMessage());
         }
         return (List<BookDTO>) jsonArray.stream()
                 .map(o -> {
-                    JSONObject book = (JSONObject)o;
+                    JSONObject book = (JSONObject) o;
                     return BookDTO.builder()
                             .name((String) book.get("title"))
                             .image((String) book.get("image"))
@@ -48,28 +49,46 @@ public class BookSearchAPI {
                             .publishDate((String) book.get("pubdate"))
                             .description((String) book.get("description"))
                             .shoppingLink((String) book.get("link"))
-                            .build();})
+                            .build();
+                })
                 .collect(Collectors.toList());
 
     }
 
     public List<BookDTO> bookSearch(String keyword) {
         JSONArray jsonArray = null;
-        try{
+        try {
             Thread.sleep(100);
-            URL apiURL = new URL(BOOK_URL + URLEncoder.encode( keyword ) );
+            URL apiURL = new URL(BOOK_URL + URLEncoder.encode(keyword));
             String response = getResponse(sendRequest(apiURL));
 //            log.info(response);
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
             jsonArray = (JSONArray) jsonObject.get("items");
-        }catch (Exception e){
+
+            if (jsonArray.isEmpty()) {
+                List<BookDTO> list = new ArrayList<>();
+                list.add(
+                BookDTO.builder()
+                        .name("알수 없음")
+                        .image("/free-icon-book-828370.png")
+                        .isbn("알수 없음")
+                        .author("알수 없음")
+                        .publisher("알수 없음")
+                        .publishDate("알수 없음")
+                        .description("알수 없음")
+                        .shoppingLink("알수 없음")
+                        .build());
+                return list;
+
+            }
+        } catch (Exception e) {
             log.error("exception = {}", e.getMessage());
         }
         return (List<BookDTO>) jsonArray.stream()
                 .map(o -> {
-                    JSONObject book = (JSONObject)o;
-                     return BookDTO.builder()
+                    JSONObject book = (JSONObject) o;
+                    return BookDTO.builder()
                             .name((String) book.get("title"))
                             .image((String) book.get("image"))
                             .isbn((String) book.get("isbn"))
@@ -77,8 +96,9 @@ public class BookSearchAPI {
                             .publisher((String) book.get("publisher"))
                             .publishDate((String) book.get("pubdate"))
                             .description((String) book.get("description"))
-                             .shoppingLink((String) book.get("link"))
-                            .build();})
+                            .shoppingLink((String) book.get("link"))
+                            .build();
+                })
                 .collect(Collectors.toList());
     }
 
@@ -87,7 +107,7 @@ public class BookSearchAPI {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuffer stringBuffer = new StringBuffer();
         String inputLine;
-        while ((inputLine = bufferedReader.readLine()) != null)  {
+        while ((inputLine = bufferedReader.readLine()) != null) {
             stringBuffer.append(inputLine);
         }
         bufferedReader.close();

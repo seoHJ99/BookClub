@@ -42,17 +42,22 @@
         right: 10px;
         transform: translateY(-50%);
       }
+      #buttons {
+        padding: 20px;
+      }
     </style>
   </head>
   <body>
     <main>
       <div class="container">
-        <button class="btn-primary" onclick="clubChange()">
-          모임 댓글 보기
-        </button>
-        <button class="btn-primary" onclick="normalChange()">
-          일반 댓글 보기
-        </button>
+        <div id="buttons">
+          <button class="btn btn-primary" onclick="clubChange()">
+            모임 댓글 보기
+          </button>
+          <button class="btn btn-primary" onclick="normalChange()">
+            일반 댓글 보기
+          </button>
+        </div>
         <!-- 클럽 댓글 -->
         <div style="display: none" id="clubBox">
           <div class="row comment" th:each="comment:${clubComments}">

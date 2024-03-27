@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
@@ -15,18 +16,20 @@ public class MemberJoinForm {
     private String pw;
     @NotBlank
     private String pw2;
-    @NotBlank
-    @Size(min = 2, max = 5)
+//    @NotBlank
+//    @Size(min = 2, max = 5)
     private String name;
     @Size(min = 4, max = 15)
     private String nickname;
-    @NotBlank
-    private String profile;
+    private MultipartFile profile;
     @NotBlank
     private String location;
     @Email
     private String mail;
     private String introduce;
+    private String email;
+    private String email2;
+    private String profileURL;
 //    @NotBlank
 //    private String interest;
 }
