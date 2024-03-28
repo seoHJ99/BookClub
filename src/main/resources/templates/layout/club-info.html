@@ -240,16 +240,7 @@
             </li>
             <li class="nav-item" role="presentation">
               <input type="hidden" th:value="${club.no}" />
-              <button
-                class="nav-link"
-                id="contact-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#contact"
-                type="button"
-                role="tab"
-                aria-controls="contact"
-                aria-selected="false"
-              >
+              <button class="nav-link" type="button">
                 <a
                   style="text-decoration: none"
                   th:href="@{/club/chatting(clubNo=${club.no})}"

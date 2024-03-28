@@ -2,6 +2,8 @@ package book.chat.chatting.websocket;
 
 
 import book.chat.chatting.dto.ChatMessageDto;
+import book.chat.chatting.entity.Chatting;
+import book.chat.chatting.entity.ChattingRepository;
 import book.chat.member.dto.MemberDTO;
 import book.chat.common.SessionConst;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +17,9 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -33,6 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @RequiredArgsConstructor
 public class WebSocketChatHandler extends TextWebSocketHandler {
+    private final ChattingRepository chattingRepository;
 
     private final ObjectMapper mapper;
 
@@ -57,7 +62,8 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         ChatMessageDto chatMessageDto = mapper.readValue(payload, ChatMessageDto.class);
         chatMessageDto.setMemberProfile(memberDTO.getProfile());
         Long chatRoomId = chatMessageDto.getClubNo();
-        chatMessageDto.setTime(LocalDateTime.now());
+        chatMessageDto.setDate(LocalDate.now());
+        chatMessageDto.setTime(LocalTime.now());
         chatMessageDto.setMemberId(memberDTO.getId());
 
         if(!isClubMember(memberDTO, chatRoomId)){
@@ -76,7 +82,9 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
             sendMessageToChatRoom(chatMessageDto, chatRoomSession);
         }
         if (chatMessageDto.getMessageType().equals("chat")) {
+            System.out.println(chatMessageDto);
             sendMessageToChatRoom(chatMessageDto, chatRoomSession);
+            chattingRepository.save(new Chatting(chatMessageDto));
         }
         if(chatMessageDto.getMessageType().equals("close")){
             sendMessageToChatRoom(chatMessageDto, chatRoomSession);

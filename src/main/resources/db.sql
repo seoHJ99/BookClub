@@ -86,6 +86,16 @@ CREATE TABLE club_COMMENT(
     CONSTRAINT pk_club_comment PRIMARY KEY ("NO", board_no, writer_id, write_date, write_time)
 );
 
+CREATE TABLE chatting(
+    "NO" number not null,
+    club_no number not null,
+    "CHAT_DATE" date not null,
+    "CHAT_TIME" date not null,
+    writer varchar(13) not null,
+    content varchar(500) not null,
+    CONSTRAINT pk_cahtting PRIMARY KEY ("NO", club_no,  writer, "DATE", "TIME")
+)
+
 
 
 -- 클럽 데이터
