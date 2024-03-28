@@ -131,8 +131,11 @@ public class MemberController {
         return "layout/member-info";
     }
 
-    @GetMapping("/info/{member}")
-    public String memberUpdateForm(@PathVariable("member") String memberId, Model model, HttpSession session, HttpServletResponse response) throws IOException {
+    @GetMapping(path = "/info/{member}")
+    public String memberUpdateForm(@PathVariable("member") String memberId,
+                                   Model model,
+                                   HttpSession session,
+                                   HttpServletResponse response) throws IOException {
         MemberDTO memberDTO = memberService.findById(memberId);
         MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (isNotSame(memberDTO, loginMember)) {
@@ -142,13 +145,12 @@ public class MemberController {
         return "layout/member-update";
     }
 
-    @PostMapping("/info/{member}")
+    @PostMapping(path = "/info/{member}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public String memberInfoUpdate(@PathVariable("member") String id,
                                    @Validated @ModelAttribute("member") UpdateForm updateForm,
                                    BindingResult bindingResult, HttpSession session) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (bindingResult.hasErrors()) {
-            updateForm.setId(id);
             return "layout/member-update";
         }
         MemberDTO member = memberService.updateMemberInfo(updateForm, loginMember);

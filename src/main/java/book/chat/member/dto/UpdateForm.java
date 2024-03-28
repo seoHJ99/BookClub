@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,20 +14,12 @@ import java.util.stream.Collectors;
 
 @Data
 public class UpdateForm {
-    private String id;
     @NotBlank
     private String pw;
     @NotBlank
     private String pw2;
     @Size(min = 4, max = 15)
     private String nickname;
-//    @NotBlank
-//    private String profile;
-//    @NotBlank
-//    private String location;
-//    @Email
-//    private String mail;
-//    private String introduce;
-//    @NotBlank
-//    private String interest;
+    private MultipartFile profile;
+    private String profileUrl;
 }

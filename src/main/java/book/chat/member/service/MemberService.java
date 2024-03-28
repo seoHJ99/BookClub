@@ -1,5 +1,6 @@
 package book.chat.member.service;
 
+import book.chat.api.aws.AwsS3Service;
 import book.chat.meeting.dto.MeetingDto;
 import book.chat.meeting.entity.Meeting;
 import book.chat.member.dto.MemberDTO;
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
+    private final AwsS3Service awsS3Service;
 
 
     @Transactional
@@ -30,8 +31,11 @@ public class MemberService {
         return new MemberDTO(memberRepository.save(new Member(member)));
     }
 
+    @Transactional
     public MemberDTO updateMemberInfo(UpdateForm newMember, MemberDTO loginMember){
         Member entity = memberRepository.findById(loginMember.getId()).get();
+        String url = awsS3Service.upload(newMember.getProfile());
+        newMember.setProfileUrl(url);
         entity.updateField(newMember);
         memberRepository.save(entity);
         return new MemberDTO(entity) ;

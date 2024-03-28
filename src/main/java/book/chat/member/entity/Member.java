@@ -48,7 +48,7 @@ public class Member {
     }
 
     public Member updateField(UpdateForm newMemberDTO) {
-//        this.profile = newMemberDTO.getProfile();
+        this.profile = newMemberDTO.getProfileUrl();
         this.pw = newMemberDTO.getPw();
         this.nickname = newMemberDTO.getNickname();
         return this;

@@ -30,6 +30,9 @@
         text-align: center;
         margin-top: 30px;
       }
+      .text-center {
+        padding: 50px;
+      }
     </style>
   </head>
   <body>
@@ -47,6 +50,7 @@
             id="username"
             th:field="*{id}"
             name="id"
+            readonly
             style="width: 500px"
           />
           <div class="form-group">
@@ -91,7 +95,12 @@
           </div>
           <div class="form-group">
             <label for="profile-pic" class="form-title">프로필 사진 변경</label>
-            <input type="file" class="form-control" id="profile-pic" />
+            <input
+              type="file"
+              class="form-control"
+              id="profile-pic"
+              name="profile"
+            />
           </div>
           <div class="btn-container">
             <button type="submit" class="btn btn-primary">저장</button>

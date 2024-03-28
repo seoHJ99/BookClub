@@ -23,7 +23,6 @@ public class HomeController {
     private final ClubService clubService;
     private final BoardService reviewService;
     private final RedisService redisService;
-    private final MemberService memberService;
     private final BookSearchAPI bookSearchAPI;
 
 
