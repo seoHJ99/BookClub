@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "no_seq")
+    @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
     private Long no;
     private String title;
     private String content;

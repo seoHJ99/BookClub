@@ -86,7 +86,6 @@ public class MemberController {
                        @CookieValue(value = "idCheck", required = false) String idCheck,
                        @CookieValue(value = "emailCheck", required = false) String mailCheck) {
 
-        System.out.println(memberJoinForm.getProfile().getOriginalFilename());
         memberJoinForm.setMail(memberJoinForm.getEmail() + "@" + memberJoinForm.getEmail2());
         String x = validationCheck(memberJoinForm, bindingResult, idCheck);
         if (x != null) return x;

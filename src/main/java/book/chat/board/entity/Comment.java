@@ -38,6 +38,8 @@ public class Comment {
     @EqualsAndHashCode
     @ToString
     public static class CommentId implements Serializable {
+//        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "no_seq")
+//        @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
         @Column(name = "BOARD_NO", insertable = false, updatable = false)
         private Long boardNo;
         @Column(name = "WRITER_ID")

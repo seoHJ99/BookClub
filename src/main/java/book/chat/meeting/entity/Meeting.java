@@ -50,6 +50,8 @@ public class Meeting {
     @EqualsAndHashCode
     public static class MeetingId implements Serializable {
         @Column(name = "NO")
+//        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "no_seq")
+//        @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
         private Long no;
         @Column(name = "club_no")
         private Long clubNo;

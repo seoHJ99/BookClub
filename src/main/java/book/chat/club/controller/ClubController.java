@@ -1,5 +1,6 @@
 package book.chat.club.controller;
 
+import book.chat.api.aws.AwsS3Service;
 import book.chat.board.dto.ClubBoardDTO;
 import book.chat.board.service.BoardService;
 import book.chat.club.dto.ClubDTO;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,13 +37,15 @@ public class ClubController {
         return "layout/club-make";
     }
 
-    @PostMapping("/save")
+    @PostMapping(path = "/save",  consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public String clubMaking(@Validated @ModelAttribute ClubMakingForm makingForm, BindingResult bindingResult,
                              HttpServletRequest request, Model model) {
+
         // 만약 클럽을 못만든다면
         if (bindingResult.hasErrors()) {
             return "layout/club-make";
         }
+
         ClubDTO clubDTO = clubService.save(makingForm, (MemberDTO) request.getSession(false)
                 .getAttribute(SessionConst.LOGIN_MEMBER));
         model.addAttribute("club", clubDTO);

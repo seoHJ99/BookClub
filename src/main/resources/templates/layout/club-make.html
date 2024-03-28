@@ -32,7 +32,12 @@
     <main>
       <div class="container mt-5">
         <h2 class="mb-4">클럽 생성</h2>
-        <form action="/club/save" method="post" th:object="${clubMakingForm}">
+        <form
+          action="/club/save"
+          method="post"
+          th:object="${clubMakingForm}"
+          enctype="multipart/form-data"
+        >
           <div class="form-group">
             <label for="clubName">클럽 이름</label>
             <input

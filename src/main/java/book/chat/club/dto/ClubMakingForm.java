@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class ClubMakingForm {
@@ -17,5 +18,6 @@ public class ClubMakingForm {
     @Nullable
     private String location;
 //    @NotBlank
-    private String profile;
+    private MultipartFile profile;
+    private String profileUrl;
 }

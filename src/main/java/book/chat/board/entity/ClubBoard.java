@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ClubBoard {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "no_seq")
+    @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
     private Long no;
     @Column(name = "club_no")
     private Long clubNo;

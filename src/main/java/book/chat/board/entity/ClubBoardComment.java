@@ -42,6 +42,8 @@ public class ClubBoardComment {
     @ToString
     public static class CommentId implements Serializable {
         @Column(name = "BOARD_NO", insertable = false, updatable = false)
+//        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "no_seq")
+//        @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
         private Long boardNo;
         @Column(name = "WRITER_ID")
         private String writerId;

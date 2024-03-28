@@ -1,5 +1,6 @@
 package book.chat.club.service;
 
+import book.chat.api.aws.AwsS3Service;
 import book.chat.api.naver.BookSearchAPI;
 import book.chat.club.dto.ClubDTO;
 import book.chat.club.dto.ClubMakingForm;
@@ -25,6 +26,8 @@ public class ClubService {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final BookSearchAPI bookSearchAPI;
+    private final AwsS3Service awsS3Service;
+
 
     public ClubDTO findClubByNo(Long clubNo) {
         return new ClubDTO(clubRepository.findByNo(clubNo).orElse(null));
@@ -32,6 +35,13 @@ public class ClubService {
 
     @Transactional
     public ClubDTO save(ClubMakingForm newClub, MemberDTO leader) {
+        String url = "https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg";
+
+        if(!newClub.getProfile().isEmpty()){
+            url = awsS3Service.upload(newClub.getProfile());
+        }
+        newClub.setProfileUrl(url);
+
         Club savedEntity = clubRepository.save(new Club(newClub, leader));
         return new ClubDTO(savedEntity);
     }

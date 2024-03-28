@@ -59,7 +59,7 @@ public class ClubDTO {
 
     public ClubDTO(ClubMakingForm clubMakingForm) {
         this.name = clubMakingForm.getName();
-        this.profile = clubMakingForm.getProfile();
+        this.profile = clubMakingForm.getProfileUrl();
         this.introduce = clubMakingForm.getIntroduce();
         this.location = clubMakingForm.getLocation();
     }

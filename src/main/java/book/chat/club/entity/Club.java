@@ -15,7 +15,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Club {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "no_seq")
+    @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
     private Long no;
     private String name;
 //    private String leader;
@@ -51,9 +52,12 @@ public class Club {
         this.name = clubDTO.getName();
         this.introduce = clubDTO.getIntroduce();
 //        this.range = clubDTO.getRange();
-        this.profile = clubDTO.getProfile();
+        this.profile = clubDTO.getProfileUrl();
         this.location = clubDTO.getLocation();
-//        this.leader = memberDTO.getId(); // todo leader 에 member 객체를 넣어도 될듯
+        this.members=memberDTO.getNo().toString();
         this.startDate = LocalDate.now();
+        this.meetings = "[0]";
+        this.readBooks="[0]";
+        this.reportBoard="[0]";
     }
 }
