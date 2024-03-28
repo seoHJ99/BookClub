@@ -27,7 +27,7 @@ public class Comment {
 
 
     public Comment(CommentDTO commentDTO) {
-        this.id = new CommentId(commentDTO.getBoardNo(), commentDTO.getWriterId(), LocalDateTime.of(commentDTO.getDate(), commentDTO.getTime()));
+        this.id = new CommentId(commentDTO.getNo(), commentDTO.getBoardNo(), commentDTO.getWriterId(), commentDTO.getDate(), commentDTO.getTime());
         this.content = commentDTO.getContent();
     }
 
@@ -38,13 +38,17 @@ public class Comment {
     @EqualsAndHashCode
     @ToString
     public static class CommentId implements Serializable {
-//        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "no_seq")
-//        @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "no_seq")
+        @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
+        @Column
+        private Long no;
         @Column(name = "BOARD_NO", insertable = false, updatable = false)
         private Long boardNo;
         @Column(name = "WRITER_ID")
         private String writerId;
         @Column(name = "write_date")
-        private LocalDateTime date;
+        private LocalDate date;
+        @Column(name = "write_time")
+        private LocalTime time;
     }
 }

@@ -12,6 +12,7 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 public class CommentDTO {
+    private Long no;
     private Long boardNo;
     private String writerId;
     private String content;
@@ -20,11 +21,12 @@ public class CommentDTO {
     private ReviewDTO reviewDTO;
 
     public CommentDTO(Comment entity) {
+        this.no = entity.getId().getNo();
         this.reviewDTO = new ReviewDTO( entity.getReview());
         this.boardNo = entity.getId().getBoardNo();
         this.writerId = entity.getId().getWriterId();
         this.content = entity.getContent();
-        this.date = entity.getId().getDate().toLocalDate();
-        this.time = entity.getId().getDate().toLocalTime();
+        this.date = entity.getId().getDate();
+        this.time = entity.getId().getTime();
     }
 }

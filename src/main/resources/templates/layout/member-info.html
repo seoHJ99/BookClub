@@ -26,11 +26,26 @@
         text-align: center;
         margin-top: 30px;
       }
+
+      .imgCon {
+        display: flex;
+        justify-content: center;
+      }
+      #profile {
+        justify-content: center;
+        border-radius: 30%;
+        width: 70px;
+      }
     </style>
   </head>
   <body>
     <main>
       <div class="container">
+        <div class="imgCon">
+          <div id="profile">
+            <img th:src="${member.profile}" alt="" />
+          </div>
+        </div>
         <h1 class="page-title">내 정보</h1>
         <div class="row">
           <div class="col-md-4">
