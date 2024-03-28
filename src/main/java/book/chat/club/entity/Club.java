@@ -56,8 +56,8 @@ public class Club {
         this.location = clubDTO.getLocation();
         this.members=memberDTO.getNo().toString();
         this.startDate = LocalDate.now();
-        this.meetings = "[0]";
-        this.readBooks="[0]";
-        this.reportBoard="[0]";
+        this.meetings = "[]";
+        this.readBooks="[]";
+        this.reportBoard="[]";
     }
 }

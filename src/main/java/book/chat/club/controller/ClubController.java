@@ -7,6 +7,7 @@ import book.chat.club.dto.ClubDTO;
 import book.chat.club.dto.ClubMakingForm;
 import book.chat.club.service.ClubService;
 import book.chat.common.SessionConst;
+import book.chat.common.dto.BookDTO;
 import book.chat.meeting.dto.MeetingDto;
 import book.chat.meeting.service.MeetingService;
 import book.chat.member.dto.MemberDTO;
@@ -22,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -68,6 +70,15 @@ public class ClubController {
                 model.addAttribute("joined", "zz");
             }
         }
+        List<BookDTO> readBooksLimit10;
+        if(clubDTO.getReadBooks().toString().equals("[]")|| clubDTO.getReadBooks().toString().equals("[ ]")){
+            readBooksLimit10 = new ArrayList<>();
+            clubDTO.setReadBooks(new ArrayList<>());
+        }else {
+            readBooksLimit10 = clubService.findReadBooksLimit10(clubDTO.getReadBooks());
+        }
+
+
         List<ClubBoardDTO> byClubNo = boardService.findClubBoardByClubNo(clubNo);
         model.addAttribute("loginMemberNo", memberDto.getNo());
         model.addAttribute("club", clubDTO);
@@ -75,7 +86,9 @@ public class ClubController {
         List<MeetingDto> notDoneMeeting = meetingService.findNotDoneMeeting(clubNo);
         model.addAttribute("meetings", notDoneMeeting);
         model.addAttribute("members", clubService.findClubMember(clubDTO));
-        model.addAttribute("books", clubService.findReadBooksLimit10(clubDTO.getReadBooks()));
+
+
+        model.addAttribute("books", readBooksLimit10);
         return "layout/club-info";
     }
 

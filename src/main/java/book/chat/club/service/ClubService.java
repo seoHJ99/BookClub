@@ -71,16 +71,17 @@ public class ClubService {
                     try{
                        return bookSearchAPI.bookSearch(isbn).get(0);
                     }catch (IndexOutOfBoundsException ex){
-                        return BookDTO.builder()
-                                .author("알 수 없는 작가")
-                                .image("/free-icon-book-828370.png")
-                                .name("알수 없음")
-                                .isbn(isbn)
-                                .description("없음")
-                                .shoppingLink("없음")
-                                .publisher("없음")
-                                .publishDate(null)
-                                .build();
+                        return null;
+//                        return BookDTO.builder()
+//                                .author("알 수 없는 작가")
+//                                .image("/free-icon-book-828370.png")
+//                                .name("알수 없음")
+//                                .isbn(isbn)
+//                                .description("없음")
+//                                .shoppingLink("없음")
+//                                .publisher("없음")
+//                                .publishDate(null)
+//                                .build();
                     }
                 })
                 .limit(10)

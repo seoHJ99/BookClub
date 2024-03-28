@@ -10,14 +10,14 @@
         style="height: 125px"
       />
       <div>
-        <h5 class="mb-1" th:text="*{name}" id="bookName">책 제목</h5>
+        <h5 class="mb-1 bookName" th:text="*{name}">책 제목</h5>
         <p class="mb-1" th:text="*{author}">저자: 저자 이름</p>
         <p class="mb-1" th:text="*{publisher}">출판사: 출판사 이름</p>
         <p th:text="*{description}" id="description">
           책 소개글이 들어갑니다. 책 소개글이 들어갑니다. 책 소개글이
           들어갑니다.
         </p>
-        <input type="hidden" th:value="*{isbn}" name="isbn" />
+        <input type="hidden" th:value="*{isbn}" class="isbn" />
       </div>
     </div>
     <!-- 구분선 -->

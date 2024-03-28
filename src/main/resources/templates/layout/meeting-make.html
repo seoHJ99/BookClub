@@ -202,7 +202,7 @@
         // 검색된 책 클릭시 선택됨
         function bookClick(book) {
           $("#selected-book").append($(book).html());
-          $("#bookName").val($($(book)[0].querySelector("#bookName")).text());
+          $("#bookName").val($($(book)[0].querySelector(".bookName")).text());
           $(".btn-close").trigger("click");
         }
         // 무한 스크롤 검색을 위한 변수

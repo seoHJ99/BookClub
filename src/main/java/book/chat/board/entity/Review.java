@@ -28,6 +28,7 @@ public class Review {
         this.content = reviewDTO.getContent();
         this.writeDate = reviewDTO.getWriteDate();
         this.writer = reviewDTO.getWriter();
+        this.book = reviewDTO.getIsbn();
         this.book= reviewDTO.getIsbn();
     }
 }

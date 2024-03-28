@@ -43,16 +43,11 @@ public class MeetingController {
         meeting.setClubNo(clubNo);
         MemberDTO makingMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (bindingResult.hasErrors()) {
-            System.out.println("에러 발생");
-            List<ObjectError> allErrors = bindingResult.getAllErrors();
-            for (ObjectError allError : allErrors) {
-                System.out.println(allError);
-            }
             return "layout/meeting-make";
         }
 
         // 클럼 맴버만 미팅 생성 가능.
-        if (makingMember.getJoinClub().contains(clubNo)) {
+        if (! makingMember.getJoinClub().contains(clubNo)) {
             bindingResult.reject("Meeting.NoMember");
             return "layout/meeting-make";
         }

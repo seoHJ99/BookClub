@@ -23,6 +23,7 @@ public class BoardService {
         return new ReviewDTO(reviewBoardRepository.findByNo(no));
     }
 
+    @Transactional
     public ReviewDTO saveReview(ReviewDTO reviewDTO) {
         Review savedReview = reviewBoardRepository.save(new Review(reviewDTO));
         ReviewDTO savedDto = new ReviewDTO(savedReview);

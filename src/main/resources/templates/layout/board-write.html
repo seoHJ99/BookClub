@@ -80,6 +80,7 @@
                 책 검색
               </button>
               <div id="selected-book">
+                <input type="hidden" id="isbn" name="isbn" />
                 <!-- 책 정보 표시 -->
               </div>
               <div class="field-error" th:errors="*{isbn}">
@@ -173,7 +174,9 @@
 
         // 검색된 책 클릭시 선택됨
         function bookClick(book) {
-          $("#selected-book").html($(book).html());
+          $("#selected-book").append($(book).html());
+          console.log($($(book)[0].querySelector(".isbn")).val());
+          $("#isbn").val($($(book)[0].querySelector(".isbn")).val());
           $(".btn-close").trigger("click");
         }
         // 무한 스크롤 검색을 위한 변수

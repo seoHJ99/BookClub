@@ -58,15 +58,18 @@ public class BookSearchAPI {
     public List<BookDTO> bookSearch(String keyword) {
         JSONArray jsonArray = null;
         try {
+            if(keyword.isEmpty()){
+                List<BookDTO> list = new ArrayList<>();
+                return list;
+            }
             Thread.sleep(100);
             URL apiURL = new URL(BOOK_URL + URLEncoder.encode(keyword));
             String response = getResponse(sendRequest(apiURL));
-//            log.info(response);
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
             jsonArray = (JSONArray) jsonObject.get("items");
 
-            if (jsonArray.isEmpty()) {
+            if (jsonArray.isEmpty() || jsonArray == null) {
                 List<BookDTO> list = new ArrayList<>();
                 list.add(
                 BookDTO.builder()

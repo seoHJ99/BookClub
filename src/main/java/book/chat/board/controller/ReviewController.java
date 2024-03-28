@@ -10,6 +10,7 @@ import book.chat.board.service.CommentService;
 import book.chat.common.SessionConst;
 import book.chat.common.dto.BookDTO;
 import book.chat.member.dto.MemberDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -109,17 +110,20 @@ public class ReviewController {
     }
 
     @PostMapping("/save")
-    public String saveReview(@Validated @ModelAttribute("review") ReviewDTO review, BindingResult bindingResult) throws IOException, ParseException {
+    public String saveReview(@Validated @ModelAttribute("review") ReviewDTO review, BindingResult bindingResult, HttpServletRequest request) throws IOException, ParseException {
         if (bindingResult.hasErrors()) {
             return "layout/board-write";
         }
         review.setWriteDate(LocalDateTime.now());
-//        review.setWriter((String) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER));
+        MemberDTO member = (MemberDTO) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        review.setWriter(member.getId() );
+        System.out.println(review);
 //        String bookImg = bookSearchAPI.getBookImg(review.getIsbn());
 //        review.setBookImg(bookImg);
-        review.setIsbn(bookSearchAPI.bookSearch(review.getIsbn()).get(0).getIsbn());
-        boardService.saveReview(review);
-        return "redirect: /board?no=" + review.getNo();
+//        review.setIsbn();
+
+        review =boardService.saveReview(review);
+        return "redirect:/board?no=" + review.getNo();
     }
 
     @PostMapping("/comment/save")
