@@ -97,15 +97,16 @@
           </p>
           <!-- 맴버 프로필 사진 -->
           <div class="d-flex">
-            <img
-              th:each="member:${meeting.joinMember}"
-              src="profile1.jpg"
-              alt="프로필 사진"
-              class="member-profile"
-            />
+            <span th:each="meetingMember:${meeting.meetingMembers}">
+              <img
+                th:src="@{${meetingMember.profile}}"
+                alt="프로필 사진"
+                class="member-profile"
+              />
+            </span>
             <!-- 필요한 만큼 이미지 추가 -->
           </div>
-          <!-- 참가 버튼 -->
+          <!-- 참가 버튼
           <a
             th:if="${ #arrays.contains(meeting.joinMember, loginMember2) and meeting.available == true and meeting.online == true}"
             th:href="@{/webcam(clubNo=${meeting.clubNo}, meetingNo=${meeting.no})}"
@@ -123,7 +124,7 @@
             th:href="@{/meeting/out(clubNo=${meeting.clubNo}, no=${meeting.no})}"
             class="btn btn-danger join-button"
             >불참</a
-          >
+          > -->
         </div>
         <!-- 다른 미팅 항목 추가 -->
       </div>

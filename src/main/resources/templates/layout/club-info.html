@@ -140,7 +140,7 @@
       /* 참가 버튼 스타일 */
       .join-button {
         position: absolute;
-        top: 50%;
+        top: 60%;
         right: 100px;
         transform: translateY(-50%);
       }
@@ -149,11 +149,10 @@
         justify-content: center;
       }
 
-      .create-club-btn {
-        /* position: fixed;
-        bottom: 200px;
-        right: 200px;
-        z-index: 1000; */
+      .cam {
+        position: absolute;
+        top: 15%;
+        right: 10px;
       }
     </style>
   </head>
@@ -335,6 +334,12 @@
                   <!-- 필요한 만큼 이미지 추가 -->
                 </div>
                 <!-- 참가 버튼 -->
+                <a
+                  th:if="${ #arrays.contains(meeting.joinMember, loginMemberNo) and meeting.available == true and meeting.online == true}"
+                  th:href="@{/webcam(clubNo=${meeting.clubNo}, meetingNo=${meeting.no})}"
+                  class="btn btn-secondary cam"
+                  >화상회의 바로 가기</a
+                >
 
                 <a
                   th:if="${! #arrays.contains(meeting.joinMember, loginMemberNo)}"

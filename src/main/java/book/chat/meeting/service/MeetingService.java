@@ -37,12 +37,14 @@ public class MeetingService {
     public List<MeetingDto> findRecent10Meetings() {
         return meetingRepository.findTop10ByMeetingDateGreaterThanEqualOrderByMeetingDateDesc(LocalDate.now()).stream()
                 .map(MeetingDto::new)
+                .peek(meetingDto -> meetingDto.setMeetingMembers(findMeetingMember(meetingDto)))
                 .collect(Collectors.toList());
     }
 
     public List<MeetingDto> findRecent10Meetings(Long clubNo) {
         return meetingRepository.findFirst10ByIdClubNoAndMeetingDateGreaterThanEqualOrderByMeetingDateDesc(clubNo, LocalDate.now()).stream()
                 .map(MeetingDto::new)
+                .peek(meetingDto -> meetingDto.setMeetingMembers(findMeetingMember(meetingDto)))
                 .collect(Collectors.toList());
     }
 
@@ -88,10 +90,7 @@ public class MeetingService {
         List<Meeting> allNotDoneMeeting = meetingRepository.findAllNotDoneMeeting(clubNo, LocalDate.now());
         return allNotDoneMeeting.stream()
                 .map(MeetingDto::new)
-                .map(meetingDto -> {
-                    meetingDto.setMeetingMembers(findMeetingMember(meetingDto));
-                    return meetingDto;
-                })
+                .peek(meetingDto -> meetingDto.setMeetingMembers(findMeetingMember(meetingDto)))
                 .collect(Collectors.toList());
     }
 }
