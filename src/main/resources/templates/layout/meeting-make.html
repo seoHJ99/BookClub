@@ -21,6 +21,15 @@
         justify-content: center;
         padding-bottom: 10px;
       }
+
+      #description {
+        height: 140px;
+        overflow: hidden;
+      }
+
+      #selected-book {
+        display: flex;
+      }
     </style>
   </head>
   <body>
@@ -28,20 +37,23 @@
       <div class="container mt-5" style="max-width: 920px">
         <h1 class="text-center mb-4">모임 만들기</h1>
         <form action="/meeting/save" method="post" th:object="${meeting}">
-          <input type="text" th:field="*{clubNo}" value="0" />
+          <input type="hidden" th:field="*{clubNo}" />
           <div class="mb-3 row">
             <label for="meetingName" class="col-sm-2 col-form-label"
               >모임명:</label
             >
             <div class="col-sm-10">
-              <label for="meetingType">온라인 </label>
               <input
-                type="checkbox"
-                th:errorclass="field-error"
+                type="text"
                 class="form-control"
-                th:field="*{online}"
-                id="meetingType"
+                th:field="*{meetingName}"
               />
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <div class="col-sm-10">
+              <label for="meetingType">온라인 </label>
+              <input type="checkbox" th:field="*{online}" id="meetingType" />
             </div>
           </div>
           <div class="mb-3 row">
@@ -54,7 +66,7 @@
                 th:field="*{meetingDate}"
               />
               <div class="field-error" th:errors="*{meetingDate}">
-                아이디 오류
+                날짜 오류
               </div>
             </div>
           </div>
@@ -68,7 +80,7 @@
                 th:field="*{meetingTime}"
               />
               <div class="field-error" th:errors="*{meetingTime}">
-                아이디 오류
+                시간 오류
               </div>
             </div>
           </div>
@@ -83,7 +95,7 @@
                 name="location"
                 th:field="*{location}"
               />
-              <div class="field-error" th:errors="*{location}">아이디 오류</div>
+              <div class="field-error" th:errors="*{location}">위치 오류</div>
             </div>
           </div>
           <div class="mb-3 row">
@@ -99,7 +111,9 @@
                 id="capacity"
                 name="capacity"
               />
-              <div class="field-error" th:errors="*{max}">아이디 오류</div>
+              <div class="field-error" th:errors="*{max}">
+                정원 오류. 정원은 최대 50명 입니다.
+              </div>
             </div>
           </div>
           <div class="mb-3 row">
@@ -115,6 +129,10 @@
               </button>
             </div>
           </div>
+          <div id="selected-book">
+            <input type="hidden" id="bookName" name="name" />
+          </div>
+
           <button
             type="submit"
             class="btn btn-primary d-block mx-auto"
@@ -150,36 +168,86 @@
                 <input
                   type="text"
                   class="form-control"
+                  id="search-keyword"
                   placeholder="검색어를 입력하세요"
                 />
-                <button type="button" class="btn btn-primary">검색</button>
-              </div>
-              <!-- 책 정보 표시 -->
-              <div class="mb-3 d-flex align-items-start">
-                <img
-                  src="#"
-                  alt="책 사진"
-                  class="img-thumbnail me-2 flex-shrink-0"
-                  style="height: 125px"
-                />
-                <div>
-                  <h5 class="mb-1">책 제목</h5>
-                  <p class="mb-1">저자: 저자 이름</p>
-                  <p class="mb-1">출판사: 출판사 이름</p>
-                  <p>
-                    책 소개글이 들어갑니다. 책 소개글이 들어갑니다. 책 소개글이
-                    들어갑니다.
-                  </p>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="searchBook()"
+                >
+                  검색
+                </button>
+                <div id="search-result">
+                  <!-- 구분선 -->
+                  <hr class="my-4" />
                 </div>
               </div>
-              <!-- 구분선 -->
-              <hr class="my-4" />
+              <!-- 책 정보 표시 -->
             </div>
           </div>
         </div>
       </div>
-      <script th:inline="javascript">
-        // let errorMsg =  [[${#fields.globalErrors()}]];
+      <script src="/js/api.js"></script>
+      <script>
+        function removeErrorMsg() {
+          $("#category").removeClass("field-error");
+          $(".field-error").each(function (index, element) {
+            if ($(element).prop("tagName") == "DIV") $(element).text("");
+          });
+          $("#title").removeClass("field-error");
+          $("#content").removeClass("field-error");
+        }
+
+        // 검색된 책 클릭시 선택됨
+        function bookClick(book) {
+          $("#selected-book").append($(book).html());
+          $("#bookName").val($($(book)[0].querySelector("#bookName")).text());
+          $(".btn-close").trigger("click");
+        }
+        // 무한 스크롤 검색을 위한 변수
+        let i = 1;
+
+        // 검색창 검색어가 바뀌면 i 초기화
+        $("#search-keyword").on("change", function () {
+          i = 1;
+        });
+        // 스크롤 마지막이면 책 검색
+        $("#bookSearchModal").on("scroll", function () {
+          detectBottom();
+        });
+        function detectBottom() {
+          var scrollTop = $("#bookSearchModal").scrollTop();
+          var innerHeight = $(window).innerHeight();
+          var scrollHeight = $("#bookSearchModal").prop("scrollHeight");
+          if (scrollTop + innerHeight >= scrollHeight - 1) {
+            console.log(scrollTop + innerHeight);
+            console.log(scrollHeight - 1);
+            success = function (res) {
+              console.log(i);
+              $("#search-result").append(res);
+            };
+            i = i + 1;
+            searchBook(i * 10 + 1);
+          }
+        }
+
+        // 책 검색
+        let success = function (res) {
+          $("#search-result").html(res);
+        };
+        let fail = function () {
+          alert("통신 에러 발생!");
+        };
+        function searchBook(start = 1) {
+          let url = "/book";
+          let data = {
+            keyword: $("#search-keyword").val(),
+            amount: 10,
+            start: start,
+          };
+          api.search(url, data, success, fail);
+        }
       </script>
     </main>
   </body>

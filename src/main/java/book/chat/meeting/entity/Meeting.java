@@ -31,8 +31,9 @@ public class Meeting {
 
     public Meeting(MeetingDto meetingDto) {
         this.id = new MeetingId(meetingDto.getNo(), meetingDto.getClubNo());
-        this.bookTitle = meetingDto.getBookTitle();
-        this.joinMember = meetingDto.getJoinMember().toString();
+        this.bookTitle = meetingDto.getName();
+        this.joinMember = meetingDto.getJoinMember().toString().replaceAll("null,","")
+                .replaceAll("null","");
         if(meetingDto.isOnline()){
             this.online = "Y";
         }else {
@@ -50,8 +51,8 @@ public class Meeting {
     @EqualsAndHashCode
     public static class MeetingId implements Serializable {
         @Column(name = "NO")
-//        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "no_seq")
-//        @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "no_seq")
+        @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
         private Long no;
         @Column(name = "club_no")
         private Long clubNo;

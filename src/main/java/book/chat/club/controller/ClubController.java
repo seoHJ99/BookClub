@@ -7,6 +7,7 @@ import book.chat.club.dto.ClubDTO;
 import book.chat.club.dto.ClubMakingForm;
 import book.chat.club.service.ClubService;
 import book.chat.common.SessionConst;
+import book.chat.meeting.dto.MeetingDto;
 import book.chat.meeting.service.MeetingService;
 import book.chat.member.dto.MemberDTO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -68,13 +69,13 @@ public class ClubController {
             }
         }
         List<ClubBoardDTO> byClubNo = boardService.findClubBoardByClubNo(clubNo);
-        model.addAttribute("loginMember", memberDto.getNo());
+        model.addAttribute("loginMemberNo", memberDto.getNo());
         model.addAttribute("club", clubDTO);
         model.addAttribute("boards", byClubNo);
-        model.addAttribute("meetings", meetingService.findNotDoneMeeting(clubNo));
+        List<MeetingDto> notDoneMeeting = meetingService.findNotDoneMeeting(clubNo);
+        model.addAttribute("meetings", notDoneMeeting);
         model.addAttribute("members", clubService.findClubMember(clubDTO));
         model.addAttribute("books", clubService.findReadBooksLimit10(clubDTO.getReadBooks()));
-
         return "layout/club-info";
     }
 

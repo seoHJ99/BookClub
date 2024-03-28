@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,18 +19,28 @@ import java.util.stream.Collectors;
 public class MeetingService {
 
     private final MeetingRepository meetingRepository;
+    private final MemberRepository memberRepository;
 
-    public MeetingDto findByClubNoAndNo(Long clubNo,  Long meetingNo){
-        return new MeetingDto( meetingRepository.findByIdClubNoAndIdNo(clubNo, meetingNo));
+
+    public List<MemberDTO> findMeetingMember(MeetingDto meetingDto) {
+        List<Long> joinMember = meetingDto.getJoinMember();
+        List<Member> clubMember = memberRepository.findByNoIn(joinMember);
+        return clubMember.stream()
+                .map(MemberDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public List<MeetingDto> findRecent10Meetings(){
+    public MeetingDto findByClubNoAndNo(Long clubNo, Long meetingNo) {
+        return new MeetingDto(meetingRepository.findByIdClubNoAndIdNo(clubNo, meetingNo));
+    }
+
+    public List<MeetingDto> findRecent10Meetings() {
         return meetingRepository.findTop10ByMeetingDateGreaterThanEqualOrderByMeetingDateDesc(LocalDate.now()).stream()
                 .map(MeetingDto::new)
                 .collect(Collectors.toList());
     }
 
-    public List<MeetingDto> findRecent10Meetings(Long clubNo){
+    public List<MeetingDto> findRecent10Meetings(Long clubNo) {
         return meetingRepository.findFirst10ByIdClubNoAndMeetingDateGreaterThanEqualOrderByMeetingDateDesc(clubNo, LocalDate.now()).stream()
                 .map(MeetingDto::new)
                 .collect(Collectors.toList());
@@ -45,27 +54,21 @@ public class MeetingService {
 
     @Transactional
     public MeetingDto save(MeetingDto meetingDto, MemberDTO meetingMaker) {
-        String joinMemberStr = meetingDto.getJoinMember().toString().replaceAll("\\[","").replaceAll("]","");
-        List<Long> joinMember = Arrays.stream(joinMemberStr.split(","))
-                .map(Long::parseLong)
-                .toList();
-        // 본인 추가
-        joinMember.add(meetingMaker.getNo());
-        meetingDto.setJoinMember(joinMember);
+        meetingDto.getJoinMember().add(meetingMaker.getNo());
         Meeting savedMeeting = meetingRepository.save(new Meeting(meetingDto));
         return new MeetingDto(savedMeeting);
     }
 
     @Transactional
     public void save(MeetingDto meetingDto) {
-       meetingRepository.save(new Meeting(meetingDto));
+        meetingRepository.save(new Meeting(meetingDto));
     }
 
     @Transactional
-    public boolean join(MemberDTO memberDTO, Long clubNo, Long no){
+    public boolean join(MemberDTO memberDTO, Long clubNo, Long no) {
 
         MeetingDto meetingDto = findByClubNoAndNo(clubNo, no);
-        if(meetingDto.getMax() <= meetingDto.getJoinMember().size()){
+        if (meetingDto.getMax() <= meetingDto.getJoinMember().size()) {
             return false;
         }
 
@@ -75,16 +78,20 @@ public class MeetingService {
     }
 
     @Transactional
-    public void out(MemberDTO memberDTO, Long clubNo, Long no){
+    public void out(MemberDTO memberDTO, Long clubNo, Long no) {
         MeetingDto meetingDto = findByClubNoAndNo(clubNo, no);
         meetingDto.getJoinMember().remove(memberDTO.getNo());
         save(meetingDto);
     }
 
-    public List<MeetingDto> findNotDoneMeeting(Long clubNo){
+    public List<MeetingDto> findNotDoneMeeting(Long clubNo) {
         List<Meeting> allNotDoneMeeting = meetingRepository.findAllNotDoneMeeting(clubNo, LocalDate.now());
         return allNotDoneMeeting.stream()
                 .map(MeetingDto::new)
+                .map(meetingDto -> {
+                    meetingDto.setMeetingMembers(findMeetingMember(meetingDto));
+                    return meetingDto;
+                })
                 .collect(Collectors.toList());
     }
 }

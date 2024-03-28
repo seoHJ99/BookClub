@@ -1,5 +1,5 @@
 let api = {
-  search: function (url, data, successFunc, fail) {
+  search: function (url, data, successFunc = success2, fail = fail2) {
     $.ajax({
       type: "GET",
       url: url,
@@ -12,7 +12,7 @@ let api = {
       },
     });
   },
-  check: function (url, data, successFunc = success) {
+  check: function (url, data, successFunc = success2, fail = fail2) {
     console.log(data);
     $.ajax({
       type: "POST",
@@ -28,10 +28,10 @@ let api = {
   },
 };
 
-function success(res = "") {
+function success2(res = "") {
   console.log(res);
 }
 
-function fail() {
+function fail2() {
   console.log("실패");
 }

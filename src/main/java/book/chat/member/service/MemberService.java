@@ -1,5 +1,7 @@
 package book.chat.member.service;
 
+import book.chat.meeting.dto.MeetingDto;
+import book.chat.meeting.entity.Meeting;
 import book.chat.member.dto.MemberDTO;
 import book.chat.member.dto.MemberJoinForm;
 import book.chat.member.dto.UpdateForm;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +20,8 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+
 
     @Transactional
     public MemberDTO save(MemberJoinForm member){

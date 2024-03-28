@@ -14,10 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,22 +36,29 @@ public class MeetingController {
     }
 
     @PostMapping("/save")
-    public String meetingMake(@Validated @ModelAttribute("meeting") MeetingDto meeting,
+    public String meetingMake(@RequestParam("clubNo") Long clubNo,
+                              @Validated @ModelAttribute("meeting") MeetingDto meeting,
                               BindingResult bindingResult,
                               HttpSession session) {
+        meeting.setClubNo(clubNo);
+        MemberDTO makingMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (bindingResult.hasErrors()) {
+            System.out.println("에러 발생");
+            List<ObjectError> allErrors = bindingResult.getAllErrors();
+            for (ObjectError allError : allErrors) {
+                System.out.println(allError);
+            }
             return "layout/meeting-make";
         }
 
         // 클럼 맴버만 미팅 생성 가능.
-        ClubDTO clubDTO = clubService.findClubByNo(meeting.getClubNo());
-        MemberDTO makingMenber = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if (!clubDTO.getMembers().contains(makingMenber.getNo())) {
+        if (makingMember.getJoinClub().contains(clubNo)) {
             bindingResult.reject("Meeting.NoMember");
             return "layout/meeting-make";
         }
-        meetingService.save(meeting, makingMenber);
-        return "layout/club-info";
+        meeting.setJoinMember(new ArrayList<>());
+        meetingService.save(meeting, makingMember);
+        return "redirect:/club?clubNo="+ clubNo;
     }
 
     @GetMapping("/list")
@@ -70,29 +80,43 @@ public class MeetingController {
                               HttpServletResponse response) throws IOException {
         MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
         String url = request.getRequestURI();
-        if (!loginMember.getJoinClub().contains(no)) {
+        if (!loginMember.getJoinClub().contains(clubNo)) {
+            System.out.println("xxxxxxxxxx");
             response.sendError(HttpStatus.FORBIDDEN.value());
+            return "<script>" +
+                    "alter('모임 회원이 아닙니다.')"+
+                    "location.href='" + request.getRequestURL() + "';</script>";
         }
         boolean success = meetingService.join(loginMember, clubNo, no);
         if (!success) {
             return "<script>alert('정원이 가득 찼습니다.');" +
                     "location.href='/';</script>";
         }
-        return "<script>location.href='" + url + "';</script>";
+        return "<script>location.href='/club?clubNo=" + clubNo + "';</script>";
     }
 
+    @ResponseBody
     @GetMapping("/out")
     public String meetingOut(@RequestParam(value = "no") Long no,
                              @RequestParam(value = "clubNo") Long clubNo,
-                             Model model,
                              HttpSession session,
+                             HttpServletRequest request,
                              HttpServletResponse response) throws IOException {
+
         MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if (!loginMember.getJoinClub().contains(no)) {
+
+        if (!loginMember.getJoinClub().contains(clubNo)) {
+            System.out.println(loginMember.getJoinClub());
+            System.out.println(clubNo);
+            System.out.println("ddddddddddddddddddd");
             response.sendError(HttpStatus.FORBIDDEN.value());
+            return "<script>" +
+                    "alter('모임 회원이 아닙니다.')"+
+                    "location.href='" + request.getRequestURL() + "';</script>";
         }
+
         meetingService.out(loginMember, clubNo, no);
-        return "redirect:/club";
+        return "<script>location.href='/club?clubNo=" + clubNo + "';</script>";
     }
 
 //    @GetMapping("/start")

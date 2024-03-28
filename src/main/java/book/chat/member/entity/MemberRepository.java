@@ -22,4 +22,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 //    List<Member> findByJoinClubIn(Long clubNo);
 
     List<Member> findByNoIn(List<Long> memberNos);
+
 }

@@ -79,8 +79,10 @@
       <div class="container mt-5">
         <!-- 미팅 리스트 -->
         <div class="meeting-item" th:each="meeting:${meetings}">
+          <!-- 제목 -->
+          <h4 th:text="${meeting.meetingName}"></h4>
           <!-- 날짜 -->
-          <h4 th:text="${meeting.meetingDate}">2024년 2월 16일</h4>
+          <p th:text="${meeting.meetingDate}">2024년 2월 16일</p>
           <!-- 시간 -->
           <p class="meeting-time" th:text="${meeting.meetingTime}">오후 3:00</p>
           <!-- 위치 -->
@@ -88,7 +90,7 @@
             서울시 강남구
           </p>
           <!-- 책 이름 -->
-          <p class="meeting-book" th:text="${meeting.bookTitle}">책 이름</p>
+          <p class="meeting-book" th:text="${meeting.name}">책 이름</p>
           <!-- 참가 정원 -->
           <p class="meeting-capacity" th:text="${meeting.max}">
             참가 정원: 10명
@@ -124,9 +126,6 @@
           >
         </div>
         <!-- 다른 미팅 항목 추가 -->
-
-        <!-- 클럽 만들기 버튼 -->
-        <button class="btn btn-primary create-club-btn">미팅 만들기</button>
       </div>
     </main>
 
