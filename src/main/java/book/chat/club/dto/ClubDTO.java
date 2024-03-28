@@ -48,7 +48,6 @@ public class ClubDTO {
                         .split(","))
                 .map(element -> element.trim())
                 .collect(Collectors.toList());
-        System.out.println("this.readBooks.size() = " + this.readBooks.size());
         this.reportBoard = Arrays.stream(entity.getReportBoard().replaceAll("\\[","")
                         .replaceAll("]","")
                         .split(","))
