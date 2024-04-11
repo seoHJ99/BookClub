@@ -17,7 +17,7 @@
 | Distribution | Github Actions, AWS Code Deploy, AWS S3, AWS EC2  |
 
 ### Database
-![image](file:///C:/Users/Hojun/Desktop/%EB%B6%81%ED%81%B4%EB%9F%BD%20erd.png)
+![image](https://github.com/seoHJ99/BookClub/blob/main/%EB%B6%81%ED%81%B4%EB%9F%BD%20erd.png)
 
 
 ### Functional Decomposition
