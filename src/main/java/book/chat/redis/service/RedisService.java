@@ -26,12 +26,12 @@ public class RedisService {
     @PostConstruct
     public void saveRankingBooks(){
         redisTemplate.getConnectionFactory().getConnection().flushAll();
-        redisTemplate.opsForZSet().add("popularBooks", "1111", 1);
-        redisTemplate.opsForZSet().add("popularBooks", "2222222", 1);
-        redisTemplate.opsForZSet().add("popularBooks", "333333333333", 1);
-        redisTemplate.opsForZSet().incrementScore("popularBooks", "1111", 4);
-        redisTemplate.opsForZSet().incrementScore("popularBooks", "2222222", 3);
-        redisTemplate.opsForZSet().incrementScore("popularBooks", "333333333333", 2);
+        redisTemplate.opsForZSet().add("popularBooks", "9788952774224", 1);
+        redisTemplate.opsForZSet().add("popularBooks", "9788952774231", 1);
+        redisTemplate.opsForZSet().add("popularBooks", "9788952774248", 1);
+        redisTemplate.opsForZSet().incrementScore("popularBooks", "9788952774224", 4);
+        redisTemplate.opsForZSet().incrementScore("popularBooks", "9788952774231", 3);
+        redisTemplate.opsForZSet().incrementScore("popularBooks", "9788952774248", 2);
 
     }
 

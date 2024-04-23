@@ -221,7 +221,7 @@
                 class="d-flex justify-content-center"
                 th:each="book, status:${ranking}"
               >
-                <div th:text="${status.count +'위' + book}"></div>
+                <div th:text="${status.count +'위 ' + book.name}"></div>
               </div>
             </div>
           </div>

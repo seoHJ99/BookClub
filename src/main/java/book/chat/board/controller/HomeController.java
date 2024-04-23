@@ -37,7 +37,9 @@ public class HomeController {
         model.addAttribute("books", bookDTOS);
         model.addAttribute("clubs",clubService.findRecent4Club());
         model.addAttribute("boards", rescent10Dtos);
-        model.addAttribute("ranking", redisService.getTop10PopularBooks());
+        List<String> top10PopularBooks = redisService.getTop10PopularBooks();
+        List<BookDTO> collect = top10PopularBooks.stream().map(isbn -> bookSearchAPI.bookSearch(isbn).get(0)).collect(Collectors.toList());
+        model.addAttribute("ranking", collect);
         return "layout/home";
     }
 }

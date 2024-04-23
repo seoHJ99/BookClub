@@ -93,7 +93,7 @@ CREATE TABLE chatting(
     "CHAT_TIME" date not null,
     writer varchar(13) not null,
     content varchar(500) not null,
-    CONSTRAINT pk_cahtting PRIMARY KEY ("NO", club_no,  writer, "DATE", "TIME")
+    CONSTRAINT pk_chatting PRIMARY KEY ("NO", club_no,  writer, "DATE", "TIME")
 )
 
 
