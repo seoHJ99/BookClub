@@ -44,6 +44,7 @@ public class ReviewController {
     @GetMapping("")
     public String reviewBoard(Model model, @RequestParam("no") Long no, HttpSession session) {
         ReviewDTO review = boardService.findReviewByNo(no);
+        model.addAttribute("loginMember", session.getAttribute(SessionConst.LOGIN_MEMBER));
         model.addAttribute("review", review);
         model.addAttribute("comment", new CommentDTO());
         model.addAttribute("book", bookSearchAPI.bookSearch(review.getIsbn()).get(0));
@@ -109,6 +110,17 @@ public class ReviewController {
         return "layout/board-write";
     }
 
+    @ResponseBody
+    @PostMapping("/delete")
+    public String deleteBoard(@RequestParam("no") Long no, HttpSession session){
+        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        boolean deleted = boardService.delete(no, loginMember);
+        if(deleted){
+            return "1";
+        }
+        return "0";
+    }
+
     @PostMapping("/save")
     public String saveReview(@Validated @ModelAttribute("review") ReviewDTO review, BindingResult bindingResult, HttpServletRequest request) throws IOException, ParseException {
         if (bindingResult.hasErrors()) {
@@ -117,7 +129,6 @@ public class ReviewController {
         review.setWriteDate(LocalDateTime.now());
         MemberDTO member = (MemberDTO) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
         review.setWriter(member.getId() );
-        System.out.println(review);
 //        String bookImg = bookSearchAPI.getBookImg(review.getIsbn());
 //        review.setBookImg(bookImg);
 //        review.setIsbn();
@@ -135,5 +146,19 @@ public class ReviewController {
         commentService.save(comment);
         ReviewDTO review = boardService.findReviewByNo(comment.getBoardNo());
         return "redirect:/board?no=" + review.getNo();
+    }
+
+    @ResponseBody
+    @PostMapping("/comment/delete")
+    public String deleteComment(@RequestParam("boardNo") Long boardNo,
+                                @RequestParam("no") Long no,
+                                HttpSession session){
+        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        CommentDTO comment = commentService.findByBoardNoAndCommentNo(boardNo, no);
+        boolean deleted = commentService.delete(comment, loginMember);
+        if(deleted){
+            return "1";
+        }
+        return "0";
     }
 }

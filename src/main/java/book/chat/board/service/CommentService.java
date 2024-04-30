@@ -2,7 +2,10 @@ package book.chat.board.service;
 
 import book.chat.board.dto.ClubCommentDTO;
 import book.chat.board.dto.CommentDTO;
-import book.chat.board.entity.*;
+import book.chat.board.entity.ClubCommentRepository;
+import book.chat.board.entity.Comment;
+import book.chat.board.entity.CommentRepository;
+import book.chat.member.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +23,13 @@ public class CommentService {
     private final ClubCommentRepository clubCommentRepository;
 
     @Transactional
-    public void save(CommentDTO commentDTO){
+    public void save(CommentDTO commentDTO) {
         commentDTO.setDate(LocalDate.now());
         commentDTO.setTime(LocalTime.now());
         commentRepository.save(new Comment(commentDTO));
     }
 
-    public List<ClubCommentDTO> findClubCommentById(String id){
+    public List<ClubCommentDTO> findClubCommentById(String id) {
         List<ClubCommentDTO> dtoList = clubCommentRepository.findAllByIdWriterIdOrderByIdDateDesc(id).stream()
                 .map(ClubCommentDTO::new)
                 .collect(Collectors.toList());
@@ -36,7 +39,13 @@ public class CommentService {
         return dtoList;
     }
 
-    public List<CommentDTO> findByBoardNo(Long no){
+    public CommentDTO findByBoardNoAndCommentNo(Long boardNo, Long commentNo){
+        Comment entity = commentRepository.findByIdBoardNoAndIdNo(boardNo, commentNo);
+        CommentDTO dto = new CommentDTO(entity);
+        return dto;
+    }
+
+    public List<CommentDTO> findByBoardNo(Long no) {
         List<Comment> entities = commentRepository.findByIdBoardNoOrderByIdDate(no);
         return entities.stream()
                 .map(entity -> new CommentDTO(entity))
@@ -48,10 +57,20 @@ public class CommentService {
 //        return entity.stream().map(CommentDTO::new).collect(Collectors.toList());
 //    }
 
-    public List<CommentDTO> findByWriter(String memberId){
+    public List<CommentDTO> findByWriter(String memberId) {
         List<Comment> entity = commentRepository.findWithBoardByWriterIdOrderByIdDate(memberId);
         return entity.stream().map(CommentDTO::new).collect(Collectors.toList());
     }
 
+    public boolean delete(CommentDTO commentDTO, MemberDTO memberDTO) {
+        if (commentDTO.getWriterId().equals(memberDTO.getId())) {
+            commentRepository.deleteById(commentDTO.getCommentId());
+            return true;
+        }
+        return false;
+    }
 
+    public void deleteAllBoardComment(Long no){
+        commentRepository.deleteAllByIdBoardNo(no);
+    }
 }

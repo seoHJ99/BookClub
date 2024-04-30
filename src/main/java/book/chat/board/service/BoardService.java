@@ -3,6 +3,8 @@ package book.chat.board.service;
 import book.chat.board.dto.ClubBoardDTO;
 import book.chat.board.dto.ReviewDTO;
 import book.chat.board.entity.*;
+import book.chat.common.SessionConst;
+import book.chat.member.dto.MemberDTO;
 import book.chat.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class BoardService {
     private final ReviewBoardRepository reviewBoardRepository;
     private final RedisService redisService;
     private final ClubBoardRepository clubBoardRepository;
+    private final CommentService commentService;
 
     public ReviewDTO findReviewByNo(Long no) {
         return new ReviewDTO(reviewBoardRepository.findByNo(no));
@@ -61,4 +64,13 @@ public class BoardService {
                 .collect(Collectors.toList());
     }
 
+    public boolean delete(Long no, MemberDTO memberDTO){
+        ReviewDTO reviewDTO = findReviewByNo(no);
+        if(reviewDTO.getWriter().equals(memberDTO.getId())){
+            reviewBoardRepository.deleteById(no);
+            commentService.deleteAllBoardComment(no);
+            return true;
+        }
+        return false;
+    }
 }

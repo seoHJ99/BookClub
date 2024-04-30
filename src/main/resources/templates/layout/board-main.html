@@ -35,6 +35,11 @@
         overflow: hidden; /* 넘치는 부분을 숨김 */
         text-overflow: ellipsis; /* 넘치는 부분에 생략 부호 추가 */
       }
+
+      .delete {
+        align-self: end;
+        width: 15%;
+      }
     </style>
   </head>
   <body>
@@ -96,6 +101,14 @@
                 </div>
                 <p th:html="*{content}">게시글 내용이 여기에 표시됩니다.</p>
               </div>
+              <button
+                th:if="${review.writer eq loginMember.id}"
+                type="button"
+                class="delete btn btn-danger p-3"
+                onclick="deleteBoard()"
+              >
+                삭제
+              </button>
             </div>
           </div>
         </div>
@@ -130,6 +143,15 @@
                           작성 시간
                         </small>
                         <small class="text-muted" th:text="*{time}"></small>
+                        <button
+                          th:if="${co.writerId eq loginMember.id}"
+                          type="button"
+                          value="*{no}"
+                          onclick="deleteComment(this)"
+                          class="btn btn-danger"
+                        >
+                          삭제
+                        </button>
                       </p>
                     </div>
                   </div>
@@ -148,6 +170,7 @@
                           <input
                             type="hidden"
                             th:value="${review.no}"
+                            id="boardNo"
                             name="boardNo"
                           />
                           <div class="mb-3">
@@ -177,6 +200,43 @@
       <script th:inline="javascript">
         function goShopping() {
           window.open([[${book.shoppingLink}]]);
+        }
+
+        function deleteBoard(){
+          $.ajax({
+            url: '/board/delete',
+            method: 'post',
+            data : {
+              no: $("#boardNo").val()
+            },
+            success: function (deleted) {
+              if(deleted == 1){
+                location.href="/board/list";
+              }else{
+                alert("삭제 실패!");
+              }
+            },
+
+          })
+        }
+
+        function deleteComment(btn){
+          $.ajax({
+            url: '/board/delete',
+            method: 'post',
+            data : {
+              boardNo: $("#boardNo").val(),
+              no: $(btn).attr("value"),
+            },
+            success: function (deleted) {
+              if(deleted == 1){
+                location.reload(true);
+              }else{
+                alert("삭제 실패!");
+              }
+            },
+
+          })
         }
       </script>
     </main>
