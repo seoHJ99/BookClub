@@ -21,7 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor(force = true)
 public class LogInterceptor implements HandlerInterceptor {
 
-    // 10초에 10개 토큰
+    // 10초에 10개 토큰. 10초에 10개의 요청만 가능
     final Refill refill = Refill.intervally(10, Duration.ofSeconds(10));
 
     // 버킷의 토큰 최대 허용치는 10
@@ -30,8 +30,12 @@ public class LogInterceptor implements HandlerInterceptor {
             .addLimit(limit)
             .build();
 
-    public static final String LOGIN_ID = "login_uuid";
+//    public static final String LOGIN_ID = "login_uuid";
 
+    /**
+     * [10초에 최대 10개의 요청만 가능. 그 이상의 요청이 오면 429에러 리턴]
+     * 
+     * */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if(bucket.tryConsume(1)){

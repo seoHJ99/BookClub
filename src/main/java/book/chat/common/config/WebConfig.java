@@ -17,6 +17,9 @@ public class WebConfig  implements WebMvcConfigurer {
 
 //    private final MemberService memberService;
 
+    /**
+     * [url 접근시 로그 기록]
+     * */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LogInterceptor())
