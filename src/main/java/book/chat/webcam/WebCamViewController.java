@@ -27,6 +27,10 @@ public class WebCamViewController {
     private final MeetingService meetingService;
     private final Map<MeetingDto, UUID> roomIdMap = new ConcurrentHashMap<>();
 
+
+    /**
+     * [화상 채팅마다 고유값을 부여해, roomIdMap 에 저장. 해당 값을 roomID 값으로 사용한다.]
+     * */
     @GetMapping("/webcam")
     public String webcam(@RequestParam("meetingNo") Long meetingNo, @RequestParam("clubNo") Long clubNo,
                          HttpSession session, Model model, HttpServletResponse response) throws IOException {
