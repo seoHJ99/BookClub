@@ -24,7 +24,9 @@ public class LoginModelAop {
 
     }
 
-    // 모든 패키지 내의 controller package에 존재하는 클래스
+    /**
+     * [모든 contoller 의 getMapping 요청에 대해서, 로그인 여부를 view 에 보내줌]
+     * */
     @Around("controller()")
     public Object controllerTest(ProceedingJoinPoint pjp) throws Throwable {
 
