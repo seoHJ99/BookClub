@@ -25,8 +25,6 @@ public class HomeController {
     private final RedisService redisService;
     private final BookSearchAPI bookSearchAPI;
 
-
-
     @GetMapping("/")
     public String home(Model model){
         List<ReviewDTO> rescent10Dtos = reviewService.findRecent10Review();

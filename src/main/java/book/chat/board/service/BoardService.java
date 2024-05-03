@@ -104,6 +104,7 @@ public class BoardService {
      * @return true: 정상 삭제.<br/>
      *         false: 삭제 실패
      *         (boolean)
+     * @see CommentService#deleteAllBoardComment(Long no)
      */
     public boolean delete(Long no, MemberDTO memberDTO){
         ReviewDTO reviewDTO = findReviewByNo(no);
