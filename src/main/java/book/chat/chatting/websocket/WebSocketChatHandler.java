@@ -46,14 +46,22 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     private final Map<Long, Set<WebSocketSession>> chatRoomSessionMap = new ConcurrentHashMap<>();
 
 
-    // 소켓 연결 확인
+    /**
+     * [소켓 연결 성공시 sessions 에 해당 웹소켓 session 을 저장함. <br/> 현재 연결이 열린 모든 websocket 의 session 은 Set 자료구조 sessions 에 저장됨]
+     * @param session (사용자가 연결된 websocket 의 session)
+     */
+
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session)  {
         sessions.add(session);
         log.info("{} 연결됨", session.getId());
     }
 
-    // 소켓 통신 시 메세지의 전송을 다루는 부분
+    /**
+     * [websocket 을 이용한 메시지 전송 및 로그 db 저장]
+     * @param session (메시지가 전송될 websocket 의 session 값)
+     * @param message (메시지 본문)
+     * */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         HttpSession reqSession = (HttpSession) session.getAttributes().get("reqSession");
@@ -61,28 +69,27 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
         ChatMessageDto chatMessageDto = mapper.readValue(payload, ChatMessageDto.class);
         chatMessageDto.setMemberProfile(memberDTO.getProfile());
-        Long chatRoomId = chatMessageDto.getClubNo();
+        Long clubNo = chatMessageDto.getClubNo();
         chatMessageDto.setDate(LocalDate.now());
         chatMessageDto.setTime(LocalTime.now());
         chatMessageDto.setMemberId(memberDTO.getId());
 
-        if(!isClubMember(memberDTO, chatRoomId)){
+        if(!isClubMember(memberDTO, clubNo)){
             log.info("자신의 모임이 아닌 채팅 접근");
             return;
         }
 
-        if (!chatRoomSessionMap.containsKey(chatRoomId)) {
-            chatRoomSessionMap.put(chatRoomId, new HashSet<>());
+        if (!chatRoomSessionMap.containsKey(clubNo)) {
+            chatRoomSessionMap.put(clubNo, new HashSet<>());
         }
 
-        Set<WebSocketSession> chatRoomSession = chatRoomSessionMap.get(chatRoomId);
+        Set<WebSocketSession> chatRoomSession = chatRoomSessionMap.get(clubNo);
 
         if(chatMessageDto.getMessageType().equals("open")){
             chatRoomSession.add(session);
             sendMessageToChatRoom(chatMessageDto, chatRoomSession);
         }
         if (chatMessageDto.getMessageType().equals("chat")) {
-            System.out.println(chatMessageDto);
             sendMessageToChatRoom(chatMessageDto, chatRoomSession);
             chattingRepository.save(new Chatting(chatMessageDto));
         }
@@ -92,11 +99,19 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         }
     }
 
-    private static boolean isClubMember(MemberDTO memberDTO, Long chatRoomId) {
-        return memberDTO.getJoinClub().contains(chatRoomId);
+    /**
+     * [해당 맴버가 모임 맴버인지 확인]
+     * @param memberDTO (접근하려는 맴버 dto)
+     * @param clubNo (클럽 번호)
+     * @return boolean (true 면 클럽 맴버. false 면 외부인)
+     * */
+    private boolean isClubMember(MemberDTO memberDTO, Long clubNo) {
+        return memberDTO.getJoinClub().contains(clubNo);
     }
 
-    // 소켓 종료 확인
+    /**
+     * [websocket 연결이 끊김. sessions 에서 해당 웹소켓 session 삭제]
+     * */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         log.info("{} 연결 끊김", session.getId());
@@ -104,15 +119,27 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     }
 
     // ====== 채팅 관련 메소드 ======
-    private void removeClosedSession(Set<WebSocketSession> chatRoomSession) {
-        chatRoomSession.removeIf(sess -> !sessions.contains(sess));
-    }
 
+
+//    private void removeClosedSession(Set<WebSocketSession> chatRoomSession) {
+//        chatRoomSession.removeIf(sess -> !sessions.contains(sess));
+//    }
+
+    /**
+     * [Sessions 에서 해당 채팅방의 session을 찾아 sendMessage 메서드 호출]
+     * @param chatMessageDto (채팅 메세지 dto)
+     * @param chatRoomSession (채팅방의 websocket session)
+     * */
     private void sendMessageToChatRoom(ChatMessageDto chatMessageDto, Set<WebSocketSession> chatRoomSession) {
         chatRoomSession.parallelStream().forEach(sess -> sendMessage(sess, chatMessageDto));//2
     }
 
 
+    /**
+     * [websocket 에 메세지 전송]
+     * @param session (메세지를 받을 websocket 세션)
+     * @param message (전송될 메세지)
+     * */
     public <T> void sendMessage(WebSocketSession session, T message) {
         try {
             session.sendMessage(new TextMessage(mapper.writeValueAsString(message)));
