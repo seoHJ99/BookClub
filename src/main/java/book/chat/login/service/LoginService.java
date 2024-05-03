@@ -12,6 +12,12 @@ public class LoginService {
 
     private final MemberRepository memberRepository;
 
+    /**
+     * [로그인 함]
+     * @param loginId (로그인 시도 id)
+     * @param password (로그인 시도 pw)
+     * @return 로그인 된 사용자 (MemberDTO)
+     * */
     public MemberDTO doLogin(String loginId, String password){
         Member entity = memberRepository.findById(loginId)
                 .filter(member -> member.getPw().equals(password))
