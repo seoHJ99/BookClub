@@ -47,7 +47,8 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
 
     /**
-     * [소켓 연결 성공시 sessions 에 해당 웹소켓 session 을 저장함. <br/> 현재 연결이 열린 모든 websocket 의 session 은 Set 자료구조 sessions 에 저장됨]
+     * [소켓 연결 성공시 sessions 에 해당 웹소켓 session 을 저장함. <br/>
+     *  현재 연결이 열린 모든 websocket 의 session 은 Set 자료구조 sessions 에 저장됨]
      * @param session (사용자가 연결된 websocket 의 session)
      */
 

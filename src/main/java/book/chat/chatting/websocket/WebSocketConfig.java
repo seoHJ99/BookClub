@@ -15,6 +15,9 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private final WebSocketChatHandler webSocketChatHandler;
     private final HttpSessionHandshakeInterceptor handshakeInterceptor;
 
+    /**
+     * [웹소켓 핸들러와 인터셉터 등록]
+     * */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         // endpoint 설정 : /api/v1/chat/{postId}
