@@ -25,6 +25,15 @@ public class BookSearchAPI {
 
     private final String BOOK_URL = "https://openapi.naver.com/v1/search/book.json?query=";
 
+    /**
+     * [네이버 api를 이용한 책 검색]
+     * @param keyword (제목, 작가, isbn 등 검색 키워드)
+     * @param displayAmount (검색 결과 개수)
+     * @param start (몇번째 검색 결과부터 검색할건지. <br/>
+     *              ex) 어떤 키워드의 총 검색 결과가 100건이고 displayAmount 가 10이라면, 두번째 검색에는 start값 11로 시작해야 함)
+     * @return List (검색된 BookDTO 리스트)
+     */
+    
     public List<BookDTO> bookSearch(String keyword, Integer displayAmount, int start) throws IOException, ParseException {
         JSONArray jsonArray = null;
         try {
@@ -54,7 +63,12 @@ public class BookSearchAPI {
                 .collect(Collectors.toList());
 
     }
-
+    
+    /**
+     * [네이버 api를 이용한 책 검색. displayAmount 가 10, start가 1로 고정되어 있음]
+     * @param keyword (제목, 작가, isbn 등 검색 키워드)
+     * @return List (검색된 BookDTO 리스트)
+     */
     public List<BookDTO> bookSearch(String keyword) {
         JSONArray jsonArray = null;
         try {

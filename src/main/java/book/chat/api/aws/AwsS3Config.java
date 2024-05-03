@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ *  s3 이미지 업로드 관련 설정
+ *  AWS.properties 에 값 저장
+ */
+
 @Configuration
 public class AwsS3Config {
 

@@ -15,7 +15,6 @@ public class NaverController {
 
     private final BookSearchAPI bookSearchAPI;
 
-    // html로 리턴
     @GetMapping("/book")
     public String searchingBook(@RequestParam("keyword") String keyword,
                                 @RequestParam int amount,

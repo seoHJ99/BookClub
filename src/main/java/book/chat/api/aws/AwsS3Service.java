@@ -26,6 +26,11 @@ public class AwsS3Service { // 아마존에서 제공
 
     private final AmazonS3 amazonS3;
 
+    /**
+     * [s3에 파일 업로드하기]
+     * @param file (업로드 하려는 MultipartFile)
+     * @return String (저장된 s3링크)
+     */
     public String upload(MultipartFile file) {
         String fileName = createFileName(file.getOriginalFilename());
         ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -40,10 +45,20 @@ public class AwsS3Service { // 아마존에서 제공
         return defaultUrl + fileName;
     }
 
+    /**
+     * [s3에 저장될 파일 이름. 원본 이름은 맨 뒤에 붙음]
+     * @param fileName (파일 이름)
+     * @return String (난수화된 파일 이름)
+     */
     private String createFileName(String fileName) { // 먼저 파일 업로드 시, 파일명을 난수화하기 위해 random으로 돌립니다.
         return UUID.randomUUID().toString().concat(getFileExtension(fileName));
     }
 
+    /**
+     * [파일 확장자가 존재하는지 확인]
+     * @param fileName (확장자가 포함된 파일 이름)
+     * @return String (확장자)
+     */
     private String getFileExtension(String fileName) { // file 형식이 잘못된 경우를 확인하기 위해 만들어진 로직이며, 파일 타입과 상관없이 업로드할 수 있게 하기 위해 .의 존재 유무만 판단하였습니다.
         try {
             return fileName.substring(fileName.lastIndexOf("."));
