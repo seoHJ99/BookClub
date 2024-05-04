@@ -2,6 +2,7 @@ package book.chat.member.dto;
 
 import book.chat.member.entity.Member;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class MemberDTO {
     private Long no;
     @NotBlank

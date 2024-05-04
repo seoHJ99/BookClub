@@ -57,7 +57,7 @@ public class WebCamViewController {
         return "web";
     }
 
-    @GetMapping("/test")
+    @GetMapping("/test/web")
     public String test(){
         return "web";
     }

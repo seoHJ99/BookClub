@@ -4,14 +4,23 @@ import book.chat.api.naver.BookSearchAPI;
 import book.chat.board.dto.ReviewDTO;
 import book.chat.board.service.BoardService;
 import book.chat.club.service.ClubService;
+import book.chat.member.dto.MemberDTO;
+import book.chat.member.dto.MemberJoinForm;
 import book.chat.member.service.MemberService;
 import book.chat.redis.service.RedisService;
 import book.chat.common.dto.BookDTO;
 import book.chat.login.dto.LoginDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,5 +48,20 @@ public class HomeController {
         List<BookDTO> collect = top10PopularBooks.stream().map(isbn -> bookSearchAPI.bookSearch(isbn).get(0)).collect(Collectors.toList());
         model.addAttribute("ranking", collect);
         return "layout/home";
+    }
+
+    @ResponseBody
+    @GetMapping("/test")
+    public ResponseEntity<String> test() throws JsonProcessingException {
+        ObjectMapper oj = new ObjectMapper();
+
+        MemberDTO data = new MemberDTO();
+        String s = oj.writeValueAsString(data);
+        String a = "{\"aa\":\"xx\", \"data\" : \"" + s +"\"}";
+
+//        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("{\"aa\":\"xx\"}");
+//        MemberDTO memberDTO = new MemberDTO();
+//        memberDTO.setId("22");
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).body(a);
     }
 }
