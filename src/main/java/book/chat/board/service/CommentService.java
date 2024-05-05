@@ -28,10 +28,11 @@ public class CommentService {
      */
 
     @Transactional
-    public void save(CommentDTO commentDTO) {
+    public CommentDTO save(CommentDTO commentDTO) {
         commentDTO.setDate(LocalDate.now());
         commentDTO.setTime(LocalTime.now());
-        commentRepository.save(new Comment(commentDTO));
+        Comment saved = commentRepository.save(new Comment(commentDTO));
+        return new CommentDTO(saved);
     }
 
     /**
@@ -88,11 +89,11 @@ public class CommentService {
     /**
      * [특정 댓글 삭제]
      * @param commentDTO (삭제할 댓글 dto)
-     * @param memberDTO (이 요청을 한 사용자 dto)
+     * @param memberId (요청을 한 사용자 id)
      * @return boolean (삭제되면 true, 안되면 false 반환)
      * */
-    public boolean delete(CommentDTO commentDTO, MemberDTO memberDTO) {
-        if (commentDTO.getWriterId().equals(memberDTO.getId())) {
+    public boolean delete(CommentDTO commentDTO, String memberId) {
+        if (commentDTO.getWriterId().equals(memberId)) {
             commentRepository.deleteById(commentDTO.getCommentId());
             return true;
         }

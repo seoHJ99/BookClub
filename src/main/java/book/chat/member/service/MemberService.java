@@ -97,14 +97,12 @@ public class MemberService {
         MemberDTO memberDto;
         try{
             memberDto = findById(id);
+            if(memberDto.getPw().equals(pw)){
+                return true;
+            }
         }catch (NullPointerException e){
             return false;
         }
-
-        if(memberDto.getPw().equals(pw)){
-            return true;
-        }
         return false;
     }
-
 }

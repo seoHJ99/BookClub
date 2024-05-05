@@ -155,7 +155,7 @@ public class ReviewController {
                                 HttpSession session){
         MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
         CommentDTO comment = commentService.findByBoardNoAndCommentNo(boardNo, no);
-        boolean deleted = commentService.delete(comment, loginMember);
+        boolean deleted = commentService.delete(comment, loginMember.getId());
         if(deleted){
             return "1";
         }
