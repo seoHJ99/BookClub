@@ -34,7 +34,6 @@ public class LogInterceptor implements HandlerInterceptor {
 
     /**
      * [10초에 최대 10개의 요청만 가능. 그 이상의 요청이 오면 429에러 리턴]
-     * 
      * */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

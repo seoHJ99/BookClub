@@ -10,6 +10,7 @@ import book.chat.member.service.MemberService;
 import book.chat.redis.service.RedisService;
 import book.chat.common.dto.BookDTO;
 import book.chat.login.dto.LoginDto;
+import com.amazonaws.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
@@ -64,4 +65,5 @@ public class HomeController {
 //        memberDTO.setId("22");
         return ResponseEntity.status(HttpStatus.SEE_OTHER).body(a);
     }
+
 }

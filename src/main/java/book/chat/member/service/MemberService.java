@@ -86,4 +86,25 @@ public class MemberService {
         return new MemberDTO(memberRepository.findByNo(no));
     }
 
+    /**
+     * [id 와 pw 값으로 회원인지 확인하기]
+     * @param id (회원 id)
+     * @param pw (회원 pw)
+     * @return 회원이면 true, 아니면 false
+     * */
+
+    public boolean checkMember(String id, String pw){
+        MemberDTO memberDto;
+        try{
+            memberDto = findById(id);
+        }catch (NullPointerException e){
+            return false;
+        }
+
+        if(memberDto.getPw().equals(pw)){
+            return true;
+        }
+        return false;
+    }
+
 }

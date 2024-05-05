@@ -100,15 +100,15 @@ public class BoardService {
     /**
      * [리뷰 삭제 및 해당 리뷰의 모든 댓글 삭제]
      * @param no (리뷰 번호)
-     * @param memberDTO (리뷰 작성자 DTO)
+     * @param id (리뷰 작성자 id)
      * @return true: 정상 삭제.<br/>
      *         false: 삭제 실패
      *         (boolean)
      * @see CommentService#deleteAllBoardComment(Long no)
      */
-    public boolean delete(Long no, MemberDTO memberDTO){
+    public boolean delete(Long no, String id){
         ReviewDTO reviewDTO = findReviewByNo(no);
-        if(reviewDTO.getWriter().equals(memberDTO.getId())){
+        if(reviewDTO.getWriter().equals(id)){
             reviewBoardRepository.deleteById(no);
             commentService.deleteAllBoardComment(no);
             return true;

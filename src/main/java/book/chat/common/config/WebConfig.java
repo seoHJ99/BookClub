@@ -4,6 +4,8 @@ import book.chat.common.LogInterceptor;
 import book.chat.common.SessionListener;
 import book.chat.member.service.MemberService;
 import book.chat.login.controller.interceptor.LoginCountInterceptor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +32,8 @@ public class WebConfig  implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCountInterceptor())
                 .order(2)
                 .addPathPatterns("/login")
-                .excludePathPatterns("/css/**","/*.ico");
+                .excludePathPatterns("/css/**","/*.ico")
+                .excludePathPatterns("/v1");
 
 //        registry.addInterceptor(new LoginCheckInterceptor())
 //                .order(3)
@@ -41,5 +44,12 @@ public class WebConfig  implements WebMvcConfigurer {
     @Bean
     public SessionListener camSession(){
         return new SessionListener();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 }

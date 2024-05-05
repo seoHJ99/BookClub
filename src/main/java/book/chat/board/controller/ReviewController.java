@@ -110,17 +110,6 @@ public class ReviewController {
         return "layout/board-write";
     }
 
-    @ResponseBody
-    @PostMapping("/delete")
-    public String deleteBoard(@RequestParam("no") Long no, HttpSession session){
-        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        boolean deleted = boardService.delete(no, loginMember);
-        if(deleted){
-            return "1";
-        }
-        return "0";
-    }
-
     @PostMapping("/save")
     public String saveReview(@Validated @ModelAttribute("review") ReviewDTO review, BindingResult bindingResult, HttpServletRequest request) throws IOException, ParseException {
         if (bindingResult.hasErrors()) {
@@ -135,6 +124,17 @@ public class ReviewController {
 
         review =boardService.saveReview(review);
         return "redirect:/board?no=" + review.getNo();
+    }
+
+    @ResponseBody
+    @PostMapping("/delete")
+    public String deleteBoard(@RequestParam("no") Long no, HttpSession session){
+        MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        boolean deleted = boardService.delete(no, loginMember.getId());
+        if(deleted){
+            return "1";
+        }
+        return "0";
     }
 
     @PostMapping("/comment/save")
