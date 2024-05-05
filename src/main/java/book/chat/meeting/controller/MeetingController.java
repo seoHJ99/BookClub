@@ -82,8 +82,9 @@ public class MeetingController {
                     "alter('모임 회원이 아닙니다.')"+
                     "location.href='" + request.getRequestURL() + "';</script>";
         }
-        boolean success = meetingService.join(loginMember, clubNo, no);
-        if (!success) {
+        MeetingDto meetingDto = meetingService.join(loginMember, clubNo, no);
+
+        if (meetingDto == null) {
             return "<script>alert('정원이 가득 찼습니다.');" +
                     "location.href='/';</script>";
         }
@@ -101,9 +102,6 @@ public class MeetingController {
         MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         if (!loginMember.getJoinClub().contains(clubNo)) {
-            System.out.println(loginMember.getJoinClub());
-            System.out.println(clubNo);
-            System.out.println("ddddddddddddddddddd");
             response.sendError(HttpStatus.FORBIDDEN.value());
             return "<script>" +
                     "alter('모임 회원이 아닙니다.')"+
