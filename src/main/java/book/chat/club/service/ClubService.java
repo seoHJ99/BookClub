@@ -41,11 +41,11 @@ public class ClubService {
     /**
      * [새로운 클럽 db저장]
      * @param newClub (새롭게 만들 클럽 dto)
-     * @param leader (클럽을 만드는 클럽장)
+     * @param leaderNo (클럽을 만드는 클럽장)
      * @return 새롭게 만들어진 클럽 (clubDTO)
      * */
     @Transactional
-    public ClubDTO save(ClubMakingForm newClub, MemberDTO leader) {
+    public ClubDTO save(ClubMakingForm newClub, Long leaderNo) {
         String url = "https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg";
 
         if(!newClub.getProfile().isEmpty()){
@@ -53,7 +53,7 @@ public class ClubService {
         }
         newClub.setProfileUrl(url);
 
-        Club savedEntity = clubRepository.save(new Club(newClub, leader));
+        Club savedEntity = clubRepository.save(new Club(newClub, leaderNo));
         return new ClubDTO(savedEntity);
     }
 
@@ -144,16 +144,18 @@ public class ClubService {
 
     /**
      * [클럽에 신규 맴버 가입]
-     * @param member (가입하려는 사용자 dto)
+     * @param memberId (가입하려는 사용자 id)
      * @param clubNo (가입하려는 모임 번호)
      * */
     @Transactional
-    public void joinMember(MemberDTO member, Long clubNo) {
+    public ClubDTO joinMember(String memberId, Long clubNo) {
         ClubDTO club = findClubByNo(clubNo);
+        MemberDTO member = memberService.findById(memberId);
         club.getMembers().add(member.getNo());
         MemberDTO newMember = memberService.findByNo(member.getNo());
         newMember.getJoinClub().add(clubNo);
-        memberService.updateMemberInfo(newMember, member);
-        updateClubInfo(club);
+        memberService.updateMemberInfo(newMember, member.getNo());
+        ClubDTO updated = updateClubInfo(club);
+        return updated;
     }
 }

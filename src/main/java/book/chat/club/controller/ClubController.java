@@ -49,8 +49,8 @@ public class ClubController {
             return "layout/club-make";
         }
 
-        ClubDTO clubDTO = clubService.save(makingForm, (MemberDTO) request.getSession(false)
-                .getAttribute(SessionConst.LOGIN_MEMBER));
+        MemberDTO loginMember = (MemberDTO) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        ClubDTO clubDTO = clubService.save(makingForm, loginMember.getNo());
         model.addAttribute("club", clubDTO);
         return "layout/club-info";
     }
@@ -95,7 +95,7 @@ public class ClubController {
     @GetMapping("/join")
     public String joinClub(@RequestParam("clubNo") Long clubNo, HttpSession session) {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        clubService.joinMember(memberDTO, clubNo);
+        clubService.joinMember(memberDTO.getId(), clubNo);
         return "redirect:/club?clubNo=" + clubNo;
     }
 
@@ -103,10 +103,10 @@ public class ClubController {
     @GetMapping("/chatting")
     public String chatting(@RequestParam("clubNo") Long clubNo, HttpSession session, Model model, HttpServletResponse response) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if(loginMember == null){
-            // todo
-//            throw new AuthenticationException();
-        }
+//        if(loginMember == null){
+//            // todo
+////            throw new AuthenticationException();
+//        }
         if (!loginMember.getJoinClub().contains(clubNo)) {
             response.setStatus(HttpStatus.BAD_REQUEST.value());
             return "redirect:/";

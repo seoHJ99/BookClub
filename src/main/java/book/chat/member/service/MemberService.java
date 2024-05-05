@@ -54,12 +54,12 @@ public class MemberService {
     /**
      * [updateForm 대신 memberDTO를 이용한 정보 수정. 클럽 가입시 사용]
      * @param newMember (새로운 맴버 정보)
-     * @param loginMember (로그인한 맴버 정보)
+     * @param memberNo (로그인한 맴버 no)
      * @return 업데이트된 맴버 정보 엔티티 (Member)
-     * @see book.chat.club.service.ClubService#joinMember(MemberDTO, Long)
+     * @see book.chat.club.service.ClubService#joinMember(Long, Long)
      * */
-    public Member updateMemberInfo(MemberDTO newMember, MemberDTO loginMember){
-        Member entity = memberRepository.findById(loginMember.getId()).get();
+    public Member updateMemberInfo(MemberDTO newMember, Long memberNo){
+        Member entity = memberRepository.findByNo(memberNo);
         entity.updateField(newMember);
         return memberRepository.save(entity);
     }

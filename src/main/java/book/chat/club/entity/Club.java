@@ -2,7 +2,6 @@ package book.chat.club.entity;
 
 import book.chat.club.dto.ClubDTO;
 import book.chat.club.dto.ClubMakingForm;
-import book.chat.member.dto.MemberDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,11 +18,11 @@ public class Club {
     @SequenceGenerator(name = "no_seq", sequenceName = "no_seq", allocationSize = 1)
     private Long no;
     private String name;
-//    private String leader;
+    //    private String leader;
     private String introduce;
     private String location;
     private String profile;
-//    private int range;
+    //    private int range;
     private String members;
     private String meetings;
     @Column(name = "read_books")
@@ -48,16 +47,16 @@ public class Club {
         this.startDate = clubDTO.getStartDate();
     }
 
-    public Club(ClubMakingForm clubDTO, MemberDTO memberDTO){
+    public Club(ClubMakingForm clubDTO, Long memberNo) {
         this.name = clubDTO.getName();
         this.introduce = clubDTO.getIntroduce();
 //        this.range = clubDTO.getRange();
         this.profile = clubDTO.getProfileUrl();
         this.location = clubDTO.getLocation();
-        this.members=memberDTO.getNo().toString();
+        this.members = memberNo.toString();
         this.startDate = LocalDate.now();
         this.meetings = "[0]";
-        this.readBooks="[]";
-        this.reportBoard="[0]";
+        this.readBooks = "[]";
+        this.reportBoard = "[0]";
     }
 }

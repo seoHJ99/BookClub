@@ -24,6 +24,8 @@ import java.sql.SQLSyntaxErrorException;
 @RequestMapping("/v1/review")
 public class ReviewApiController {
 
+    // todo get 의 경우 경로 파라미터로 모두 변경 필요
+
     private final BoardService boardService;
     private final ObjectMapper objectMapper;
     private final MemberService memberService;
