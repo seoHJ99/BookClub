@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
@@ -64,19 +65,18 @@ public class MemberController {
                                    HttpServletRequest request) throws IOException {
 
         MemberDTO memberDTO = memberService.findById(id);
-        System.out.println(id.hashCode());
 
         if (memberDTO != null || redisService.existId(id)) {
-            System.out.println("존재");
             return "<script>alert('이미 존재하는 id입니다.'); </script>";
         }
 
+//        String uuid = UUID.randomUUID().toString();
+//        Cookie cookie = new Cookie("idCheck", uuid);
         Cookie cookie = new Cookie("idCheck", id);
         cookie.setPath("/member");
         cookie.setMaxAge(300); // 5분간 유지되는 쿠키
         response.addCookie(cookie);
-        redisService.idDuplicationSave(id);
-        System.out.println("체크 통과");
+        redisService.idSave(id);
         return "<script>alert('중복 체크 통과'); </script>";
     }
 
@@ -103,18 +103,16 @@ public class MemberController {
             bindingResult.reject("noDoubleCheck", null, null);
             return "layout/member-join";
         }
+
         if (!memberJoinForm.getId().equals(idCheck)) {
             bindingResult.reject("idDoubleCheck", null, null);
             return "layout/member-join";
         }
-        // todo 메일도 똑같이.
         if (!pwIsSame(memberJoinForm)) {
             bindingResult.reject("pwDoubleCheck", null, null);
             return "layout/member-join";
         }
         if (bindingResult.hasErrors()) {
-            List<ObjectError> allErrors = bindingResult.getAllErrors();
-            System.out.println(allErrors);
             return "layout/member-join";
         }
         return null;

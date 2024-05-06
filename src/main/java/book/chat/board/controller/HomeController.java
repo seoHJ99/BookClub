@@ -20,8 +20,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,9 +52,10 @@ public class HomeController {
     }
 
     @ResponseBody
-    @GetMapping("/test")
-    public ResponseEntity<String> test() throws JsonProcessingException {
+    @PostMapping("/test")
+    public ResponseEntity<String> test(MemberJoinForm memberJoinForm, @RequestPart("image")MultipartFile image) throws JsonProcessingException {
         ObjectMapper oj = new ObjectMapper();
+        System.out.println(memberJoinForm);
 
         MemberDTO data = new MemberDTO();
         String s = oj.writeValueAsString(data);

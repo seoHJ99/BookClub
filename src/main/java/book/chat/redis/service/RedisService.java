@@ -26,9 +26,9 @@ public class RedisService {
 
     /**
      * [서버 시작전 미리 더미 데이터 넣어둠. 인기 책 순위에 사용됨]
-     * */
+     */
     @PostConstruct
-    public void saveRankingBooks(){
+    public void saveRankingBooks() {
         redisTemplate.getConnectionFactory().getConnection().flushAll();
         redisTemplate.opsForZSet().add("popularBooks", "9788952774224", 1);
         redisTemplate.opsForZSet().add("popularBooks", "9788952774231", 1);
@@ -41,34 +41,43 @@ public class RedisService {
 
 
     /**
-     * [중복 체크 통과한 id 값을 5분간 redis 저장.<br/>
+     * [중복 체크 통과한 id 값을 uuid값을 키값으로 해서 5분간 redis 저장.<br/>
      * 2명의 사용자가 회원가입 진행시, 둘다 같은 id로 중복 체크 통과할 수도 있기 때문에 사용]
+     *
      * @param id (중복 체크 통과한 id)
      * @see RedisService#existId(String id)
-     * */
+     */
     @Transactional
-    public void idDuplicationSave(String id) {
-        if (!existId(id)) {
-            redisTemplate.opsForValue().set(id.hashCode()+"", id, Duration.ofMinutes(5));
-        }
+    public void idSave( String id) {
+        redisTemplate.opsForValue().set(id.hashCode(), id, Duration.ofMinutes(5));
+    }
+
+    /**
+     * [uuid 값을 이용해 저장된 중복 통과한 id값을 가져옴]
+     * @param key (id 저장 키값)
+     * @return 중복 통과한 id값
+     * */
+    public String getStringValue(String key){
+        return (String) redisTemplate.opsForValue().get(key);
     }
 
     /**
      * [redis 에 중복 체크된 id가 저장되어 있는지 확인.]
+     *
      * @param id (중복 체크 신청한 id)
      * @return redis 에 같은 값이 있으면 true, 없으면 false (boolean)
-     * @see RedisService#idDuplicationSave(String id)
      * @see book.chat.member.controller.MemberController#checkIdDuplicate(String, HttpServletResponse, HttpServletRequest)
-     * */
+     */
     public boolean existId(String id) {
         return Boolean.TRUE.equals(redisTemplate.opsForValue().get(id.hashCode() + ""));
     }
 
     /**
      * [해당 책에 대한 리뷰가 작성될 시 인기 점수 +1)
+     *
      * @param reviewDTO (리뷰 dto)
      * @see book.chat.board.service.BoardService#saveReview(ReviewDTO)
-     * */
+     */
     @Transactional
     public void bookPopularPlus(ReviewDTO reviewDTO) {
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
@@ -83,8 +92,9 @@ public class RedisService {
 
     /**
      * [인기 순위 10위 이내의 책 isbn 리스트 가져오기]
+     *
      * @return 인기순위 탑 10 안의 책 isbn 리스트 (List)
-     * */
+     */
     public List<String> getTop10PopularBooks() {
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
         String popularBooks = zSetOperations.reverseRange("popularBooks", 0, -1).toString();
@@ -98,7 +108,7 @@ public class RedisService {
 
     /**
      * [매일 자정 redis 인기 책 순위 초기화]
-     * */
+     */
     @Transactional
     @Scheduled(cron = "0 0 0 * * ?")
     public void resetBookPopular() {
