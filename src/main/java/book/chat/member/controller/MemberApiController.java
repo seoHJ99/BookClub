@@ -43,9 +43,13 @@ public class MemberApiController {
     private final CommentService commentService;
 
 
+    /**
+     * ["POST /v1/member/duplicate/id" <br/>
+     * id 중복 체크 요청]
+     * @param id (중복 요청 id 값)
+     * */
     @PostMapping("/duplicate/id")
     public ResponseEntity<String> idCheck(@RequestParam("id") String id) {
-
         MemberDTO memberDTO = memberService.findById(id);
 
         if (memberDTO != null || redisService.existId(id)) {
@@ -64,12 +68,19 @@ public class MemberApiController {
                 .body("{\"id\" : \"" + id + "\"}");
     }
 
-    @PostMapping(path = "/join")
+    /**
+     * ["POST /v1/member" <br/>
+     * 회원 가입 요청]
+     * @param memberJoinForm (가입하려는 회원 정보)
+     * @param idCheck (id 중복 체크 통과하고 받은 쿠키)
+     * @param image (회원 프로필 이미지)
+     * */
+    @PostMapping("")
     public ResponseEntity<String> join(@Validated @ModelAttribute MemberJoinForm memberJoinForm,
                                        @CookieValue(value = "idCheck", required = false) String idCheck,
-                                       @RequestPart(value = "profileImg", required = false) MultipartFile file) {
+                                       @RequestPart(value = "profileImg", required = false) MultipartFile image) {
 
-        memberJoinForm.setProfile(file);
+        memberJoinForm.setProfile(image);
         memberJoinForm.setMail(memberJoinForm.getEmail() + "@" + memberJoinForm.getEmail2());
         String x = validationCheck(memberJoinForm, idCheck);
         if (x != null) return new ResponseEntity<>(ApiMessageConst.NOT_ALLOWED, HttpStatus.BAD_REQUEST);
@@ -89,8 +100,14 @@ public class MemberApiController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @GetMapping("/info/{member}")
-    public ResponseEntity<String> memberUpdateForm(@PathVariable("member") String memberId, @RequestParam("pw") String pw) {
+    /**
+     * ["GET /v1/member/:memberId" <br/>
+     * 회원 정보 조회]
+     * @param memberId (회원 id)
+     * @param pw (회원 pw)
+     * */
+    @GetMapping("/{memberId}")
+    public ResponseEntity<String> memberUpdateForm(@PathVariable("memberId") String memberId, @RequestParam("pw") String pw) {
         MemberDTO memberDTO = memberService.findById(memberId);
         if(memberDTO != null && memberDTO.getPw().equals(pw)){
             try {
@@ -103,8 +120,13 @@ public class MemberApiController {
         return new ResponseEntity<>(ApiMessageConst.NOT_ALLOWED, HttpStatus.UNAUTHORIZED);
     }
 
-    @GetMapping("/board/{member}")
-    public ResponseEntity<String> memberWriteBoard(@PathVariable("member") String memberId, HttpSession session, Model model) {
+    /**
+     * ["GET /v1/member/board/:memberId" <br/>
+     * 맴버 작성 리뷰 조회]
+     * @param memberId (맴버 id)
+     * */
+    @GetMapping("/board/{memberId}")
+    public ResponseEntity<String> memberWriteBoard(@PathVariable("memberId") String memberId) {
         List<ReviewDTO> reviews = boardService.findByWriter(memberId);
         if(reviews != null){
             try {
@@ -117,21 +139,27 @@ public class MemberApiController {
         return new ResponseEntity<>(ApiMessageConst.NO_DATA, HttpStatus.BAD_REQUEST) ;
     }
 
-    @GetMapping("/comment/{member}")
-    public ResponseEntity<String> memberComment(@PathVariable("member") String memberId, @RequestParam("pw") String pw) {
+    /**
+     * ["GET /v1/member/:memberId/comment" <br/>
+     * 맴버 작성 댓글 조회]
+     * @param memberId (맴버 id)
+     *
+     * */
+    @GetMapping("/{memberId}/comment")
+    public ResponseEntity<String> memberComment(@PathVariable("memberId") String memberId) {
         MemberDTO memberDTO = memberService.findById(memberId);
         if(memberDTO == null){
             return new ResponseEntity<>(ApiMessageConst.NOT_A_MEMBER, HttpStatus.UNAUTHORIZED);
         }
-        if( memberDTO.getPw().equals(pw)) {
+//        if( memberDTO.getPw().equals(pw)) {
             List<CommentDTO> comments = commentService.findByWriter(memberId);
             try {
                 return new ResponseEntity<>(objectMapper.writeValueAsString(comments), HttpStatus.OK);
             } catch (JsonProcessingException e) {
                 return new ResponseEntity<>(ApiMessageConst.WRONG_PARAMETER, HttpStatus.BAD_REQUEST);
             }
-        }
-        return new ResponseEntity<>(ApiMessageConst.NOT_ALLOWED, HttpStatus.FORBIDDEN);
+//        }
+//        return new ResponseEntity<>(ApiMessageConst.NOT_ALLOWED, HttpStatus.FORBIDDEN);
     }
 
     private String validationCheck(MemberJoinForm memberJoinForm, String idCheck) {
