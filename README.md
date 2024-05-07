@@ -38,7 +38,8 @@
 |                 | 나의 게시글 내역            |  내가 작성한 게시글들만 모아서 정렬한다. 모임 게시글과 일반 리뷰 게시글이 구분된다.       |
 
 ### api 명세서
-![image](https://github.com/seoHJ99/BookClub/assets/121778872/0ab0de30-31e3-45bb-b8f7-06052b5f4eff)
+![image](https://github.com/seoHJ99/BookClub/assets/121778872/4cd5919b-54a7-4af4-a9de-3a059f2f7866)
+
 
 
 ### Demonstration
