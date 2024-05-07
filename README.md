@@ -13,9 +13,7 @@
 | Tool         | VS Code, SpringBoot, IntelliJ, Bootstrap5, Github |
 | Api          | 네이버 검색                                        |
 | Server       | Tomcat 9                                          |
-| DB           | ORACLE, Redis, AWS RDS                            |
-| Distribution | Github Actions, AWS Code Deploy, AWS S3, AWS EC2  |
-
+| DB           | ORACLE, Redis                                     |
 ### Database
 ![image](https://github.com/seoHJ99/BookClub/blob/main/%EB%B6%81%ED%81%B4%EB%9F%BD%20erd.png)
 
@@ -38,6 +36,10 @@
 | 마이 페이지      | 내정보            | 로그인한 회원의 비밀번호를 재입력한 후, 내정보 조회, 수정이 가능하다.              |
 |                 | 나의 댓글 내역            | 내가 등록한 댓글들만 모아서 정렬한다. 게시판 글을 볼수 있다.                             |
 |                 | 나의 게시글 내역            |  내가 작성한 게시글들만 모아서 정렬한다. 모임 게시글과 일반 리뷰 게시글이 구분된다.       |
+
+### api 명세서
+![image](https://github.com/seoHJ99/BookClub/assets/121778872/0ab0de30-31e3-45bb-b8f7-06052b5f4eff)
+
 
 ### Demonstration
 
