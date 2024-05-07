@@ -35,7 +35,10 @@ public class HomeController {
     private final RedisService redisService;
     private final BookSearchAPI bookSearchAPI;
 
-    @GetMapping("/")
+    /**
+     * ["/" 로 접근시 보이는 페이지]
+     * */
+    @GetMapping("")
     public String home(Model model){
         List<ReviewDTO> rescent10Dtos = reviewService.findRecent10Review();
         List<BookDTO> bookDTOS = rescent10Dtos.stream()
@@ -50,21 +53,4 @@ public class HomeController {
         model.addAttribute("ranking", collect);
         return "layout/home";
     }
-
-    @ResponseBody
-    @PostMapping("/test")
-    public ResponseEntity<String> test(MemberJoinForm memberJoinForm, @RequestPart("image")MultipartFile image) throws JsonProcessingException {
-        ObjectMapper oj = new ObjectMapper();
-        System.out.println(memberJoinForm);
-
-        MemberDTO data = new MemberDTO();
-        String s = oj.writeValueAsString(data);
-        String a = "{\"aa\":\"xx\", \"data\" : \"" + s +"\"}";
-
-//        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("{\"aa\":\"xx\"}");
-//        MemberDTO memberDTO = new MemberDTO();
-//        memberDTO.setId("22");
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).body(a);
-    }
-
 }

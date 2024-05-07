@@ -33,15 +33,20 @@ public class ReviewApiController {
 
 
     /**
-     * [/review/v1?no=*** 요청 처리. no가 쿼리값으로 주어져야 함]
+     * ["GET /v1/review/:no" 요청 처리 <br/>
+     * 해당 번호의 리뷰를 반환.]
+     * @param no (글 번호)
      */
-    @GetMapping("")
-    public ResponseEntity<String> reviewBoard(@RequestParam(value = "no", required = false) Long no) {
+    @GetMapping("/{no}")
+    public ResponseEntity<String> reviewBoard(@PathVariable(value = "no", required = false) Long no) {
         ReviewDTO review;
+        if(no == null){
+            return new ResponseEntity<>(ApiMessageConst.WRONG_PARAMETER, HttpStatus.BAD_REQUEST);
+        }
         try {
             review = boardService.findReviewByNo(no);
         } catch (NullPointerException e) {
-            return new ResponseEntity(ApiMessageConst.NO_DATA, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiMessageConst.NO_DATA, HttpStatus.BAD_REQUEST);
         }
 
         String data = "";
@@ -54,14 +59,22 @@ public class ReviewApiController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @GetMapping("/club")
+    /**
+     * ["GET /v1/review/club/:no" 요청 처리<br/>
+     * 해당 번호의 클럽 게시글 반환.]
+     * @param no (글 번호)
+     * */
+    @GetMapping("/club/{no}")
     public ResponseEntity<String> clubBoard(@RequestParam(value = "no", required = false) Long no) {
         String data = "";
         ClubBoardDTO review;
+        if(no == null){
+            return new ResponseEntity<>(ApiMessageConst.WRONG_PARAMETER, HttpStatus.BAD_REQUEST);
+        }
         try {
             review = boardService.findClubBoardByBoardNo(no);
         } catch (NullPointerException e) {
-            return new ResponseEntity(ApiMessageConst.NO_DATA, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiMessageConst.NO_DATA, HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -72,21 +85,39 @@ public class ReviewApiController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<String> save(ReviewDTO reviewDTO) {
-        ReviewDTO reviewDTO1 = boardService.saveReview(reviewDTO);
-        String savedData = "";
-        try {
-            savedData = objectMapper.writeValueAsString(reviewDTO1);
-        } catch (JsonProcessingException e) {
-            log.info(e.getMessage());
+    /**
+     * ["POST /v1/review" 요청 처리 <br/>
+     * 게시글 저장"]
+     * @param reviewDTO (리뷰 dto)
+     * @param id (요청자 id)
+     * @param pw (요청자 pw)
+     * */
+    @PostMapping("")
+    public ResponseEntity<String> save(ReviewDTO reviewDTO, @RequestParam("id") String id, @RequestParam("pw") String pw) {
+        boolean memExist = memberService.checkMember(id, pw);
+        if(memExist && reviewDTO.getWriter().equals(id)){
+            ReviewDTO reviewDTO1 = boardService.saveReview(reviewDTO);
+            String savedData = "";
+            try {
+                savedData = objectMapper.writeValueAsString(reviewDTO1);
+            } catch (JsonProcessingException e) {
+                log.info(e.getMessage());
+            }
+            String data = "{\"redirectURL\" : \"/review?no=\"" + reviewDTO1.getNo() + "\", \"data\" : " + savedData + "}";
+            return new ResponseEntity<>(data, HttpStatus.OK);
         }
-        String data = "{\"redirectURL\" : \"/review?no=\"" + reviewDTO1.getNo() + "\", \"data\" : " + savedData + "}";
-        return new ResponseEntity<>(data, HttpStatus.OK);
+      return new ResponseEntity<>(ApiMessageConst.NOT_ALLOWED, HttpStatus.FORBIDDEN);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteBoard(@RequestParam("no") Long no, String id, String pw) {
+    /**
+     * ["DELETE /v1/review/:no" 요청 처리<br/>
+     * 해당 번호의 게시글 삭제]
+     * @param no (글 번호)
+     * @param id (요청자 id)
+     * @param pw (요청자 pw)
+     * */
+    @DeleteMapping("/{no}")
+    public ResponseEntity<String> deleteBoard(@PathVariable("no") Long no, String id, String pw) {
         String deleteBoard = null;
         if (memberService.checkMember(id, pw)) {
             ReviewDTO reviewDTO1 = boardService.findReviewByNo(no);
@@ -104,11 +135,17 @@ public class ReviewApiController {
         return new ResponseEntity<>(ApiMessageConst.NOT_A_MEMBER, HttpStatus.UNAUTHORIZED);
     }
 
-    @GetMapping("/comment")
-    public ResponseEntity<String> getComment(@RequestParam("clubNo") Long clubNo, @RequestParam("commentNo") Long commentNo){
+    /**
+     * ["GET /v1/review/:reviewNo/comment/:commentNo" <br/>
+     * 댓글 반환]
+     * @param reviewNo (리뷰 번호)
+     * @param commentNo (댓글 번호)
+     * */
+    @GetMapping("/{reviewNo}/comment/{commentNo}")
+    public ResponseEntity<String> getComment(@PathVariable("reviewNo") Long reviewNo, @PathVariable("commentNo") Long commentNo){
         ResponseEntity <String> response;
         try{
-            CommentDTO commentDTO = commentService.findByBoardNoAndCommentNo(clubNo, commentNo);
+            CommentDTO commentDTO = commentService.findByBoardNoAndCommentNo(reviewNo, commentNo);
             response = new ResponseEntity<>(objectMapper.writeValueAsString(commentDTO), HttpStatus.OK);
         }catch (NullPointerException e){
             response = new ResponseEntity<>(ApiMessageConst.NO_DATA, HttpStatus.BAD_REQUEST);
@@ -119,13 +156,33 @@ public class ReviewApiController {
         return response;
     }
 
-    @PostMapping("/comment/save")
-    public ResponseEntity<String> saveComment(CommentDTO commentDTO, String id, String pw){
+    /**
+     * ["GET /v1/review/:reviewNo/comment" <br/>
+     * 댓글 등록 요청]
+     * @param commentDTO (댓글 dto)
+     * @param reviewNo (댓글 달 리뷰 번호)
+     * @param id (요청자 id)
+     * @param pw (요청자 pw)
+     * */
+    @PostMapping("/{reviewNo}/comment")
+    public ResponseEntity<String> saveComment(CommentDTO commentDTO,
+                                              @PathVariable("reviewNo") Long reviewNo,
+                                              @RequestParam("id") String id,
+                                              @RequestParam("pw") String pw){
         ResponseEntity <String> response;
+        ReviewDTO reviewByNo = boardService.findReviewByNo(reviewNo);
+
+        if(reviewByNo == null){
+            return new ResponseEntity<>(ApiMessageConst.NO_DATA, HttpStatus.BAD_REQUEST);
+        }
+        commentDTO.setReviewDTO(reviewByNo);
+
         boolean memberExist = memberService.checkMember(id, pw);
         if(!memberExist){
             return new ResponseEntity<>(ApiMessageConst.NOT_A_MEMBER, HttpStatus.UNAUTHORIZED);
         }
+
+        commentDTO.setWriterId(id);
         try{
             CommentDTO saved = commentService.save(commentDTO);
             response = new ResponseEntity<>(objectMapper.writeValueAsString(saved), HttpStatus.OK);
@@ -138,8 +195,15 @@ public class ReviewApiController {
         return response;
     }
 
-    @DeleteMapping("/comment/delete")
-    public ResponseEntity<String> deleteComment(@RequestParam("clubNo") Long clubNo, @RequestParam("commentNo") Long commentNo,
+    /**
+     * ["DELETE /v1/review/:reviewNo/comment/:commentNo"<br/>
+     * 댓글 삭제 요청 처리]
+     * @param reviewNo (리뷰 번호)
+     * @param commentNo (댓글 번호)
+     * */
+    @DeleteMapping("/{reviewNo}/comment/{commentNo}")
+    public ResponseEntity<String> deleteComment(@PathVariable("reviewNo") Long reviewNo,
+                                                @PathVariable("commentNo") Long commentNo,
                                                 String id, String pw){
         ResponseEntity <String> response;
         boolean memberExist = memberService.checkMember(id, pw);
@@ -147,7 +211,7 @@ public class ReviewApiController {
             return new ResponseEntity<>(ApiMessageConst.NOT_A_MEMBER, HttpStatus.UNAUTHORIZED);
         }
         try{
-            CommentDTO commentDTO = commentService.findByBoardNoAndCommentNo(clubNo, commentNo);
+            CommentDTO commentDTO = commentService.findByBoardNoAndCommentNo(reviewNo, commentNo);
             if(!commentDTO.getWriterId().equals(id)){
                 return new ResponseEntity<>(ApiMessageConst.NOT_A_MEMBER, HttpStatus.UNAUTHORIZED);
             }
