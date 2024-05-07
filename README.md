@@ -42,7 +42,7 @@
 
 
 ### Report
-
+[완료 보고서](./북클럽 보고서.pdf)
 
 ### Team Members
 
