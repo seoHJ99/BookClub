@@ -6,8 +6,6 @@ import book.chat.board.dto.ReviewDTO;
 import book.chat.board.service.BoardService;
 import book.chat.board.service.CommentService;
 import book.chat.common.ApiMessageConst;
-import book.chat.common.SessionConst;
-import book.chat.common.dto.BookDTO;
 import book.chat.member.dto.MemberDTO;
 import book.chat.member.dto.MemberJoinForm;
 import book.chat.member.service.MemberService;
@@ -15,19 +13,16 @@ import book.chat.redis.service.RedisService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/member")
@@ -46,8 +41,9 @@ public class MemberApiController {
     /**
      * ["POST /v1/member/duplicate/id" <br/>
      * id 중복 체크 요청]
+     *
      * @param id (중복 요청 id 값)
-     * */
+     */
     @PostMapping("/duplicate/id")
     public ResponseEntity<String> idCheck(@RequestParam("id") String id) {
         MemberDTO memberDTO = memberService.findById(id);
@@ -71,10 +67,11 @@ public class MemberApiController {
     /**
      * ["POST /v1/member" <br/>
      * 회원 가입 요청]
+     *
      * @param memberJoinForm (가입하려는 회원 정보)
-     * @param idCheck (id 중복 체크 통과하고 받은 쿠키)
-     * @param image (회원 프로필 이미지)
-     * */
+     * @param idCheck        (id 중복 체크 통과하고 받은 쿠키)
+     * @param image          (회원 프로필 이미지)
+     */
     @PostMapping("")
     public ResponseEntity<String> join(@Validated @ModelAttribute MemberJoinForm memberJoinForm,
                                        @CookieValue(value = "idCheck", required = false) String idCheck,
@@ -103,13 +100,14 @@ public class MemberApiController {
     /**
      * ["GET /v1/member/:memberId" <br/>
      * 회원 정보 조회]
+     *
      * @param memberId (회원 id)
-     * @param pw (회원 pw)
-     * */
+     * @param pw       (회원 pw)
+     */
     @GetMapping("/{memberId}")
     public ResponseEntity<String> memberUpdateForm(@PathVariable("memberId") String memberId, @RequestParam("pw") String pw) {
         MemberDTO memberDTO = memberService.findById(memberId);
-        if(memberDTO != null && memberDTO.getPw().equals(pw)){
+        if (memberDTO != null && memberDTO.getPw().equals(pw)) {
             try {
                 return new ResponseEntity<>(objectMapper.writeValueAsString(memberDTO), HttpStatus.OK);
             } catch (JsonProcessingException e) {
@@ -123,12 +121,13 @@ public class MemberApiController {
     /**
      * ["GET /v1/member/board/:memberId" <br/>
      * 맴버 작성 리뷰 조회]
+     *
      * @param memberId (맴버 id)
-     * */
+     */
     @GetMapping("/board/{memberId}")
     public ResponseEntity<String> memberWriteBoard(@PathVariable("memberId") String memberId) {
         List<ReviewDTO> reviews = boardService.findByWriter(memberId);
-        if(reviews != null){
+        if (reviews != null) {
             try {
                 return new ResponseEntity<>(objectMapper.writeValueAsString(reviews), HttpStatus.OK);
             } catch (JsonProcessingException e) {
@@ -136,28 +135,28 @@ public class MemberApiController {
                 return new ResponseEntity<>(ApiMessageConst.WRONG_PARAMETER, HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<>(ApiMessageConst.NO_DATA, HttpStatus.BAD_REQUEST) ;
+        return new ResponseEntity<>(ApiMessageConst.NO_DATA, HttpStatus.BAD_REQUEST);
     }
 
     /**
      * ["GET /v1/member/:memberId/comment" <br/>
      * 맴버 작성 댓글 조회]
-     * @param memberId (맴버 id)
      *
-     * */
+     * @param memberId (맴버 id)
+     */
     @GetMapping("/{memberId}/comment")
     public ResponseEntity<String> memberComment(@PathVariable("memberId") String memberId) {
         MemberDTO memberDTO = memberService.findById(memberId);
-        if(memberDTO == null){
+        if (memberDTO == null) {
             return new ResponseEntity<>(ApiMessageConst.NOT_A_MEMBER, HttpStatus.UNAUTHORIZED);
         }
 //        if( memberDTO.getPw().equals(pw)) {
-            List<CommentDTO> comments = commentService.findByWriter(memberId);
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(comments), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                return new ResponseEntity<>(ApiMessageConst.WRONG_PARAMETER, HttpStatus.BAD_REQUEST);
-            }
+        List<CommentDTO> comments = commentService.findByWriter(memberId);
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(comments), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>(ApiMessageConst.WRONG_PARAMETER, HttpStatus.BAD_REQUEST);
+        }
 //        }
 //        return new ResponseEntity<>(ApiMessageConst.NOT_ALLOWED, HttpStatus.FORBIDDEN);
     }
