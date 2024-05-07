@@ -6,18 +6,23 @@ import book.chat.board.dto.ReviewDTO;
 import book.chat.board.service.BoardService;
 import book.chat.board.service.CommentService;
 import book.chat.common.ApiMessageConst;
+import book.chat.common.SessionConst;
 import book.chat.member.dto.MemberDTO;
 import book.chat.member.dto.MemberJoinForm;
+import book.chat.member.dto.UpdateForm;
 import book.chat.member.service.MemberService;
 import book.chat.redis.service.RedisService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +46,6 @@ public class MemberApiController {
     /**
      * ["POST /v1/member/duplicate/id" <br/>
      * id 중복 체크 요청]
-     *
      * @param id (중복 요청 id 값)
      */
     @PostMapping("/duplicate/id")
@@ -119,12 +123,43 @@ public class MemberApiController {
     }
 
     /**
-     * ["GET /v1/member/board/:memberId" <br/>
+     * ["PATCH /v1/member/:memberId" <br/>
+     * 회원 정보 수정]
+     * @param id (회원 id)
+     * @param pw (회원 pw)
+     * @param updateForm (수정 데이터)
+     * @param profileImg (프로필 이미지)
+     */
+    @PatchMapping(path = "/{memberId}")
+    public ResponseEntity<String> memberInfoUpdate(@PathVariable("memberId") String id,
+                                   @RequestParam ("oldPw") String pw,
+                                   UpdateForm updateForm,
+                                   @RequestPart(value = "profileImg", required = false) MultipartFile profileImg ) {
+        MemberDTO memberDto = memberService.findById(id);
+        if(memberDto== null){
+            return new ResponseEntity<>(ApiMessageConst.NOT_A_MEMBER, HttpStatus.UNAUTHORIZED);
+        }
+        if(!memberDto.getPw().equals(pw)){
+            return new ResponseEntity<>(ApiMessageConst.NOT_ALLOWED, HttpStatus.FORBIDDEN);
+        }
+        updateForm.setProfile(profileImg);
+        MemberDTO member = memberService.updateMemberInfo(updateForm, memberDto);
+
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(member), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            log.info(e.getMessage());
+            return new ResponseEntity<>(ApiMessageConst.WRONG_PARAMETER, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * ["GET /v1/member/:memberId/board" <br/>
      * 맴버 작성 리뷰 조회]
      *
      * @param memberId (맴버 id)
      */
-    @GetMapping("/board/{memberId}")
+    @GetMapping("/{memberId}/board")
     public ResponseEntity<String> memberWriteBoard(@PathVariable("memberId") String memberId) {
         List<ReviewDTO> reviews = boardService.findByWriter(memberId);
         if (reviews != null) {
