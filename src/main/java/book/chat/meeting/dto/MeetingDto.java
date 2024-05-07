@@ -23,7 +23,7 @@ public class MeetingDto {
     @Positive
     private Long clubNo;
     //    private Long no;
-    @NotBlank
+//    @NotBlank
     private String meetingName;
     @NotNull
     private String name;

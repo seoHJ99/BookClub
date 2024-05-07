@@ -117,7 +117,7 @@ public class ReviewApiController {
      * @param pw (요청자 pw)
      * */
     @DeleteMapping("/{no}")
-    public ResponseEntity<String> deleteBoard(@PathVariable("no") Long no, String id, String pw) {
+    public ResponseEntity<String> deleteBoard(@PathVariable("no") Long no, @RequestParam String id, @RequestParam String pw) {
         String deleteBoard = null;
         if (memberService.checkMember(id, pw)) {
             ReviewDTO reviewDTO1 = boardService.findReviewByNo(no);
@@ -157,7 +157,7 @@ public class ReviewApiController {
     }
 
     /**
-     * ["GET /v1/review/:reviewNo/comment" <br/>
+     * ["POST /v1/review/:reviewNo/comment" <br/>
      * 댓글 등록 요청]
      * @param commentDTO (댓글 dto)
      * @param reviewNo (댓글 달 리뷰 번호)

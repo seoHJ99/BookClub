@@ -43,7 +43,11 @@ public class MemberService {
     @Transactional
     public MemberDTO updateMemberInfo(UpdateForm newMember, MemberDTO loginMember){
         Member entity = memberRepository.findById(loginMember.getId()).get();
-        String url = awsS3Service.upload(newMember.getProfile());
+        String url = entity.getProfile();
+        if(newMember.getProfile() != null){
+            url = awsS3Service.upload(newMember.getProfile());
+        }
+
         newMember.setProfileUrl(url);
         entity.updateField(newMember);
         memberRepository.save(entity);
@@ -56,7 +60,7 @@ public class MemberService {
      * @param newMember (새로운 맴버 정보)
      * @param memberNo (로그인한 맴버 no)
      * @return 업데이트된 맴버 정보 엔티티 (Member)
-     * @see book.chat.club.service.ClubService#joinMember(Long, Long)
+     * @see book.chat.club.service.ClubService#joinMember(String, Long)
      * */
     public Member updateMemberInfo(MemberDTO newMember, Long memberNo){
         Member entity = memberRepository.findByNo(memberNo);

@@ -26,7 +26,7 @@ public class MeetingApiController {
 
 
     /**
-     * ["GET /:no/club/:clubNo" <br/>
+     * ["GET /v1/meeting/:no/club/:clubNo" <br/>
      * 미팅 정보 조회 처리]
      * @param no (미팅 번호)
      * @param clubNo (클럽 번호)
@@ -45,7 +45,7 @@ public class MeetingApiController {
     }
 
     /**
-     * ["POST /:no/club/:clubNo" <br/>
+     * ["POST /v1/meeting/club/:clubNo" <br/>
      * 미팅 생성 요청 처리]
      * @param clubNo (클럽 번호)
      * @param meetingDto (생성하려는 미팅 데이터)
@@ -75,14 +75,14 @@ public class MeetingApiController {
     }
 
     /**
-     * ["PATCH /attending/:no/club/:clubNo" <br/>
+     * ["PATCH /v1/meeting/:no/attending/club/:clubNo" <br/>
      * 미팅 참여 요청 처리]
      * @param no (미팅 번호)
      * @param clubNo (클럽 번호)
      * @param id (요청자 id)
      * @param pw (요청자 pw)
      * */
-    @PatchMapping("/attending/{no}/club/{clubNo}")
+    @PatchMapping("/{no}/attending/club/{clubNo}")
     public ResponseEntity<String> joinMeeting(@PathVariable("no") Long no, @PathVariable("clubNo") Long clubNo,
                                               @RequestParam("id") String id, @RequestParam("pw") String pw){
         boolean memExist = memberService.checkMember(id, pw);
@@ -105,14 +105,14 @@ public class MeetingApiController {
     }
 
     /**
-     * ["PATCH /canceling/:no/club/:clubNo" <br/>
+     * ["PATCH /v1/meeting/:no/canceling/:no/club/:clubNo" <br/>
      * 미팅 참여 취소 요청 처리]
      * @param no (미팅 번호)
      * @param clubNo (클럽 번호)
      * @param id (요청자 id)
      * @param pw (요청자 pw)
      * */
-    @PatchMapping("/canceling/{no}/club/{clubNo}")
+    @PatchMapping("/{no}/canceling/club/{clubNo}")
     public ResponseEntity<String> outMeeting(@PathVariable("no") Long no, @PathVariable("clubNo") Long clubNo,
                                               @RequestParam("id") String id, @RequestParam("pw") String pw){
         boolean memExist = memberService.checkMember(id, pw);
