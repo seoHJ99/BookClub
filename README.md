@@ -42,7 +42,7 @@
 
 
 ### Report
-[완료 보고서](./북클럽 보고서.pdf)
+[완료 보고서](https://github.com/seoHJ99/BookClub/blob/main/%EB%B6%81%ED%81%B4%EB%9F%BD%20%EB%B3%B4%EA%B3%A0%EC%84%9C.pdf)
 
 ### Team Members
 
