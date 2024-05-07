@@ -24,13 +24,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
@@ -51,13 +49,13 @@ public class MemberController {
         return "layout/member-join";
     }
 
-    /*
+    /**
      * id 중복 체크.
      * 중복 체크 요청이 들어오면 db에서 해당 id가 존재하는지 확인.
      * 이후 redis에서 다시 체크. 동시에 회원가입 진행중, 같은 id로 중복 체크 통과한 사람이 존재하는지 확인.
      * 만약 redis 에도 없으면 해당 id를 redis에 5분간 저장하고 5분간 유지되는 쿠키를 내려줌.
      * 이후 회원가입 진행시, 쿠키가 존재하면 id중복 체크 통과한걸로 판단하고 계속 진행
-     * */
+     */
     @ResponseBody
     @PostMapping("/id/check")
     public String checkIdDuplicate(@RequestParam("id") String id,
@@ -90,7 +88,7 @@ public class MemberController {
         String x = validationCheck(memberJoinForm, bindingResult, idCheck);
         if (x != null) return x;
 
-        if(memberJoinForm.getProfile() != null){
+        if (memberJoinForm.getProfile() != null) {
             String uploadURL = awsS3Service.upload(memberJoinForm.getProfile());
             memberJoinForm.setProfileURL(uploadURL);
         }

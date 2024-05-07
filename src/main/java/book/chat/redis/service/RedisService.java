@@ -41,7 +41,7 @@ public class RedisService {
 
 
     /**
-     * [중복 체크 통과한 id 값을 uuid값을 키값으로 해서 5분간 redis 저장.<br/>
+     * [중복 체크 통과한 id 값을 id 해쉬코드 값을 키값으로 해서 5분간 redis 저장.<br/>
      * 2명의 사용자가 회원가입 진행시, 둘다 같은 id로 중복 체크 통과할 수도 있기 때문에 사용]
      *
      * @param id (중복 체크 통과한 id)
