@@ -41,13 +41,9 @@
 ![image](https://github.com/seoHJ99/BookClub/assets/121778872/4cd5919b-54a7-4af4-a9de-3a059f2f7866)
 
 
-
-### Demonstration
-
-
 ### Report
-
+[완료 보고서](https://github.com/seoHJ99/BookClub/blob/main/%EB%B6%81%ED%81%B4%EB%9F%BD%20%EB%B3%B4%EA%B3%A0%EC%84%9C.pdf)
 
 ### Team Members
 
-서호준
+서호준(개인)
