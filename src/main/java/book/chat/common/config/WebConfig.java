@@ -2,6 +2,7 @@ package book.chat.common.config;
 
 import book.chat.common.LogInterceptor;
 import book.chat.common.SessionListener;
+import book.chat.login.controller.interceptor.LoginCheckInterceptor;
 import book.chat.member.service.MemberService;
 import book.chat.login.controller.interceptor.LoginCountInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,10 +36,10 @@ public class WebConfig  implements WebMvcConfigurer {
                 .excludePathPatterns("/css/**","/*.ico")
                 .excludePathPatterns("/v1");
 
-//        registry.addInterceptor(new LoginCheckInterceptor())
-//                .order(3)
-//                .addPathPatterns("/", "/club/**", "/member/**", "/club/**","/meeting/**","/board/**")
-//                .excludePathPatterns("/", "css/**", "/*.ico", "/login", "/logout", "/test");
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(3)
+                .addPathPatterns("/", "/club/**", "/member/**", "/club/**","/meeting/**","/board/**")
+                .excludePathPatterns("/", "css/**", "/*.ico", "/login", "/logout", "/test");
     }
 
     @Bean

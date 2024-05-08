@@ -21,7 +21,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         Object memberObject = request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         MemberDTO memberDto = (MemberDTO) memberObject;
         log.info("LoginCheckInterceptor.preHandle");
-        log.info("member = " + memberDto);
+        log.info("member : {}", memberDto);
         // 다른 환경에서 로그인 되었는지 검사
         if (memberDto != null) {
             log.info("로그인 된 사용자");
