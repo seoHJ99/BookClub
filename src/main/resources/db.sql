@@ -131,16 +131,16 @@ insert into meeting (club_no, no, book_title, join_member, join_max, is_online, 
 insert into meeting (club_no, no, book_title, join_member, join_max, is_online, meeting_date, meeting_time) values (10, 1, 'Åsa-Nisse - Wälkom to Knohult', 7, 10, 'N', TO_DATE('2/8/2024', 'MM/DD/YYYY'), TO_TIMESTAMP('15:44:00', 'HH24:MI:SS'));
 
 -- 리뷰 데이터
-insert into review (no, title, content, write_date, writer, book) values (1, 'Breaking Upwards', '10-600 - Partitions', TO_DATE('12/30/2023', 'MM/DD/YYYY'), 'Amlodipine Besylate', '024338303-7');
-insert into review (no, title, content, write_date, writer, book) values (2, 'Herr Lehmann', '3-330 - Poured Concrete Basement Walls', TO_DATE('10/8/2023', 'MM/DD/YYYY'), 'morphine sulfate', '878334171-4');
-insert into review (no, title, content, write_date, writer, book) values (3, 'Cassandra Crossing, The', '11-030 - Teller and Service Equipment', TO_DATE('5/30/2023', 'MM/DD/YYYY'), 'Cetirizine', '459905486-0');
-insert into review (no, title, content, write_date, writer, book) values (4, 'Hemingway Gellhorn', '1-530 - Temporary Construction', TO_DATE('4/19/2023', 'MM/DD/YYYY'), 'Minocycline', '219041029-0');
-insert into review (no, title, content, write_date, writer, book) values (5, 'Striptease', '2-500 - Utility Services', TO_DATE('9/17/2023', 'MM/DD/YYYY'), 'Throat-Releev', '058228685-9');
-insert into review (no, title, content, write_date, writer, book) values (6, 'Counter Investigation (Contre-enquête)', '1-700 - Execution Requirements', TO_DATE('2/22/2024', 'MM/DD/YYYY'), 'Azathioprine', '506020007-8');
-insert into review (no, title, content, write_date, writer, book) values (7, 'American Pie Presents: Band Camp', '11-010 - Maintenance Equipment', TO_DATE('3/12/2023', 'MM/DD/YYYY'), 'ACCURETIC', '670758976-8');
-insert into review (no, title, content, write_date, writer, book) values (8, 'Point and Shoot', '17-040 - Profit', TO_DATE('9/8/2023', 'MM/DD/YYYY'), 'PERFECTION LUMIERE', '488831656-2');
-insert into review (no, title, content, write_date, writer, book) values (9, 'Ivanhoe', '10-340 - Manufactured Exterior Specialties', TO_DATE('1/10/2024', 'MM/DD/YYYY'), 'Cabbage', '167434263-2');
-insert into review (no, title, content, write_date, writer, book) values (10, 'Silent Witness (Do Not Disturb)', '10-900 - Wardrobe and Closet Specialties', TO_DATE('6/2/2023', 'MM/DD/YYYY'), 'Hot Spot', '520978540-8');
+insert into review (no, title, content, write_date, writer, book) values (1, 'Breaking Upwards', '10-600 - Partitions', TO_DATE('12/30/2000', 'MM/DD/YYYY'), 'Amlodipine Besylate', '024338303-7');
+insert into review (no, title, content, write_date, writer, book) values (2, 'Herr Lehmann', '3-330 - Poured Concrete Basement Walls', TO_DATE('10/8/2001', 'MM/DD/YYYY'), 'morphine sulfate', '878334171-4');
+insert into review (no, title, content, write_date, writer, book) values (3, 'Cassandra Crossing, The', '11-030 - Teller and Service Equipment', TO_DATE('5/30/2002', 'MM/DD/YYYY'), 'Cetirizine', '459905486-0');
+insert into review (no, title, content, write_date, writer, book) values (4, 'Hemingway Gellhorn', '1-530 - Temporary Construction', TO_DATE('4/19/2003', 'MM/DD/YYYY'), 'Minocycline', '219041029-0');
+insert into review (no, title, content, write_date, writer, book) values (5, 'Striptease', '2-500 - Utility Services', TO_DATE('9/17/2004', 'MM/DD/YYYY'), 'Throat-Releev', '058228685-9');
+insert into review (no, title, content, write_date, writer, book) values (6, 'Counter Investigation (Contre-enquête)', '1-700 - Execution Requirements', TO_DATE('2/22/2005', 'MM/DD/YYYY'), 'Azathioprine', '506020007-8');
+insert into review (no, title, content, write_date, writer, book) values (7, 'American Pie Presents: Band Camp', '11-010 - Maintenance Equipment', TO_DATE('3/12/2006', 'MM/DD/YYYY'), 'ACCURETIC', '670758976-8');
+insert into review (no, title, content, write_date, writer, book) values (8, 'Point and Shoot', '17-040 - Profit', TO_DATE('9/8/2007', 'MM/DD/YYYY'), 'PERFECTION LUMIERE', '488831656-2');
+insert into review (no, title, content, write_date, writer, book) values (9, 'Ivanhoe', '10-340 - Manufactured Exterior Specialties', TO_DATE('1/10/2008', 'MM/DD/YYYY'), 'Cabbage', '167434263-2');
+insert into review (no, title, content, write_date, writer, book) values (10, 'Silent Witness (Do Not Disturb)', '10-900 - Wardrobe and Closet Specialties', TO_DATE('6/2/2009', 'MM/DD/YYYY'), 'Hot Spot', '520978540-8');
 
 -- 댓글 데이터
 insert into "REVIEW_COMMENT" (no, board_no, writer_id, write_date, write_time, content) values (1, 1, 'Tikal', TO_DATE('5/23/2023', 'MM/DD/YYYY'), TO_DATE('10/4/2023', 'MM/DD/YYYY'), 'United Promotions Inc.');

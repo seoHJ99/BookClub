@@ -15,8 +15,8 @@ public class ReviewDTO {
     private Long no;
     @NotBlank
     private String title;
-//    @NotBlank
-//    private String category;
+    @NotBlank
+    private String category;
     @NotBlank
     private String content;
     @NotBlank

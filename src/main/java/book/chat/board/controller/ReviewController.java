@@ -139,9 +139,11 @@ public class ReviewController {
 
     @PostMapping("/comment/save")
     public String saveComment(@Validated @ModelAttribute("comment") CommentDTO comment,
+                              @RequestParam("boardNo") Long boardNo,
                               BindingResult bindingResult,
                               Model model, HttpSession session) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+//        comment.setReviewDTO(boardService.findReviewByNo(boardNo));
         comment.setWriterId(loginMember.getId());
         commentService.save(comment);
         ReviewDTO review = boardService.findReviewByNo(comment.getBoardNo());

@@ -38,11 +38,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class WebSocketChatHandler extends TextWebSocketHandler {
     private final ChattingRepository chattingRepository;
-
     private final ObjectMapper mapper;
-
     private final Set<WebSocketSession> sessions = new HashSet<>();
-
     private final Map<Long, Set<WebSocketSession>> chatRoomSessionMap = new ConcurrentHashMap<>();
 
 

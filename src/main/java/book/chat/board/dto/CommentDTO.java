@@ -16,11 +16,11 @@ public class CommentDTO {
     private String content;
     private LocalDate date;
     private LocalTime time;
-    private ReviewDTO reviewDTO;
+//    private ReviewDTO reviewDTO;
 
     public CommentDTO(Comment entity) {
         this.no = entity.getId().getNo();
-        this.reviewDTO = new ReviewDTO(entity.getReview());
+//        this.reviewDTO = new ReviewDTO(entity.getReview());
         this.boardNo = entity.getId().getBoardNo();
         this.writerId = entity.getId().getWriterId();
         this.content = entity.getContent();

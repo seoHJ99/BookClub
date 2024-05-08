@@ -175,7 +175,7 @@ public class ReviewApiController {
         if(reviewByNo == null){
             return new ResponseEntity<>(ApiMessageConst.NO_DATA, HttpStatus.BAD_REQUEST);
         }
-        commentDTO.setReviewDTO(reviewByNo);
+//        commentDTO.setReviewDTO(reviewByNo);
 
         boolean memberExist = memberService.checkMember(id, pw);
         if(!memberExist){

@@ -113,7 +113,7 @@
           sendMessage();
         });
 
-        var websocket = new WebSocket("ws://localhost:8080/ws/chat");
+        var websocket = new WebSocket("ws://localhost:9090/ws/chat");
 
         websocket.onmessage = onMessage;
         websocket.onopen = onOpen;
@@ -123,7 +123,7 @@
           var sendItem = {
             clubNo: $("#clubNo").val(),
             messageType: "open",
-            chattingContent: "",
+            message: "",
           };
           websocket.send(JSON.stringify(sendItem));
         }
@@ -132,7 +132,7 @@
           var sendItem = {
             clubNo: $("#clubNo").val(),
             messageType: "close",
-            chattingContent: "",
+            message: "",
           };
           websocket.send(JSON.stringify(sendItem));
         }
@@ -140,9 +140,18 @@
         function onMessage(msg) {
           var messageInfo = JSON.parse(msg.data);
           let chatMessage = "";
-          let dateTime = messageInfo.time.split("T");
-          let date = dateTime[0];
-          let time = dateTime[1];
+          console.log(messageInfo);
+
+          let today = new Date();
+          let year = today.getFullYear(); // 년도
+          let month = today.getMonth() + 1; // 월
+          let date1 = today.getDate(); // 날짜
+          let day = today.getDay(); // 요일
+          let hours = today.getHours(); // 시
+          let minutes = today.getMinutes(); // 분
+
+          let date = year + "/" + month + "/" + date1;
+          let time = hours + ":" + minutes;
           if (messageInfo.messageType == "open") {
             chatMessage =
               `<div class="user-entered custom-background">
