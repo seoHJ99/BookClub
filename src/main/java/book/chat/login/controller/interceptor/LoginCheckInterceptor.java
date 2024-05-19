@@ -17,7 +17,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        String redirect = request.getRequestURI();
+//        String redirect = request.getRequestURI();
         Object memberObject = request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         MemberDTO memberDto = (MemberDTO) memberObject;
         log.info("LoginCheckInterceptor.preHandle");
